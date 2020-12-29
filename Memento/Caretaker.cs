@@ -11,7 +11,12 @@ namespace NPaint.Memento
 
         public void AddMemento()
         {
+            //
+        }
 
+        public Memento GetMemento()
+        {
+            return null; //
         }
     }
 }
