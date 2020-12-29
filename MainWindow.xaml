@@ -1,12 +1,20 @@
 ﻿<Window x:Class="NPaint.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NPaint"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="NPaint" WindowState="Maximized" Height="600" Width="1000" MinHeight="450" MinWidth="600">
+    
+    <Grid Name="MainGrid" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>    <!--   tutaj jest miejsce na canvas Grid.Row="1"   -->
+        </Grid.RowDefinitions>
 
+        <Grid Name="MenuGrid" Grid.Row="0">
+            <Button>aaaa</Button>
+            
+        </Grid>
     </Grid>
 </Window>

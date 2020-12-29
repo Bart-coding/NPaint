@@ -6,9 +6,9 @@ namespace NPaint.State
 {
     class PolygonState : MenuState
     {
-        public override void MouseMove()
-        {
-            throw new NotImplementedException();
-        }
+    //    public override void MouseMove()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
     }
 }
