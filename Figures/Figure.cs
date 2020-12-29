@@ -56,7 +56,10 @@ namespace NPaint.Figures
             clonedFigure.adaptedGeometry = this.adaptedGeometry.Clone(); //lub metoda ala clonePath
             clonedFigure.startPoint.X = this.startPoint.X;
             clonedFigure.startPoint.Y = this.startPoint.Y;
-            clonedFigure.PointsList = this.PointsList.Clone();//
+            if (this.PointsList != null)
+                clonedFigure.PointsList = this.PointsList.Clone();//
+            else
+                clonedFigure.PointsList = null;
 
             return clonedFigure;
 
