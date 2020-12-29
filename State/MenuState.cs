@@ -4,7 +4,8 @@ using System.Text;
 
 namespace NPaint.State
 {
-    class MenuState
+    abstract class MenuState
     {
+        public abstract void MouseMove();
     }
 }
