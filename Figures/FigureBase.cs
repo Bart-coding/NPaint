@@ -1,4 +1,4 @@
-﻿using System.Windows;
+﻿using System.Drawing;
 using System.Windows.Media;
 
 namespace NPaint.Figures
