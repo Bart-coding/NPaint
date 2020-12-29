@@ -20,5 +20,10 @@ namespace NPaint
             //PrototypePalette.Add(new Figure());
             //PrototypePalette.Add(new NRectangle());
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            FillrColorLabel.Width = BorderColorLabel.ActualWidth;
+        }
     }
 }
