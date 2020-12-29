@@ -1,1 +1,1 @@
-# NPaint
+Edytor graficzny powinien umożliwiać tworzenie pewnego zestawu figur 2D, jak i dowolnych wielokątów, a następnie ich edycję: przesuwanie, skalowanie, zmianę atrybutów (kolor, wypełnienie, przezroczystość, linię). Należy wykorzystać myszkę i menu kontekstowe (pop-up). Zapis takiego obrazu wektorowego w postaci serializacji. Umożliwia także przesuwanie zestawów figur.
