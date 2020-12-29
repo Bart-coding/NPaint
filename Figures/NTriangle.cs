@@ -6,11 +6,11 @@ namespace NPaint.Figures
 {
     class NTriangle : Figure
     {
-        public NTriangle(Point point)
+        public NTriangle()
         {
             adaptedPath = new Path();
             adaptedGeometry = new PathGeometry();
-            startPoint = point;
+            //startPoint = point;
         }
 
         public override void MoveBy(Point point)

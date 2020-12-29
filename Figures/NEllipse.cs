@@ -6,11 +6,11 @@ namespace NPaint.Figures
 {
     class NEllipse : Figure
     {
-        public NEllipse(Point point)
+        public NEllipse()
         {
             adaptedPath = new Path();
             adaptedGeometry = new EllipseGeometry();
-            startPoint = point;
+            //startPoint = point;
         }
 
         public override void MoveBy(Point point)

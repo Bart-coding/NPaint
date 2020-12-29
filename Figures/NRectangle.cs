@@ -7,11 +7,11 @@ namespace NPaint.Figures
 {
     class NRectangle : Figure
     {
-        public NRectangle(Point point)
+        public NRectangle()
         {
             adaptedPath = new Path();
             adaptedGeometry = new RectangleGeometry();
-            startPoint = point;
+            //startPoint = point;
         }
         public override void MoveBy(Point point)
         {

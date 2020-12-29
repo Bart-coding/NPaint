@@ -7,7 +7,7 @@ namespace NPaint.Figures
 {
     class NSquare : NRectangle
     {
-        public NSquare(Point point) : base(point) {}
+        public NSquare() : base() {}
         public override void MoveBy(Point point)
         {
             throw new NotImplementedException();

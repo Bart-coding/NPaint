@@ -7,7 +7,7 @@ namespace NPaint.Figures
 {
     class NCircle : NEllipse
     {
-        public NCircle(Point point) : base(point) {}
+        public NCircle() : base() {}
         public override void MoveBy(Point point)
         {
             throw new NotImplementedException();
