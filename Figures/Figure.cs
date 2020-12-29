@@ -5,12 +5,12 @@ using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
-    public class Figure : FigureBase, ICloneable
+    public abstract class Figure : FigureBase, ICloneable
     {
-        private Path adaptedPath;
-        private Geometry adaptedGeometry;
-        private Point startPoint;
-        private PointCollection PointsList;
+        protected Path adaptedPath;
+        protected Geometry adaptedGeometry;
+        protected Point startPoint;
+        protected PointCollection PointsList;
 
         public void ChangeFillColor(Brush brush)
         {
@@ -34,15 +34,9 @@ namespace NPaint.Figures
             adaptedPath.Fill = brush;
         }
 
-        public void MoveBy(Point point)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void MoveBy(Point point);
 
-        public void Resize(Point point)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Resize(Point point);
 
         public object Clone()
         {
