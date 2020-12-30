@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using NPaint.Figures;
 
 namespace NPaint.State
@@ -9,15 +10,19 @@ namespace NPaint.State
         public override void MouseLeftButtonDown(Point point)
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
-            NRectangle newRectangle = (NRectangle)shapeFactory.getFigure("Rectangle");
-            ((MainWindow)Application.Current.MainWindow).canvas.Children.Add(newRectangle.adaptedPath);
-            throw new NotImplementedException();
+            Figure = (NRectangle)shapeFactory.getFigure("Rectangle");
+            //Figure = new NRectangle();
+            Figure.SetStartPoint(point);
+            //Figure.adaptedPath.Fill = Brushes.LemonChiffon;
+            //Figure.adaptedPath.Stroke = Brushes.Black;
+            //Figure.adaptedPath.StrokeThickness = 1;
+            ((MainWindow)Application.Current.MainWindow).canvas.Children.Add(Figure.adaptedPath);
         }
 
         public override void MouseMove(Point point)
         {
-            throw new NotImplementedException();
-            // resize
+            Figure.Resize(point);
+            //throw new NotImplementedException();
         }
     }
 }

@@ -23,6 +23,9 @@ namespace NPaint
             FillrColorLabel.Width = BorderColorLabel.ActualWidth;
             AddCanvas();
             TestShapeFactory();
+
+            // na sztywno, zeby sprawdzic czy mozna rysowac prostokaty
+            menuState = new RectangleState();
         }
 
         private void AddCanvas()
@@ -36,32 +39,16 @@ namespace NPaint
             canvas.MouseMove += new MouseEventHandler(Canvas_MouseMove);
             canvas.MouseLeftButtonDown += new MouseButtonEventHandler(Canvas_MouseLeftButtonDown);
             canvas.MouseLeftButtonUp += new MouseButtonEventHandler(Canvas_MouseLeftButtonUp);
-
-            // przypisanie przykładowej Path do canvasa dla testów
-            /*RectangleGeometry rectangle = new RectangleGeometry();
-            Rect rect = new Rect();
-            rect.X = 100;
-            rect.Y = 100;
-            rect.Width = 200;
-            rect.Height = 50;
-            rectangle.Rect = rect;
-            //rectangle.Rect = new Rect(100, 100, 200, 50);
-            Path myPath = new Path();
-            myPath.Fill = Brushes.LemonChiffon;
-            myPath.Stroke = Brushes.Black;
-            myPath.StrokeThickness = 2;
-            myPath.Data = rectangle;
-            canvas.Children.Add(myPath);*/
         }
         private void TestShapeFactory()
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             NRectangle newRectangle = (NRectangle) shapeFactory.getFigure("Rectangle");
-            canvas.Children.Add(newRectangle.adaptedPath);
+            //canvas.Children.Add(newRectangle.adaptedPath);
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Mouse.Captured == canvas)
+            //if (Mouse.Captured == canvas)
             {
                 if(Mouse.LeftButton == MouseButtonState.Pressed)
                 {
@@ -77,7 +64,7 @@ namespace NPaint
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // złapanie canvasa, aby umozliwic rysowanie poza ekranem
-            Mouse.Capture(canvas);
+            //Mouse.Capture(canvas);
 
             // zaleznie od stanu podejmujemy akcje
             if (menuState != null)

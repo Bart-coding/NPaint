@@ -13,6 +13,11 @@ namespace NPaint.Figures
             adaptedPath = new Path();
             adaptedGeometry = new RectangleGeometry();
             rect = new Rect();
+            RectangleGeometry tmp = (RectangleGeometry)adaptedGeometry;
+            tmp.Rect = rect;
+            adaptedGeometry = tmp;
+            adaptedPath.Data = adaptedGeometry;
+            
             //startPoint = point;
         }
         public override void MoveBy(Point point)
@@ -53,6 +58,7 @@ namespace NPaint.Figures
             RectangleGeometry tmp = (RectangleGeometry)adaptedGeometry;
             tmp.Rect = rect;
             adaptedGeometry = tmp;  // czy to jest potrzebne?? czy referencja wystarczy...?
+            adaptedPath.Data = adaptedGeometry;
         }
     }
 }
