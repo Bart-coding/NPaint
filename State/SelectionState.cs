@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace NPaint.State
 {
-    class SquareState : MenuState
+    class SelectionState : MenuState
     {
         public override void MouseLeftButtonDown(Point point)
         {
