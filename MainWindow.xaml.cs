@@ -12,11 +12,10 @@ namespace NPaint
     {
         //public List<Figure> PrototypePalette;
         private MenuState menuState;
-        private Canvas canvas;
+        public Canvas canvas;
         public MainWindow()
         {
             InitializeComponent();
-            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -10,7 +10,7 @@ namespace NPaint.Figures
 {
     public abstract class Figure : FigureBase, ICloneable
     {
-        public Path adaptedPath; //PROTECTED
+        public Path adaptedPath { get; set; } //PROTECTED
         protected Geometry adaptedGeometry;
         protected Point startPoint;
         protected PointCollection PointsList;
@@ -32,7 +32,7 @@ namespace NPaint.Figures
 
         public void ChangeTransparency(double value)
         {
-            Brush brush = adaptedPath.Fill; //jakiś wyjątek wywala
+            Brush brush = new SolidColorBrush(((SolidColorBrush)adaptedPath.Fill).Color);
             brush.Opacity = value;
             adaptedPath.Fill = brush;
         }

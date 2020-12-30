@@ -26,7 +26,7 @@ namespace NPaint
             rectangleG.Rect = rect;
             //rectangle.Rect = new Rect(100, 100, 200, 50);
             Path myPath = new Path();
-            myPath.Fill = Brushes.AliceBlue;
+            myPath.Fill = Brushes.Red;
             myPath.Stroke = Brushes.Black;
             myPath.StrokeThickness = 2;
             myPath.Data = rectangleG;
@@ -35,7 +35,7 @@ namespace NPaint
             //metoda do ustawienia domyslnej wielkosci
             rectangle.ChangeBorderColor(Brushes.Black);
             rectangle.ChangeBorderThickness(4);
-            //rectangle.ChangeTransparency(.5); //wyjatek
+            rectangle.ChangeTransparency(.1);
             prototypedFigures.Add("Rectangle", rectangle);
 
 
