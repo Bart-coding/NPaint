@@ -19,14 +19,14 @@ namespace NPaint
             NRectangle rectangle = new NRectangle();
             RectangleGeometry rectangleG = new RectangleGeometry();
             Rect rect = new Rect();
-            rect.X = 100;
+            rect.X = 200;
             rect.Y = 100;
             rect.Width = 200;
             rect.Height = 50;
             rectangleG.Rect = rect;
             //rectangle.Rect = new Rect(100, 100, 200, 50);
             Path myPath = new Path();
-            myPath.Fill = Brushes.LemonChiffon;
+            myPath.Fill = Brushes.AliceBlue;
             myPath.Stroke = Brushes.Black;
             myPath.StrokeThickness = 2;
             myPath.Data = rectangleG;
@@ -37,6 +37,8 @@ namespace NPaint
             rectangle.ChangeBorderThickness(4);
             //rectangle.ChangeTransparency(.5); //wyjatek
             prototypedFigures.Add("Rectangle", rectangle);
+
+
 
             NSquare square = new NSquare();
             //metoda do ustawienia domyslnej wielkosci
