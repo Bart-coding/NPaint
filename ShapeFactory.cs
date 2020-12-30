@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using System.Data;
 using System.Text;
+using System.Windows.Shapes;
+using System.Windows;
 
 namespace NPaint
 {
@@ -15,6 +17,21 @@ namespace NPaint
         private ShapeFactory()
         {
             NRectangle rectangle = new NRectangle();
+            RectangleGeometry rectangleG = new RectangleGeometry();
+            Rect rect = new Rect();
+            rect.X = 100;
+            rect.Y = 100;
+            rect.Width = 200;
+            rect.Height = 50;
+            rectangleG.Rect = rect;
+            //rectangle.Rect = new Rect(100, 100, 200, 50);
+            Path myPath = new Path();
+            myPath.Fill = Brushes.LemonChiffon;
+            myPath.Stroke = Brushes.Black;
+            myPath.StrokeThickness = 2;
+            myPath.Data = rectangleG;
+
+            rectangle.adaptedPath = myPath;
             //metoda do ustawienia domyslnej wielkosci
             rectangle.ChangeBorderColor(Brushes.Black);
             rectangle.ChangeBorderThickness(4);

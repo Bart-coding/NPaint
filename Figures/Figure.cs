@@ -10,7 +10,7 @@ namespace NPaint.Figures
 {
     public abstract class Figure : FigureBase, ICloneable
     {
-        protected Path adaptedPath;
+        public Path adaptedPath; //PROTECTED
         protected Geometry adaptedGeometry;
         protected Point startPoint;
         protected PointCollection PointsList;

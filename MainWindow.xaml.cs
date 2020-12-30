@@ -16,7 +16,7 @@ namespace NPaint
         public MainWindow()
         {
             InitializeComponent();
-            TestShapeFactory();
+            
         }
 
 
@@ -24,6 +24,7 @@ namespace NPaint
         {
             FillrColorLabel.Width = BorderColorLabel.ActualWidth;
             AddCanvas();
+            TestShapeFactory();
         }
 
         private void AddCanvas()
@@ -39,7 +40,7 @@ namespace NPaint
             canvas.MouseLeftButtonUp += new MouseButtonEventHandler(Canvas_MouseLeftButtonUp);
 
             // przypisanie przykładowej Path do canvasa dla testów
-            RectangleGeometry rectangle = new RectangleGeometry();
+            /*RectangleGeometry rectangle = new RectangleGeometry();
             Rect rect = new Rect();
             rect.X = 100;
             rect.Y = 100;
@@ -52,12 +53,13 @@ namespace NPaint
             myPath.Stroke = Brushes.Black;
             myPath.StrokeThickness = 2;
             myPath.Data = rectangle;
-            canvas.Children.Add(myPath);
+            canvas.Children.Add(myPath);*/
         }
         private void TestShapeFactory()
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             NRectangle newRectangle = (NRectangle) shapeFactory.getFigure("Rectangle");
+            canvas.Children.Add(newRectangle.adaptedPath);
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
