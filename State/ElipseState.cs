@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows;
 
 namespace NPaint.State
 {
     class EllipseState : MenuState
     {
-        public override void MouseMove()
+        public override void MouseMove(Point point)
         {
             throw new NotImplementedException();
         }

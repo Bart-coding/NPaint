@@ -65,8 +65,12 @@ namespace NPaint
             {
                 if(Mouse.LeftButton == MouseButtonState.Pressed)
                 {
-                    // zaleznie od stanu podejmujemy akcje
-                    Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
+                    if(menuState != null)
+                    {
+                        // zaleznie od stanu podejmujemy akcje
+                        Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
+                        menuState.MouseMove(pt);
+                    }
                 }
             }
         }
@@ -78,8 +82,8 @@ namespace NPaint
             // zaleznie od stanu podejmujemy akcje
 
             // np. stan rysowanie figury 
-            // w tym miejscu trzeba przypisac startPoint Figury
-            //startPoint = e.GetPosition(canvas);
+            // w tym miejscu trzeba przypisac startPoint Figury ??
+            // startPoint = e.GetPosition(canvas);
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

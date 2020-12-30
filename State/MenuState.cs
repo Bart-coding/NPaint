@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Windows;
 
 namespace NPaint.State
 {
     abstract class MenuState
     {
-        public abstract void MouseMove();
+        public abstract void MouseMove(Point point);
     }
 }
