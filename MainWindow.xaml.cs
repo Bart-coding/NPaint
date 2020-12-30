@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using NPaint.Figures;
+using NPaint.State;
 
 namespace NPaint
 {
     public partial class MainWindow : Window
     {
         //public List<Figure> PrototypePalette;
+        private MenuState menuState;
         private Canvas canvas;
         public MainWindow()
         {
@@ -84,6 +85,10 @@ namespace NPaint
         {
             // zwolnienie myszy z Canvasa
             Mouse.Capture(null);
+        }
+        private void ExampleMenuStateButtonClick(object sender, RoutedEventArgs e)
+        {
+            menuState = new RectangleState();
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace NPaint.State
 {
-    //class SquareState : MenuState
-    //{
-    //    public override void mousemove()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+    class SquareState : MenuState
+    {
+        public override void MouseMove()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

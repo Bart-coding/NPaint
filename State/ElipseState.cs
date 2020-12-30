@@ -4,7 +4,11 @@ using System.Text;
 
 namespace NPaint.State
 {
-    //class RectangleState
-    //{
-    //}
+    class EllipseState : MenuState
+    {
+        public override void MouseMove()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
