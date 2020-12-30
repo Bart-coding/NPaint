@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using System.Windows;
 using NPaint.Figures;
 
 namespace NPaint.Observer

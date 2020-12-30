@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
+using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Xml;
 using Path = System.Windows.Shapes.Path;////
 

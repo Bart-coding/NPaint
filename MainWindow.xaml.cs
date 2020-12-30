@@ -29,6 +29,7 @@ namespace NPaint
         {
             canvas = new Canvas();
             MainGrid.Children.Add(canvas);
+            canvas.Background = Brushes.Transparent;    // przypisanie tla do canvasa, zeby przechwytywac eventy
             Grid.SetRow(canvas, 1); // przypisanie canvasa do pierwszego wiersza w Gridzie
 
             // przypisanie eventow do canvasa
@@ -38,7 +39,13 @@ namespace NPaint
 
             // przypisanie przykładowej Path do canvasa dla testów
             RectangleGeometry rectangle = new RectangleGeometry();
-            rectangle.Rect = new Rect(100, 100, 200, 50);
+            Rect rect = new Rect();
+            rect.X = 100;
+            rect.Y = 100;
+            rect.Width = 200;
+            rect.Height = 50;
+            rectangle.Rect = rect;
+            //rectangle.Rect = new Rect(100, 100, 200, 50);
             Path myPath = new Path();
             myPath.Fill = Brushes.LemonChiffon;
             myPath.Stroke = Brushes.Black;
@@ -58,6 +65,7 @@ namespace NPaint
                 if(Mouse.LeftButton == MouseButtonState.Pressed)
                 {
                     // zaleznie od stanu podejmujemy akcje
+                    Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
                 }
             }
         }
@@ -65,6 +73,12 @@ namespace NPaint
         {
             // złapanie canvasa, aby umozliwic rysowanie poza ekranem
             Mouse.Capture(canvas);
+
+            // zaleznie od stanu podejmujemy akcje
+
+            // np. stan rysowanie figury 
+            // w tym miejscu trzeba przypisac startPoint Figury
+            //startPoint = e.GetPosition(canvas);
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
