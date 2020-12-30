@@ -5,17 +5,25 @@ using System.Windows.Controls;
 
 namespace NPaint.Memento
 {
-    class Originator
+    class Originator //tworzy i odtwarza pamiątki; potrafi zmieniac ich stan
     {
-        private Canvas state;
-        public void SetMemento (Memento m)
+        //private Canvas state;
+        private String CanvasName;
+        public void SetMemento (String CanvasName ) //Może powinno być SetState; wcześniej było (Memento m)
         {
-            state = m.GetState();
+            //this.CanvasName = m.GetState();
+            this.CanvasName = CanvasName;
         }
 
         public Memento CreateMemento()
         {
-            return new Memento(state);
+            return new Memento(CanvasName);
+        }
+
+        public String restoreFromMemento (Memento m)
+        {
+            CanvasName = m.GetState();
+            return CanvasName;
         }
     }
 }

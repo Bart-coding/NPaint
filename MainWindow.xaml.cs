@@ -1,9 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.CodeDom;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using NPaint.Figures;
+using NPaint.Memento;
 using NPaint.State;
 
 namespace NPaint
@@ -13,9 +18,16 @@ namespace NPaint
         //public List<Figure> PrototypePalette;
         private MenuState menuState;
         public Canvas canvas;
+
+        private Caretaker caretaker;
+        private Originator originator;
+        private readonly String canvasPath = @"..\..\..\Canvases\";
         public MainWindow()
         {
             InitializeComponent();
+            caretaker = new Caretaker();
+            InitializeCaretakerList();//
+            originator = new Originator();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -87,7 +99,85 @@ namespace NPaint
 
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
+
+            this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
+
             this.canvas.Children.Clear();
+
+            MessageBox.Show("Wyczyszczono Canvas");
+
+            this.RestoreLastCanvas();
+
+
+        }
+
+        private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
+        {
+            fileName += ".txt";
+            //string path = System.IO.Path.GetFullPath(fileName);
+            //string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(fileName, @"..\..\..\..\Canvases\")) + fileName;
+            string newPath = this.canvasPath + fileName;
+            string CanvasXAML = XamlWriter.Save(this.canvas);
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(newPath))
+                {
+                    writer.Write(CanvasXAML);
+                }
+                this.originator.SetMemento(fileName);
+                this.caretaker.AddMemento(this.originator.CreateMemento());
+                MessageBox.Show("Zapisano Canvas :)");
+
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Wyjatek: "+e.Message);
+            }
+
+            
+
+
+
+        }
+
+
+        private void RestoreLastCanvas()
+        {
+
+
+            string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetLastMemento()); //Odczyt z listy Memento
+            string CanvasString;
+            try //odczyt  z pliku
+               
+            {
+                // Open the text file using a stream reader.
+                using (var sr = new StreamReader(this.canvasPath+oldCanvasFile))
+                {
+                    CanvasString = sr.ReadToEnd();
+                    
+                }
+
+                Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
+
+                MainGrid.Children.Remove(canvas);
+                MainGrid.Children.Add(oldCanvas);
+
+                MessageBox.Show("Przywrócono poprzedni Canvas :)");
+
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+
+            
+
+        }
+        private void InitializeCaretakerList()
+        {
+            //pobieranie nazw plików z folderu Canvases (ich lista może siedzieć w innym txt)
         }
     }
 }

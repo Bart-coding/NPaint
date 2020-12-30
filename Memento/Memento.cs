@@ -5,22 +5,23 @@ using System.Windows.Controls;
 
 namespace NPaint.Memento
 {
-    class Memento
-    {
-        Canvas State;
+    class Memento // zawiera w sobie zapamiętywany obiekt
+    { // może nim być sama nazwa pliku zamiast Canvas
+        //Canvas State;
+        String CanvasName;
 
-        public Memento(Canvas State)
+        public Memento(String CanvasName)//public Memento(Canvas State)
         {
-            this.State = State;
+            this.CanvasName = CanvasName;
         }
-        public void SetState(Canvas State)
+        public void SetState(String CanvasName)
         {
-            this.State = State;
+            this.CanvasName = CanvasName;
         }
 
-        public Canvas GetState()
+        public String GetState()
         {
-            return State;
+            return CanvasName; //State
         }
     }
 }
