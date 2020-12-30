@@ -63,7 +63,7 @@
                 <Button Name="MarkingButton" Margin="1" Height="56" Width="56">zaznacz</Button>
                 <Button Name="MinusSizeButton" Margin="1" Height="56" Width="56">minus size</Button>
                 <Button Name="LessBorderThiccButton" Margin="1" Height="56" Width="56">border-</Button>
-                <Button Margin="1" Height="56" Width="56">nie wiem</Button>
+                <Button Margin="1" Height="56" Width="56" Click="ClearCanvas">WYCZYSC</Button>
                 <Separator Width="10"/>
 
                 <Label Name="BorderColorLabel" Margin="1" Padding="0" VerticalContentAlignment="Center">Border Color</Label>

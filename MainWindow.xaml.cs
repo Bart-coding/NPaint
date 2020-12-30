@@ -84,5 +84,10 @@ namespace NPaint
         {
             menuState = new RectangleState();
         }
+
+        private void ClearCanvas(object sender, RoutedEventArgs e)
+        {
+            this.canvas.Children.Clear();
+        }
     }
 }
