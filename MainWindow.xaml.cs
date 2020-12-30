@@ -19,7 +19,6 @@ namespace NPaint
             
         }
 
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FillrColorLabel.Width = BorderColorLabel.ActualWidth;
@@ -82,10 +81,13 @@ namespace NPaint
             Mouse.Capture(canvas);
 
             // zaleznie od stanu podejmujemy akcje
-
-            // np. stan rysowanie figury 
-            // w tym miejscu trzeba przypisac startPoint Figury ??
-            // startPoint = e.GetPosition(canvas);
+            if (menuState != null)
+            {
+                // np. stan rysowanie figury 
+                // w tym miejscu trzeba przypisac startPoint Figury ??
+                Point point = e.GetPosition(canvas);
+                menuState.MouseLeftButtonDown(point);
+            }
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
