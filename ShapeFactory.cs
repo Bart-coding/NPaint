@@ -19,10 +19,10 @@ namespace NPaint
             NRectangle rectangle = new NRectangle();
             RectangleGeometry rectangleG = new RectangleGeometry();
             Rect rect = new Rect();
-            rect.X = 200;
-            rect.Y = 100;
-            rect.Width = 200;
-            rect.Height = 50;
+            //rect.X = 200;
+            //rect.Y = 100;
+            //rect.Width = 200;
+            //rect.Height = 50;
             rectangleG.Rect = rect;
             //rectangle.Rect = new Rect(100, 100, 200, 50);
             Path myPath = new Path();
@@ -34,7 +34,7 @@ namespace NPaint
             rectangle.adaptedPath = myPath;
             //metoda do ustawienia domyslnej wielkosci
             rectangle.ChangeBorderColor(Brushes.Black);
-            rectangle.ChangeBorderThickness(4);
+            rectangle.ChangeBorderThickness(1);
             rectangle.ChangeTransparency(.1);
             prototypedFigures.Add("Rectangle", rectangle);
 

@@ -7,7 +7,7 @@ namespace NPaint.Figures
 {
     class NRectangle : Figure
     {
-        private Rect rect;
+        protected Rect rect;
         public NRectangle()
         {
             adaptedPath = new Path();
@@ -17,8 +17,6 @@ namespace NPaint.Figures
             tmp.Rect = rect;
             adaptedGeometry = tmp;
             adaptedPath.Data = adaptedGeometry;
-            
-            //startPoint = point;
         }
         public override void MoveBy(Point point)
         {
@@ -30,10 +28,12 @@ namespace NPaint.Figures
             rect.X = x;
             rect.Y = y;
 
-            // przypisanie zmiennej ze zmienionymi wartosciami do geometrii
+            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
             RectangleGeometry tmp = (RectangleGeometry)adaptedGeometry;
             tmp.Rect = rect;
-            adaptedGeometry = tmp;
+
+            // przypisanie zmienionej geometrii do Path
+            adaptedPath.Data = adaptedGeometry;
         }
 
         public override void Resize(Point point)
@@ -54,10 +54,11 @@ namespace NPaint.Figures
             rect.Width = width;
             rect.Height = height;
 
-            // przypisanie zmiennej ze aktualnymi wartosciami do geometrii
+            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
             RectangleGeometry tmp = (RectangleGeometry)adaptedGeometry;
             tmp.Rect = rect;
-            adaptedGeometry = tmp;  // czy to jest potrzebne?? czy referencja wystarczy...?
+
+            // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
         }
     }
