@@ -9,12 +9,9 @@ namespace NPaint.State
     {
         public override void MouseLeftButtonDown(Point point)
         {
-            Figure = new NTriangle();
+            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
+            Figure = (NTriangle) shapeFactory.getFigure("Triangle");
             Figure.SetStartPoint(point);
-            Figure.adaptedPath.Fill = Brushes.Red;
-            Figure.adaptedPath.Stroke = Brushes.Black;
-            Figure.adaptedPath.StrokeThickness = 2;
-            Figure.ChangeTransparency(.1);
             ((MainWindow)Application.Current.MainWindow).canvas.Children.Add(Figure.adaptedPath);
         }
 

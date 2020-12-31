@@ -20,25 +20,9 @@ namespace NPaint
             this.CreateSquarePrototype();
             this.CreateEllipsePrototype();
             this.CreateCirclePrototype();
-
-            NTriangle triangle = new NTriangle();
-            //metoda do ustawienia domyslnej wielkosci
-            triangle.ChangeBorderColor(Brushes.Black);
-            triangle.ChangeBorderThickness(4);
-            //triangle.ChangeTransparency(.5);
-            prototypedFigures.Add("Triangle", triangle);
-
-           
-
-            NPolygon polygon = new NPolygon();
-            //metoda do ustawienia domyslnej wielkosci
-            polygon.ChangeBorderColor(Brushes.Black);
-            polygon.ChangeBorderThickness(4);
-            //polygon.ChangeTransparency(.5);
-            prototypedFigures.Add("Polygon", polygon);
-
-
-
+            this.CreateTrianglePrototype();
+            this.CreatePolygonPrototype();//
+            
         }
 
         public static ShapeFactory getShapeFactory()
@@ -53,7 +37,7 @@ namespace NPaint
         
         private void CreateRectanglePrototype()
         {
-            NRectangle rectangle = new NRectangle();
+            
             RectangleGeometry rectangleG = new RectangleGeometry();
             Rect rect = new Rect();
             //rect.X = 200;
@@ -68,7 +52,7 @@ namespace NPaint
             myPath.Stroke = Brushes.Black;
             myPath.StrokeThickness = 2;
             myPath.Data = rectangleG;
-
+            NRectangle rectangle = new NRectangle();
             rectangle.adaptedPath = myPath;
             //metoda do ustawienia domyslnej wielkosci
             rectangle.ChangeBorderColor(Brushes.Black);
@@ -79,7 +63,7 @@ namespace NPaint
 
         private void CreateSquarePrototype()
         {
-            NSquare square = new NSquare();
+            
             RectangleGeometry squareG = new RectangleGeometry();
             Rect rect = new Rect();
             rect.X = 200;//
@@ -93,7 +77,7 @@ namespace NPaint
             myPath.Stroke = Brushes.Black;
             myPath.StrokeThickness = 2;
             myPath.Data = squareG;
-
+            NSquare square = new NSquare();
             square.adaptedPath = myPath;
             //metoda do ustawienia domyslnej wielkosci
             square.ChangeBorderColor(Brushes.Black);
@@ -104,8 +88,8 @@ namespace NPaint
 
         private void CreateEllipsePrototype()
         {
-            NEllipse ellipse = new NEllipse();
-            //metoda do ustawienia domyslnej wielkosci
+            
+       
             EllipseGeometry ellipseGeometry = new EllipseGeometry();
             ellipseGeometry.Center = new Point(20, 20);//
             ellipseGeometry.RadiusX = 40;//
@@ -116,6 +100,7 @@ namespace NPaint
             myPath.StrokeThickness = 2;
             myPath.Data = ellipseGeometry;
 
+            NEllipse ellipse = new NEllipse();
             ellipse.adaptedPath = myPath;
             ellipse.ChangeBorderColor(Brushes.Black);
             ellipse.ChangeBorderThickness(4);
@@ -124,24 +109,56 @@ namespace NPaint
         }
 
         private void CreateCirclePrototype()
-        {
-            NCircle circle = new NCircle();
-            //metoda do ustawienia domyslnej wielkosci
+        { //działa
+            
+            
             EllipseGeometry circleGeometry = new EllipseGeometry();
             circleGeometry.Center = new Point(40, 40);//
             circleGeometry.RadiusX = 50;//
             circleGeometry.RadiusY = 50;//
             Path myPath = new Path();
-            myPath.Fill = Brushes.Red;
-            myPath.Stroke = Brushes.Black;
+            myPath.Fill = Brushes.Red; //albo przy uzyciu metody circle
             myPath.StrokeThickness = 2;
             myPath.Data = circleGeometry;
 
+            NCircle circle = new NCircle();
             circle.adaptedPath = myPath;
             circle.ChangeBorderColor(Brushes.Black);
             circle.ChangeBorderThickness(4);
             circle.ChangeTransparency(.5);
             prototypedFigures.Add("Circle", circle);
+        }
+
+        private void CreateTrianglePrototype()
+        {
+            
+            Path myPath = new Path();
+            PathGeometry pathGeometry = new PathGeometry();
+            PathFigure pathFigure = new PathFigure();
+            pathFigure.IsClosed = true;
+            //pathFigure.StartPoint = new Point(0, 0); //na razie bez pktu poczatkowego
+            
+            pathFigure.Segments.Add(new LineSegment()); //bez wielkosci
+            pathFigure.Segments.Add(new LineSegment());
+            pathGeometry.Figures.Add(pathFigure);
+            myPath.Data = pathGeometry;
+            NTriangle triangle = new NTriangle(myPath);
+            triangle.ChangeFillColor(Brushes.Green);
+            triangle.ChangeBorderColor(Brushes.Black);
+            triangle.ChangeBorderThickness(4);
+            triangle.ChangeTransparency(.1);
+            prototypedFigures.Add("Triangle", triangle);
+        }
+
+        private void CreatePolygonPrototype()/////
+        {
+
+            NPolygon polygon = new NPolygon();
+            
+            polygon.ChangeBorderColor(Brushes.Black);
+            polygon.ChangeBorderThickness(4);
+            //polygon.ChangeTransparency(.5);
+            prototypedFigures.Add("Polygon", polygon);
         }
     }
 }

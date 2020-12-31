@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -13,10 +14,18 @@ namespace NPaint.Figures
         private Point point1;
         private LineSegment line2;
         private Point point2;
-        public NTriangle()
+        public NTriangle(Path path)//path może być wszędzie w konstruktorze                  //można w sumie dodać jakieś obostrzenia żeby nie można było podać path z wieloma figurami w środku
         {
+            adaptedPath = path;
+            adaptedGeometry = path.Data;
+            PathGeometry tmp = adaptedGeometry as PathGeometry;
+            PathFigure = tmp.Figures[0];
+            line1 = PathFigure.Segments[0] as LineSegment;
+            line2 = PathFigure.Segments[1] as LineSegment;
+            
+
             // inicjalizacja zmiennych
-            adaptedPath = new Path();
+            /*adaptedPath = new Path();
             adaptedGeometry = new PathGeometry();
             adaptedPath.Data = adaptedGeometry;
             PathFigure = new PathFigure();
@@ -32,7 +41,7 @@ namespace NPaint.Figures
             PathFigure.Segments.Add(line2);
 
             //tmp.Figures.Clear(); czyszczenie bedzie niezbedne przy shapefactory chyba?
-            tmp.Figures.Add(PathFigure);    // przypisanie figury trojkata do geometrii
+            tmp.Figures.Add(PathFigure);    // przypisanie figury trojkata do geometrii */
         }
 
         public override void MoveBy(Point point)

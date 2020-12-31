@@ -11,11 +11,7 @@ namespace NPaint.State
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             Figure = (NRectangle)shapeFactory.getFigure("Rectangle");
-            //Figure = new NRectangle();
             Figure.SetStartPoint(point);
-            //Figure.adaptedPath.Fill = Brushes.LemonChiffon;
-            //Figure.adaptedPath.Stroke = Brushes.Black;
-            //Figure.adaptedPath.StrokeThickness = 1;
             ((MainWindow)Application.Current.MainWindow).canvas.Children.Add(Figure.adaptedPath);
         }
 
