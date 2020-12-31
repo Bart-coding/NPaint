@@ -37,7 +37,7 @@ namespace NPaint
             
 
             // na sztywno, zeby sprawdzic czy mozna rysowac prostokaty
-            menuState = new RectangleState();
+            menuState = new EllipseState();
             TestShapeFactory(); // przestawione, może dlatego przy próbie rysowania na tych prototypowych wywalało wyjątek przy MouseMove
         }
 

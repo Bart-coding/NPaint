@@ -32,8 +32,7 @@ namespace NPaint.Figures
         public override void Resize(Point point)
         {
             // obliczenie polozenia elipsy na osi XY
-            CenterPoint.X = Math.Min(point.X, startPoint.X);
-            CenterPoint.Y = Math.Min(point.Y, startPoint.Y);
+            CenterPoint = MidPoint(point, startPoint);
 
             // obliczenie wysokosci i szerokosci elipsy
             double width = Math.Max(point.X, startPoint.X) - CenterPoint.X;
@@ -47,6 +46,13 @@ namespace NPaint.Figures
 
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
+        }
+        private Point MidPoint(Point a, Point b)
+        {
+            Point tmp;
+            tmp.X = (a.X + b.X) / 2;
+            tmp.Y = (a.Y + b.Y) / 2;
+            return tmp;
         }
     }
 }
