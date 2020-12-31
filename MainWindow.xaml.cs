@@ -166,7 +166,9 @@ namespace NPaint
                 Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
 
                 MainGrid.Children.Remove(canvas);
-                MainGrid.Children.Add(oldCanvas);
+                canvas = null;
+                canvas = oldCanvas;
+                MainGrid.Children.Add(canvas);
 
                 MessageBox.Show("Przywrócono poprzedni Canvas :)");
 
