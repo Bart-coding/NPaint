@@ -12,10 +12,6 @@ namespace NPaint.Figures
         {
             adaptedPath = new Path();
             adaptedGeometry = new RectangleGeometry();
-            rect = new Rect();
-            RectangleGeometry tmp = (RectangleGeometry)adaptedGeometry;
-            tmp.Rect = rect;
-            adaptedGeometry = tmp;
             adaptedPath.Data = adaptedGeometry;
         }
         public override void MoveBy(Point point)
