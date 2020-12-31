@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using NPaint.Figures;
 
 namespace NPaint.State
 {
@@ -7,12 +8,15 @@ namespace NPaint.State
     {
         public override void MouseLeftButtonDown(Point point)
         {
-            throw new NotImplementedException();
+            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
+            Figure = (NSquare)shapeFactory.getFigure("Square");
+            Figure.SetStartPoint(point);
+            ((MainWindow)Application.Current.MainWindow).canvas.Children.Add(Figure.adaptedPath);
         }
 
         public override void MouseMove(Point point)
         {
-            throw new NotImplementedException();
+            Figure.Resize(point);
         }
     }
 }

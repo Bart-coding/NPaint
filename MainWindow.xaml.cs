@@ -37,7 +37,7 @@ namespace NPaint
             
 
             // na sztywno, zeby sprawdzic czy mozna rysowac figury
-            menuState = new TriangleState();
+            menuState = new SquareState();
             TestShapeFactory(); // przestawione, może dlatego przy próbie rysowania na tych prototypowych wywalało wyjątek przy MouseMove
         }
 
@@ -93,7 +93,6 @@ namespace NPaint
             if (menuState != null)
             {
                 // np. stan rysowanie figury 
-                // w tym miejscu trzeba przypisac startPoint Figury ??
                 Point point = e.GetPosition(canvas);
                 menuState.MouseLeftButtonDown(point);
             }
