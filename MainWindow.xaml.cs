@@ -22,6 +22,7 @@ namespace NPaint
         private Caretaker caretaker;
         private Originator originator;
         private readonly String canvasPath = @"..\..\..\Canvases\";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,19 +35,14 @@ namespace NPaint
         {
             FillrColorLabel.Width = BorderColorLabel.ActualWidth;
             AddCanvas();
-            
-
-            // na sztywno, zeby sprawdzic czy mozna rysowac figury
-            menuState = new SquareState();
-            TestShapeFactory(); // przestawione, może dlatego przy próbie rysowania na tych prototypowych wywalało wyjątek przy MouseMove
         }
 
         private void AddCanvas()
         {
             canvas = new Canvas();
             SetCanvas();
-            
         }
+
         private void SetCanvas()
         {
             MainGrid.Children.Add(canvas);
@@ -59,16 +55,7 @@ namespace NPaint
             canvas.MouseLeftButtonDown += new MouseButtonEventHandler(Canvas_MouseLeftButtonDown);
             canvas.MouseLeftButtonUp += new MouseButtonEventHandler(Canvas_MouseLeftButtonUp);
         }
-        private void TestShapeFactory()
-        {
-            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
-            NSquare nSquare = (NSquare)shapeFactory.getFigure("Square");
-            canvas.Children.Add(nSquare.adaptedPath);
-            NEllipse nEllipse = (NEllipse)shapeFactory.getFigure("Ellipse");
-            canvas.Children.Add(nEllipse.adaptedPath);
-            NCircle nCircle = (NCircle) shapeFactory.getFigure("Circle");
-            canvas.Children.Add(nCircle.adaptedPath);
-        }
+
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             //if (Mouse.Captured == canvas)
@@ -84,6 +71,7 @@ namespace NPaint
                 }
             }
         }
+
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // złapanie canvasa, aby umozliwic rysowanie poza ekranem
@@ -137,29 +125,19 @@ namespace NPaint
                 this.originator.SetMemento(fileName);
                 this.caretaker.AddMemento(this.originator.CreateMemento());
                 MessageBox.Show("Zapisano Canvas :)");
-
-
             }
             catch (Exception e)
             {
                 MessageBox.Show("Wyjatek: "+e.Message);
             }
-
-            
-
-
-
         }
 
 
         private void RestoreLastCanvas()
         {
-
-
             string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetLastMemento()); //Odczyt z listy Memento
             string CanvasString;
             try //odczyt  z pliku
-               
             {
                 // Open the text file using a stream reader.
                 using (var sr = new StreamReader(this.canvasPath+oldCanvasFile))
@@ -176,20 +154,58 @@ namespace NPaint
                 SetCanvas();
 
                 MessageBox.Show("Przywrócono poprzedni Canvas :)");
-
             }
             catch (IOException e)
             {
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
             }
-
-            
-
         }
         private void InitializeCaretakerList()
         {
             //pobieranie nazw plików z folderu Canvases (ich lista może siedzieć w innym txt)
+        }
+
+        private void CircleButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new CircleState();
+        }
+
+        private void SquareButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new SquareState();
+        }
+
+        private void TriangleButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new TriangleState();
+        }
+
+        private void EllipseButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new EllipseState();
+        }
+
+        private void RectangleButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new RectangleState();
+        }
+
+        private void PolygonButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new PolygonState();
+        }
+
+        private void ChangeColor_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            BorderColorButton.Background = button.Background;
+        }
+
+        private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
+        {
+            Button button = sender as Button;
+            FillColorButton.Background = button.Background;
         }
     }
 }

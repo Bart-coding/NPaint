@@ -7,11 +7,10 @@ namespace NPaint.Figures
     {
         public void ChangeFillColor(Brush brush);
         public void ChangeBorderColor(Brush brush);
-        public void ChangeBorderThickness(int value);
+        public void ChangeBorderThickness(double value);
         public void ChangeTransparency(double value);
         public void MoveBy(Point point);
         public void Resize(Point point);
-
         public void SetStartPoint(Point point);
     }
 }
