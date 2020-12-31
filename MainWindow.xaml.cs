@@ -44,8 +44,14 @@ namespace NPaint
         private void AddCanvas()
         {
             canvas = new Canvas();
+            SetCanvas();
+            
+        }
+        private void SetCanvas()
+        {
             MainGrid.Children.Add(canvas);
-            canvas.Background = Brushes.Transparent;    // przypisanie tla do canvasa, zeby przechwytywac eventy
+            if (canvas.Background == null)
+                canvas.Background = Brushes.Transparent;    // przypisanie tla do canvasa, zeby przechwytywac eventy
             Grid.SetRow(canvas, 1); // przypisanie canvasa do pierwszego wiersza w Gridzie
 
             // przypisanie eventow do canvasa
@@ -168,7 +174,7 @@ namespace NPaint
                 MainGrid.Children.Remove(canvas);
                 canvas = null;
                 canvas = oldCanvas;
-                MainGrid.Children.Add(canvas);
+                SetCanvas();
 
                 MessageBox.Show("Przywrócono poprzedni Canvas :)");
 
