@@ -25,7 +25,7 @@ namespace NPaint.Figures
                 height = point.Y - y;
                 squarelength = Math.Min(width, height);
             }
-            // // sytuacja gdy rysujemy prawy gorny rog
+            // sytuacja gdy rysujemy prawy gorny rog
             else if (point.X > startPoint.X && point.Y < startPoint.Y)
             {
                 x = startPoint.X;
