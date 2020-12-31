@@ -34,10 +34,11 @@ namespace NPaint
         {
             FillrColorLabel.Width = BorderColorLabel.ActualWidth;
             AddCanvas();
-            TestShapeFactory();
+            
 
             // na sztywno, zeby sprawdzic czy mozna rysowac prostokaty
             menuState = new RectangleState();
+            TestShapeFactory(); // przestawione, może dlatego przy próbie rysowania na tych prototypowych wywalało wyjątek przy MouseMove
         }
 
         private void AddCanvas()
@@ -55,8 +56,12 @@ namespace NPaint
         private void TestShapeFactory()
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
-            NRectangle newRectangle = (NRectangle) shapeFactory.getFigure("Rectangle");
-            //canvas.Children.Add(newRectangle.adaptedPath);
+            NSquare nSquare = (NSquare)shapeFactory.getFigure("Square");
+            canvas.Children.Add(nSquare.adaptedPath);
+            NEllipse nEllipse = (NEllipse)shapeFactory.getFigure("Ellipse");
+            canvas.Children.Add(nEllipse.adaptedPath);
+            NCircle nCircle = (NCircle) shapeFactory.getFigure("Circle");
+            canvas.Children.Add(nCircle.adaptedPath);
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
