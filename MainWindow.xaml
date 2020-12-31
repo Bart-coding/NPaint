@@ -22,7 +22,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
-                <Button Name="LoadButton" Margin="1" Height="56" Width="50">Wczytaj</Button>
+                <Button Name="LoadButton" Margin="1" Height="56" Width="50" Click="LoadButton_Click">Wczytaj</Button>
                 <Separator Width="10"/>
                 
                 <Button Name="CircleButton" Margin="1" Height="56" Width="56"   Click="CircleButton_Click">kolo</Button>
@@ -52,7 +52,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-                <Button Name="SaveButton" Margin="1" Height="56" Width="50">Zapisz</Button>
+                <Button Name="SaveButton" Margin="1" Height="56" Width="50" Click="SaveButton_Click">Zapisz</Button>
                 <Separator Width="10"/>
 
                 <Button Name="EllipseButton" Margin="1" Height="56" Width="56"       Click="EllipseButton_Click">elipsa</Button>

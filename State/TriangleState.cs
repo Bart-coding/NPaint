@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using NPaint.Figures;
 
 namespace NPaint.State
@@ -9,8 +10,7 @@ namespace NPaint.State
     {
         public override void MouseLeftButtonDown(Point point)
         {
-            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
-            Figure = (NTriangle) shapeFactory.getFigure("Triangle");
+            Figure = ShapeFactory.getShapeFactory().getFigure("Triangle") as NTriangle;
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).canvas.Children.Add(Figure.adaptedPath);
         }

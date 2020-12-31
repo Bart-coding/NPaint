@@ -23,9 +23,9 @@ namespace NPaint.Figures
             line1 = PathFigure.Segments[0] as LineSegment;
             line2 = PathFigure.Segments[1] as LineSegment;
             
-
+            /*
             // inicjalizacja zmiennych
-            /*adaptedPath = new Path();
+            adaptedPath = new Path();
             adaptedGeometry = new PathGeometry();
             adaptedPath.Data = adaptedGeometry;
             PathFigure = new PathFigure();
@@ -41,7 +41,7 @@ namespace NPaint.Figures
             PathFigure.Segments.Add(line2);
 
             //tmp.Figures.Clear(); czyszczenie bedzie niezbedne przy shapefactory chyba?
-            tmp.Figures.Add(PathFigure);    // przypisanie figury trojkata do geometrii */
+            tmp.Figures.Add(PathFigure);    // przypisanie figury trojkata do geometrii  */
         }
 
         public override void MoveBy(Point point)

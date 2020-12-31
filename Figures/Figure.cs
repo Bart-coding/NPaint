@@ -53,12 +53,12 @@ namespace NPaint.Figures
             Figure clonedFigure = this.MemberwiseClone() as Figure;
             clonedFigure.adaptedPath = clonePath();
             clonedFigure.adaptedGeometry = this.adaptedGeometry.Clone(); //lub metoda ala clonePath
-            clonedFigure.startPoint.X = this.startPoint.X;
+            clonedFigure.startPoint.X = this.startPoint.X;//
             clonedFigure.startPoint.Y = this.startPoint.Y;
             clonedFigure.ChangeBorderColor(((MainWindow)System.Windows.Application.Current.MainWindow).BorderColorButton.Background);
             clonedFigure.ChangeFillColor(((MainWindow)System.Windows.Application.Current.MainWindow).FillColorButton.Background);
             clonedFigure.ChangeTransparency((100-((MainWindow)System.Windows.Application.Current.MainWindow).TransparencySlider.Value)/100);
-            clonedFigure.ChangeBorderThickness(((MainWindow)System.Windows.Application.Current.MainWindow).BorderThicknessySlider.Value);
+            clonedFigure.ChangeBorderThickness(((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value);
             if (this.PointsList != null)
             {
                 clonedFigure.PointsList = this.PointsList.Clone();//
@@ -71,10 +71,18 @@ namespace NPaint.Figures
         }
         private Path clonePath()
         {
-            string pathXaml = XamlWriter.Save(this.adaptedPath);
+            string pathXaml = XamlWriter.Save(this.adaptedPath); //uproscic mozna opcjonalne saveując to jak canvasa
             StringReader stringReader = new StringReader(pathXaml);
             XmlReader xmlReader = XmlReader.Create(stringReader);
             return (Path) XamlReader.Load(xmlReader);
         }
+        /*private Geometry cloneGeometry()
+        {
+            string geometryXaml = XamlWriter.Save(this.adaptedGeometry);
+            StringReader stringReader = new StringReader(geometryXaml);
+            XmlReader xmlReader = XmlReader.Create(stringReader);
+            return (Geometry)XamlReader.Load(xmlReader);
+        }*/
+
     }
 }

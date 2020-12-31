@@ -73,13 +73,11 @@ namespace NPaint
             squareG.Rect = rect;
             //rectangle.Rect = new Rect(100, 100, 200, 50);
             Path myPath = new Path();
-            myPath.Fill = Brushes.Red;
-            myPath.Stroke = Brushes.Black;
-            myPath.StrokeThickness = 2;
             myPath.Data = squareG;
             NSquare square = new NSquare();
             square.adaptedPath = myPath;
             //metoda do ustawienia domyslnej wielkosci
+            square.ChangeFillColor(Brushes.Red);
             square.ChangeBorderColor(Brushes.Black);
             square.ChangeBorderThickness(1);
             square.ChangeTransparency(.1);
@@ -136,16 +134,16 @@ namespace NPaint
             PathGeometry pathGeometry = new PathGeometry();
             PathFigure pathFigure = new PathFigure();
             pathFigure.IsClosed = true;
-            //pathFigure.StartPoint = new Point(0, 0); //na razie bez pktu poczatkowego
+            pathFigure.StartPoint = new Point(50, 50); //na razie bez pktu poczatkowego
             
-            pathFigure.Segments.Add(new LineSegment()); //bez wielkosci
-            pathFigure.Segments.Add(new LineSegment());
+            pathFigure.Segments.Add(new LineSegment(new Point(50, 100), true)); //bez wielkosci
+            pathFigure.Segments.Add(new LineSegment(new Point(100, 100), true));
             pathGeometry.Figures.Add(pathFigure);
             myPath.Data = pathGeometry;
             NTriangle triangle = new NTriangle(myPath);
             triangle.ChangeFillColor(Brushes.Green);
             triangle.ChangeBorderColor(Brushes.Black);
-            triangle.ChangeBorderThickness(4);
+            triangle.ChangeBorderThickness(1);
             triangle.ChangeTransparency(.1);
             prototypedFigures.Add("Triangle", triangle);
         }

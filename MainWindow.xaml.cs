@@ -211,5 +211,33 @@ namespace NPaint
             Button button = sender as Button;
             FillColorButton.Background = button.Background;
         }
+
+        private void TestShapeFactory()
+        {
+            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
+            NSquare nSquare = (NSquare)shapeFactory.getFigure("Square");
+            canvas.Children.Add(nSquare.adaptedPath);
+            NEllipse nEllipse = (NEllipse)shapeFactory.getFigure("Ellipse");
+            canvas.Children.Add(nEllipse.adaptedPath);
+            NCircle nCircle = (NCircle)shapeFactory.getFigure("Circle");
+            canvas.Children.Add(nCircle.adaptedPath);
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            CanvasNameWindow canvasNameWindow = new CanvasNameWindow();
+            string canvasName;
+            if (true == canvasNameWindow.ShowDialog())
+            {
+                canvasName = canvasNameWindow.nameBox.Text;
+                this.SerializeCanvas(canvasName);
+            }
+
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

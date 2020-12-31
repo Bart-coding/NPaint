@@ -1,0 +1,29 @@
+﻿<Window x:Class="NPaint.CanvasNameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NPaint"
+        mc:Ignorable="d"
+        Title="CanvasNameWindow" Height="150" Width="200" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Margin="5" Padding="5" HorizontalAlignment="Center">Podaj nazwę Canvasa: </Label>
+        <TextBox x:Name="nameBox" Margin="5" Padding="5" Grid.Row="1"></TextBox>
+        <Grid Grid.Row="2" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Padding="10" Margin="10" Click="Button_OK">OK</Button>
+            <Button Padding="10" Margin="10" Grid.Column="1" Click="Button_Reject">Anuluj</Button>
+        </Grid>
+    </Grid>
+</Window>
