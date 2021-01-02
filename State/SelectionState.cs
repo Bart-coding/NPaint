@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Windows;
+using NPaint.Observer;
 
 namespace NPaint.State
 {
     class SelectionState : MenuState
     {
+        private ConcreteObservable observable;
         public override void MouseLeftButtonDown(Point point)
         {
-            throw new NotImplementedException();
+            observable = new ConcreteObservable();
+            observable.SetStartPoint(point);
+            ((MainWindow)Application.Current.MainWindow).canvas.Children.Add(observable.ObservablePath);
         }
 
         public override void MouseMove(Point point)
         {
-            throw new NotImplementedException();
+            observable.Resize(point);
         }
     }
 }

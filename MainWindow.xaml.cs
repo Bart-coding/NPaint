@@ -198,7 +198,10 @@ namespace NPaint
         {
             menuState = new BasicState();
         }
-
+        private void SelectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new SelectionState();
+        }
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
