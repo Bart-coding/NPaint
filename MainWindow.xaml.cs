@@ -193,12 +193,34 @@ namespace NPaint
             canvas.Children.Add(figure.adaptedPath);
             FigureList.Add(figure);
         }
+        private void RemoveFigure(object sender, RoutedEventArgs e)
+        {
+            if(SelectedFigure != null)
+            {
+                canvas.Children.Remove(SelectedFigure.adaptedPath);
+                FigureList.Remove(SelectedFigure);
+                SelectedFigure = null;
+            }
+        }
         public List<Figure> GetFigureList()
         {
             return FigureList;
         }
+        public void ResetSelectedFigure()
+        {
+            // musimy wylaczyc ramke dla obecnie wybranej figury
+            if (SelectedFigure != null)
+                SelectedFigure.adaptedPath.StrokeDashArray = null;
+            SelectedFigure = null;
+        }
         public void SetSelectedFigure(Figure figure)
         {
+            // musimy wylaczyc ramke dla poprzednio wybranej figury
+            if(SelectedFigure != null)
+                SelectedFigure.adaptedPath.StrokeDashArray = null;
+            // dodanie ramki dla obecnie wybranej figury
+            figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
+
             SelectedFigure = figure;
 
             // ustawienia pod wybrana figure
