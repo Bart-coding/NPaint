@@ -65,7 +65,7 @@ namespace NPaint
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            //if (Mouse.Captured == canvas)
+            //if(Mouse.Captured == canvas)
             {
                 if(Mouse.LeftButton == MouseButtonState.Pressed)
                 {
@@ -73,6 +73,10 @@ namespace NPaint
                     {
                         // zaleznie od stanu podejmujemy akcje
                         Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
+                        if(pt.Y < 0 + BorderThicknessySlider.Value/2)
+                        {
+                            pt.Y = 0 + BorderThicknessySlider.Value / 2;
+                        }
                         menuState.MouseMove(pt);
                     }
                 }
@@ -87,11 +91,17 @@ namespace NPaint
             // zaleznie od stanu podejmujemy akcje
             if (menuState != null)
             {
+                Point pt = e.GetPosition(canvas);
+
+                if(pt.Y < 0 + BorderThicknessySlider.Value/2)
+                {
+                    pt.Y = 0 + BorderThicknessySlider.Value / 2;
+                }
                 // np. stan rysowanie figury 
-                Point point = e.GetPosition(canvas);
-                menuState.MouseLeftButtonDown(point);
+                menuState.MouseLeftButtonDown(pt);
             }
         }
+
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             // zwolnienie myszy z Canvasa
@@ -108,8 +118,6 @@ namespace NPaint
             MessageBox.Show("Wyczyszczono Canvas");
 
             this.RestoreLastCanvas();
-
-
         }
 
         private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło

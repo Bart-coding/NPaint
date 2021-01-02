@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>            <!--   tutaj jest miejsce na canvas Grid.Row="1"   -->
         </Grid.RowDefinitions>
 
-        <Grid Name="MenuGrid" Grid.Row="0">
+        <Grid Name="MenuGrid" Grid.Row="0" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
