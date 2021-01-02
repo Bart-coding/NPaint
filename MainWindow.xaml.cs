@@ -237,6 +237,7 @@ namespace NPaint
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
+           RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow(this.originator);
 
         }
     }
