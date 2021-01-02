@@ -1,5 +1,5 @@
 ﻿using System;
-using System.CodeDom;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,15 +9,17 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using NPaint.Figures;
 using NPaint.Memento;
+using NPaint.Observer;
 using NPaint.State;
 
 namespace NPaint
 {
     public partial class MainWindow : Window
     {
-        //public List<Figure> PrototypePalette;
         private MenuState menuState;
         public Canvas canvas;
+        private List<Figure> FigureList;
+        private Figure SelectedFigure;
 
         private Caretaker caretaker;
         private Originator originator;
@@ -29,6 +31,7 @@ namespace NPaint
             caretaker = new Caretaker();
             InitializeCaretakerList();//
             originator = new Originator();
+            FigureList = new List<Figure>();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -93,10 +96,6 @@ namespace NPaint
         {
             // zwolnienie myszy z Canvasa
             Mouse.Capture(null);
-        }
-        private void ExampleMenuStateButtonClick(object sender, RoutedEventArgs e)
-        {
-            menuState = new RectangleState();
         }
 
         private void ClearCanvas(object sender, RoutedEventArgs e)
@@ -170,6 +169,45 @@ namespace NPaint
             //pobieranie nazw plików z folderu Canvases (ich lista może siedzieć w innym txt)
         }
 
+        public void AddFigure(Figure figure)
+        {
+            // jezeli mamy juz narysowanego obserwatora to chcemy go usunac
+            if (figure.GetType() == typeof(ConcreteObservable))
+            {
+                ConcreteObservable observable = new ConcreteObservable();
+                foreach (Figure f in FigureList)
+                {
+                    // jezeli natrafilismy na obiekt/figure obserwowanego
+                    if (f.GetType() == typeof(ConcreteObservable))
+                    {
+                        observable = f as ConcreteObservable;
+                        break;
+                    }
+                }
+                // usuniecie starego obserwowanego
+                FigureList.Remove(observable);
+                canvas.Children.Remove(observable.adaptedPath);
+            }
+
+            // dodanie nowej figury
+            canvas.Children.Add(figure.adaptedPath);
+            FigureList.Add(figure);
+        }
+        public List<Figure> GetFigureList()
+        {
+            return FigureList;
+        }
+        public void SetSelectedFigure(Figure figure)
+        {
+            SelectedFigure = figure;
+
+            // ustawienia pod wybrana figure
+            BorderColorButton.Background = figure.adaptedPath.Stroke;
+            FillColorButton.Background = figure.adaptedPath.Fill;
+            TransparencySlider.Value = figure.adaptedPath.Fill.Opacity;
+            BorderThicknessySlider.Value = figure.adaptedPath.StrokeThickness;
+        }
+
         private void CircleButton_Click(object sender, RoutedEventArgs e)
         {
             menuState = new CircleState();
@@ -200,16 +238,32 @@ namespace NPaint
             menuState = new PolygonState();
         }
 
+        private void CursorButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new BasicState();
+        }
+        private void SelectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new SelectionState();
+        }
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             BorderColorButton.Background = button.Background;
+            if (SelectedFigure != null)
+            {
+                SelectedFigure.ChangeBorderColor(button.Background);
+            }
         }
 
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
             Button button = sender as Button;
             FillColorButton.Background = button.Background;
+            if(SelectedFigure != null)
+            {
+                SelectedFigure.ChangeFillColor(button.Background);
+            }
         }
 
         private void TestShapeFactory()

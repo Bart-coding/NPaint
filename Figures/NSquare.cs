@@ -64,8 +64,7 @@ namespace NPaint.Figures
             rect.Height = squarelength;
 
             // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            RectangleGeometry tmp = (RectangleGeometry)adaptedGeometry;
-            tmp.Rect = rect;
+            ((RectangleGeometry)adaptedGeometry).Rect = rect;
 
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;

@@ -29,8 +29,8 @@
                 <Button Name="SquareButton" Margin="1" Height="56" Width="56"   Click="SquareButton_Click">kwadrat</Button>
                 <Button Name="TriangleButton" Margin="1" Height="56" Width="56" Click="TriangleButton_Click">trojkat</Button>
                 <Separator Width="10"/>
-                
-                <Button Name="CursorButton" Margin="1" Height="56" Width="56">kursor</Button>
+
+                <Button Name="CursorButton" Margin="1" Height="56" Width="56"   Click="CursorButton_Click">kursor</Button>
                 <Button Name="PlusSizeButton" Margin="1" Height="56" Width="56">plus size</Button>
                 <Button Name="RemoveButton" Margin="1" Height="56" Width="56">usun</Button>
                 <Separator Width="10"/>
@@ -60,7 +60,7 @@
                 <Button Name="PolygonButton" Margin="1" Height="56" Width="56"      Click="PolygonButton_Click">wlasny</Button>
                 <Separator Width="10"/>
 
-                <Button Name="MarkingButton" Margin="1" Height="56" Width="56">zaznacz</Button>
+                <Button Name="MarkingButton" Margin="1" Height="56" Width="56"      Click="SelectionButton_Click">zaznacz</Button>
                 <Button Name="MinusSizeButton" Margin="1" Height="56" Width="56">minus size</Button>
                 <Button Margin="1" Height="56" Width="56" Click="ClearCanvas">WYCZYSC</Button>
                 <Separator Width="10"/>
