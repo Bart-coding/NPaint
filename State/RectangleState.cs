@@ -13,6 +13,7 @@ namespace NPaint.State
             Figure = (NRectangle)shapeFactory.getFigure("Rectangle");
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
+            MouseMove(point);
         }
 
         public override void MouseMove(Point point)

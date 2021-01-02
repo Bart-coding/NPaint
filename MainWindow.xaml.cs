@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -99,6 +100,13 @@ namespace NPaint
                 }
                 // np. stan rysowanie figury 
                 menuState.MouseLeftButtonDown(pt);
+
+                Figure figure = FigureList.Last();
+
+                figure.ChangeBorderColor(BorderColorButton.Background);
+                figure.ChangeFillColor(FillColorButton.Background);
+                figure.ChangeTransparency((100 - TransparencySlider.Value) / 100);
+                figure.ChangeBorderThickness(BorderThicknessySlider.Value);
             }
         }
 
