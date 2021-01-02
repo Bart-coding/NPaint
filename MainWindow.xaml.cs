@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +14,6 @@ namespace NPaint
 {
     public partial class MainWindow : Window
     {
-        //public List<Figure> PrototypePalette;
         private MenuState menuState;
         public Canvas canvas;
 
@@ -93,10 +91,6 @@ namespace NPaint
         {
             // zwolnienie myszy z Canvasa
             Mouse.Capture(null);
-        }
-        private void ExampleMenuStateButtonClick(object sender, RoutedEventArgs e)
-        {
-            menuState = new RectangleState();
         }
 
         private void ClearCanvas(object sender, RoutedEventArgs e)
@@ -198,6 +192,11 @@ namespace NPaint
         private void PolygonButton_Click(object sender, RoutedEventArgs e)
         {
             menuState = new PolygonState();
+        }
+
+        private void CursorButton_Click(object sender, RoutedEventArgs e)
+        {
+            menuState = new BasicState();
         }
 
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
