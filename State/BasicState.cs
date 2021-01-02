@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using NPaint.Figures;
 
 namespace NPaint.State
 {
@@ -10,7 +12,7 @@ namespace NPaint.State
         public override void MouseLeftButtonDown(Point point)
         {
             UIElementCollection FiguresPath = ((MainWindow)Application.Current.MainWindow).canvas.Children;
-            UIElement CLickedFigurePath = new UIElement();
+            Path CLickedFigurePath = new Path();
             bool found = false; // zmienna pomocnicza okreslajaca czy kliknelismy w jakas figure
 
             // przechodzimy po wszystkich dzieciach canvasa
@@ -18,7 +20,7 @@ namespace NPaint.State
             {
                 if(figure.IsMouseOver)  // jezeli najechalismy myszka na figure
                 {
-                    CLickedFigurePath = figure;
+                    CLickedFigurePath = figure as Path; // wlasciwie to znalezlismy Path dodana do canvasa
                     found = true;
                     break; // przerywamy, bo juz znalezlismy dana figure
                 }
@@ -27,8 +29,16 @@ namespace NPaint.State
             // jezeli kliknelismy w jakas figure
             if(found)
             {
-                Path x = CLickedFigurePath as Path; // wlasciwie to znalezlismy Path dodana do canvasa
-                x.Fill = Brushes.Green; // mozemy sobie cos zmienic
+                List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
+                // znajdujemy figure na podstawie kliknietego path
+                foreach(Figure f in figures)
+                {
+                    if(f.adaptedPath.Equals(CLickedFigurePath))
+                    {
+                        // przypisanie obecnie wybranej figury w MainWindow
+                        ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(f);
+                    }
+                }
             }
         }
 

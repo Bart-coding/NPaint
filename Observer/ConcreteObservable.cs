@@ -7,30 +7,22 @@ using NPaint.Figures;
 
 namespace NPaint.Observer
 {
-    class ConcreteObservable : Observable
+    class ConcreteObservable : NRectangle, Observable
     {
-        private Point startPoint;
-        public Path ObservablePath;
-        private RectangleGeometry ObservableGeometry;
-        private Rect rect;
         private List<Figure> Observers;
         public ConcreteObservable()
         {
-            startPoint = new Point();
-            ObservablePath = new Path();
-            ObservablePath.Fill = Brushes.Transparent;
-            ObservablePath.StrokeThickness = 1;
-            ObservablePath.Stroke = Brushes.Gray;
-            ObservablePath.StrokeDashArray = new DoubleCollection() { 3 };
-            ObservableGeometry = new RectangleGeometry();
+            adaptedPath = new Path();
+            adaptedPath.Fill = Brushes.Transparent;
+            adaptedPath.StrokeThickness = 1;
+            adaptedPath.Stroke = Brushes.Gray;
+            adaptedPath.StrokeDashArray = new DoubleCollection() { 3 };
+            adaptedGeometry = new RectangleGeometry();
             rect = new Rect();
             Observers = new List<Figure>();
-            ObservableGeometry.Rect = rect;
-            ObservablePath.Data = ObservableGeometry;
-        }
-        public void SetStartPoint(Point point)
-        {
-            startPoint = point;
+            //RectangleGeometry tmp = adaptedGeometry as RectangleGeometry;
+            //tmp.Rect = rect;
+            //adaptedPath.Data = adaptedGeometry;
         }
         public void Attach(Figure figure)
         {
@@ -49,12 +41,12 @@ namespace NPaint.Observer
                 figure.MoveBy(point);
             }
         }
-        public void MoveBy(Point point)
+        public override void MoveBy(Point point)
         {
             throw new NotImplementedException();
             //Notify(point);
         }
-        public void Resize(Point point)
+        public override void Resize(Point point)
         {
             // wersja z mozliwoscia rysowania w kazdym z czterech kierunkow
 
@@ -73,10 +65,11 @@ namespace NPaint.Observer
             rect.Height = height;
 
             // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            ObservableGeometry.Rect = rect;
+            RectangleGeometry tmp = adaptedGeometry as RectangleGeometry;
+            tmp.Rect = rect;
 
             // przypisanie zmienionej geometrii do Path
-            ObservablePath.Data = ObservableGeometry;
+            adaptedPath.Data = adaptedGeometry;
         }
     }
 }
