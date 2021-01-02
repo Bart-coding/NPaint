@@ -32,7 +32,7 @@
 
                 <Button Name="CursorButton" Margin="1" Height="56" Width="56"   Click="CursorButton_Click">kursor</Button>
                 <Button Name="PlusSizeButton" Margin="1" Height="56" Width="56">plus size</Button>
-                <Button Name="RemoveButton" Margin="1" Height="56" Width="56">usun</Button>
+                <Button Name="RemoveButton" Margin="1" Height="56" Width="56"   Click="RemoveFigure">usun</Button>
                 <Separator Width="10"/>
 
                 <Label Name="BorderColorLabel" Margin="1" Padding="0" VerticalContentAlignment="Center">Border Color</Label>

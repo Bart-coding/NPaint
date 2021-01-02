@@ -12,7 +12,7 @@ namespace NPaint.State
         public override void MouseLeftButtonDown(Point point)
         {
             UIElementCollection FiguresPath = ((MainWindow)Application.Current.MainWindow).canvas.Children;
-            Path CLickedFigurePath;
+            Path CLickedFigurePath = null;
 
             // przechodzimy po wszystkich dzieciach canvasa
             foreach (UIElement figure in FiguresPath)
@@ -36,6 +36,11 @@ namespace NPaint.State
                     }
                     break; // przerywamy, bo juz znalezlismy kliknieta figure
                 }
+            }
+            // jezeli kliknelismy gdzies indziej niz w figure
+            if(CLickedFigurePath == null)
+            {
+                ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
             }
         }
 
