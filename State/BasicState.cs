@@ -44,7 +44,12 @@ namespace NPaint.State
             }
         }
 
-        public override void MouseMove(Point point)
+        public override void MouseMoveToMove(Point point)
+        {
+            // nothing to do here...
+        }
+
+        public override void MouseMoveToResize(Point point)
         {
             // nothing to do here...
         }

@@ -11,7 +11,12 @@ namespace NPaint.State
             //MouseMove(point);
         }
 
-        public override void MouseMove(Point point)
+        public override void MouseMoveToMove(Point point)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void MouseMoveToResize(Point point)
         {
             throw new NotImplementedException();
         }

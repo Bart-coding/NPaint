@@ -5,6 +5,7 @@ using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
+    [Serializable]
     class NSquare : NRectangle
     {
         public NSquare() : base() {}

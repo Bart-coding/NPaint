@@ -5,6 +5,7 @@ using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
+    [Serializable]
     class NRectangle : Figure
     {
         protected Rect rect;
@@ -17,12 +18,16 @@ namespace NPaint.Figures
         public override void MoveBy(Point point)
         {
             // obliczenie polozenia prostokata na osi XY
-            double x = Math.Min(point.X, startPoint.X);
-            double y = Math.Min(point.Y, startPoint.Y);
+            /*double x = Math.Min(point.X, startPoint.X);
+            double y = Math.Min(point.Y, startPoint.Y);*/ //=> To nie działa, bo nie można w prawo i w dół jechać
+
+            double x = point.X - startPoint.X; //lub po prostu przyrownac oba
+            double y = point.Y - startPoint.Y;
 
             // przypisanie wyliczonych wartosci do zmiennej
             rect.X = x;
             rect.Y = y;
+            //**this.SetStartPoint(new Point(x, y));//=> Trzeba to zrobić w którymś momencie, ale aktualnie to przeszkadza rysowaniu
 
             // przypisanie wyliczonych wartosci do zmiennej (geometrii)
             RectangleGeometry tmp = (RectangleGeometry)adaptedGeometry;

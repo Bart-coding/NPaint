@@ -5,6 +5,7 @@ using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
+    [Serializable]
     class NCircle : NEllipse
     {
         public NCircle() : base() {}

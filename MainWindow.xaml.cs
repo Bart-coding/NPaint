@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 using NPaint.Figures;
 using NPaint.Memento;
 using NPaint.Observer;
@@ -19,12 +22,14 @@ namespace NPaint
     {
         private MenuState menuState;
         public Canvas canvas;
-        private List<Figure> FigureList;
+        private List<Figure> FigureList;///
+        public FigureListClass FigureListClassObject;
         private Figure SelectedFigure;
 
         private Caretaker caretaker;
         private Originator originator;
         private readonly String canvasPath = @"..\..\..\Canvases\";
+        //public Point firstStartPointWhileMoving; -> do przemyślenia
 
         public MainWindow()
         {
@@ -32,7 +37,13 @@ namespace NPaint
             caretaker = new Caretaker();
             InitializeCaretakerList();//
             originator = new Originator();
-            FigureList = new List<Figure>();
+            //FigureList = new List<Figure>();
+            FigureListClassObject = new FigureListClass();///
+            FigureListClassObject.FigureList = new List<Figure>();//
+            FigureList = FigureListClassObject.FigureList;///
+            //SaveFigureListTest();/////
+            //ReadFigureListTest();
+            //SaveFigureListXmlTest();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -42,8 +53,68 @@ namespace NPaint
             
 
             // na sztywno, zeby sprawdzic czy mozna rysowac figury
-            menuState = new TriangleState();
+            menuState = new SquareState();
         }
+
+        private List<Figure> RestoreFigureListTest(UIElementCollection CanvasChildren) //*I METODA ODZYSKANIA FIGUR*//
+        {
+            List<Figure> RestoredFigureList = new List<Figure>();
+            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
+            foreach (UIElement canvasChild in CanvasChildren)
+            {
+                if (canvasChild.GetType() == typeof(System.Windows.Shapes.Path))
+                {
+                    System.Windows.Shapes.Path tmp = canvasChild as System.Windows.Shapes.Path;
+                    Figure figure = shapeFactory.getFigure(tmp.Tag as String);
+                    figure.adaptedPath = tmp;
+                    figure.adaptedGeometry = tmp.Data;
+                    //brak startpointa
+                    RestoredFigureList.Add(figure);
+                }
+            }
+            return RestoredFigureList;
+        }
+
+        private void SaveFigureListTest()////*II METODA ZAPISU I ODZYSKANIA FIGUR (TA I PONIŻSZA)*//
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(this.canvasPath+"Test.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+            try
+            {
+                formatter.Serialize(stream, this.FigureList);
+            }
+            catch (SerializationException e)
+            {
+                MessageBox.Show("Wyjątek związany z serializacją: " + e.Message);
+                throw;
+            }
+            stream.Close();
+        }
+
+        private void ReadFigureListTest()//
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(this.canvasPath + "Test.bin", FileMode.Open, FileAccess.Read, FileShare.Read);
+            try
+            {
+                this.FigureList = formatter.Deserialize(stream) as List<Figure>;
+            }
+            catch (SerializationException e)
+            {
+                MessageBox.Show("Wyjątek związany z serializacją: " + e.Message);
+                throw;
+            }
+            stream.Close();
+        }
+
+        private void SaveFigureListXmlTest()//*III METODA*//
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(FigureListClass));
+            FileStream fs = new FileStream(this.canvasPath + "TestZapisFigur.xml", FileMode.Create);
+            serializer.Serialize(fs, this.FigureListClassObject);
+            fs.Close();/////gdzies indziej moze tez go brakuje
+        }
+       
 
         private void AddCanvas()
         {
@@ -70,6 +141,17 @@ namespace NPaint
             {
                 if(Mouse.LeftButton == MouseButtonState.Pressed)
                 {
+                    if (SelectedFigure!=null)
+                    {
+                        Point pt = e.GetPosition(canvas);
+                        if (pt.Y < 0 + (pt.Y-SelectedFigure.GetStartPoint().Y))//nie wiem dlaczego nie działa
+                        {
+                            pt.Y = 0 + (pt.Y - SelectedFigure.GetStartPoint().Y);
+                        }
+                        //menuState.MouseMoveToMove(pt);
+                        SelectedFigure.MoveBy(pt);
+                        return;
+                    }
                     if(menuState != null)
                     {
                         // zaleznie od stanu podejmujemy akcje
@@ -79,7 +161,7 @@ namespace NPaint
                         {
                             pt.Y = 0 + BorderThicknessySlider.Value / 2;
                         }
-                        menuState.MouseMove(pt);
+                        menuState.MouseMoveToResize(pt);//to draw and resize
                     }
                 }
             }
@@ -172,6 +254,7 @@ namespace NPaint
                 canvas = null;
                 canvas = oldCanvas;
                 SetCanvas();
+                FigureList = RestoreFigureListTest(canvas.Children);///////////
 
                 MessageBox.Show("Przywrócono poprzedni Canvas :)");
             }
@@ -218,6 +301,7 @@ namespace NPaint
                 FigureList.Remove(SelectedFigure);
                 SelectedFigure = null;
             }
+            //SaveFigureListTest();////////////////////////////////USUN
         }
         public List<Figure> GetFigureList()
         {
@@ -239,6 +323,7 @@ namespace NPaint
             figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
 
             SelectedFigure = figure;
+
 
             // ustawienia pod wybrana figure
             BorderColorButton.Background = figure.adaptedPath.Stroke;

@@ -4,14 +4,17 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
+using System.Xml.Serialization;
 using Path = System.Windows.Shapes.Path;////
 
 namespace NPaint.Figures
 {
+    [Serializable]
+
     public abstract class Figure : FigureBase, ICloneable
     {
-        public Path adaptedPath { get; set; } //PROTECTED
-        protected Geometry adaptedGeometry;
+        public Path adaptedPath { get; set; } //protected
+        public Geometry adaptedGeometry { get; set; } // tez trza bylo zmienic, mozna metody dostepowe dodac
         protected Point startPoint;
         protected PointCollection PointsList;
 
@@ -41,7 +44,12 @@ namespace NPaint.Figures
         {
             startPoint = point;
         }
-        
+
+        public Point GetStartPoint()////////////
+        {
+            return startPoint;
+        }
+
 
         public abstract void MoveBy(Point point);
 

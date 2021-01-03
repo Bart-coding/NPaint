@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
+    [Serializable]///
     class NTriangle : Figure
     {
         private PathFigure PathFigure;
@@ -18,7 +19,7 @@ namespace NPaint.Figures
         {
             adaptedPath = path;
             adaptedGeometry = path.Data;
-            PathGeometry tmp = adaptedGeometry as PathGeometry;
+            PathGeometry tmp = adaptedGeometry as PathGeometry;  //Może w ogóle tych wartości nie ustawiać jak na starcie są niepotrzebne?
             PathFigure = tmp.Figures[0];
             line1 = PathFigure.Segments[0] as LineSegment;
             line2 = PathFigure.Segments[1] as LineSegment;
