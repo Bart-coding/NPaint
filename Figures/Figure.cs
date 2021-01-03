@@ -41,6 +41,7 @@ namespace NPaint.Figures
         {
             startPoint = point;
         }
+        
 
         public abstract void MoveBy(Point point);
 

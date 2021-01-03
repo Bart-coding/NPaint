@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -72,6 +73,7 @@ namespace NPaint
                     if(menuState != null)
                     {
                         // zaleznie od stanu podejmujemy akcje
+
                         Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
                         menuState.MouseMove(pt);
                     }
@@ -291,7 +293,7 @@ namespace NPaint
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-           RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow(this.originator);
+          // RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow(this.originator);
 
         }
     }
