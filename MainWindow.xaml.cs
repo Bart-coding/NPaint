@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
@@ -29,13 +31,13 @@ namespace NPaint
         private Caretaker caretaker;
         private Originator originator;
         private readonly String canvasPath = @"..\..\..\Canvases\";
+        private readonly String canvasListFilePath = @"..\..\..\Canvases\CanvasList.txt";
         //public Point firstStartPointWhileMoving; -> do przemyślenia
 
         public MainWindow()
         {
             InitializeComponent();
             caretaker = new Caretaker();
-            InitializeCaretakerList();//
             originator = new Originator();
             //FigureList = new List<Figure>();
             FigureListClassObject = new FigureListClass();///
@@ -50,11 +52,34 @@ namespace NPaint
         {
             FillrColorLabel.Width = BorderColorLabel.ActualWidth;
             AddCanvas();
-            
+            RestoreCaretaker();
+
 
             // na sztywno, zeby sprawdzic czy mozna rysowac figury
             menuState = new SquareState();
         }
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            //List<String> CanvasNamesList = new List<String>();
+            using (StreamWriter sw = new StreamWriter(this.canvasListFilePath, false))
+            {
+                for (int i = 0; ; i++)
+                {
+                    Memento.Memento memento = this.caretaker.GetMemento(i);
+                    if (memento != null)
+                    {
+                        String canvasName = this.originator.restoreFromMemento(memento);
+                        //CanvasNamesList.Add(canvasName);
+                        sw.WriteLine(canvasName);
+
+                    }
+                    else
+                        break;
+                }
+            }
+            //sw.Close();
+        }
+
 
         private List<Figure> RestoreFigureListTest(UIElementCollection CanvasChildren) //*I METODA ODZYSKANIA FIGUR*//
         {
@@ -78,7 +103,7 @@ namespace NPaint
         private void SaveFigureListTest()////*II METODA ZAPISU I ODZYSKANIA FIGUR (TA I PONIŻSZA)*//
         {
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(this.canvasPath+"Test.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream(this.canvasPath + "Test.bin", FileMode.Create, FileAccess.Write, FileShare.None);
             try
             {
                 formatter.Serialize(stream, this.FigureList);
@@ -114,7 +139,7 @@ namespace NPaint
             serializer.Serialize(fs, this.FigureListClassObject);
             fs.Close();/////gdzies indziej moze tez go brakuje
         }
-       
+
 
         private void AddCanvas()
         {
@@ -139,12 +164,12 @@ namespace NPaint
         {
             //if(Mouse.Captured == canvas)
             {
-                if(Mouse.LeftButton == MouseButtonState.Pressed)
+                if (Mouse.LeftButton == MouseButtonState.Pressed)
                 {
-                    if (SelectedFigure!=null)
+                    if (SelectedFigure != null)
                     {
                         Point pt = e.GetPosition(canvas);
-                        if (pt.Y < 0 + (pt.Y-SelectedFigure.GetStartPoint().Y))//nie wiem dlaczego nie działa
+                        if (pt.Y < 0 + (pt.Y - SelectedFigure.GetStartPoint().Y))//nie wiem dlaczego nie działa
                         {
                             pt.Y = 0 + (pt.Y - SelectedFigure.GetStartPoint().Y);
                         }
@@ -152,12 +177,12 @@ namespace NPaint
                         SelectedFigure.MoveBy(pt);
                         return;
                     }
-                    if(menuState != null)
+                    if (menuState != null)
                     {
                         // zaleznie od stanu podejmujemy akcje
 
                         Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
-                        if(pt.Y < 0 + BorderThicknessySlider.Value/2)
+                        if (pt.Y < 0 + BorderThicknessySlider.Value / 2)
                         {
                             pt.Y = 0 + BorderThicknessySlider.Value / 2;
                         }
@@ -177,7 +202,7 @@ namespace NPaint
             {
                 Point pt = e.GetPosition(canvas);
 
-                if(pt.Y < 0 + BorderThicknessySlider.Value/2)
+                if (pt.Y < 0 + BorderThicknessySlider.Value / 2)
                 {
                     pt.Y = 0 + BorderThicknessySlider.Value / 2;
                 }
@@ -230,7 +255,7 @@ namespace NPaint
             }
             catch (Exception e)
             {
-                MessageBox.Show("Wyjatek: "+e.Message);
+                MessageBox.Show("Wyjatek: " + e.Message);
             }
         }
 
@@ -242,10 +267,10 @@ namespace NPaint
             try //odczyt  z pliku
             {
                 // Open the text file using a stream reader.
-                using (var sr = new StreamReader(this.canvasPath+oldCanvasFile))
+                using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
                 {
                     CanvasString = sr.ReadToEnd();
-                    
+
                 }
 
                 Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
@@ -262,6 +287,35 @@ namespace NPaint
             {
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        private void RestoreCanvas(int index)
+        {
+            string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetMemento(index)); //Odczyt z listy Memento
+            string CanvasString;
+            try //odczyt  z pliku
+            {
+                // Open the text file using a stream reader.
+                using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
+                {
+                    CanvasString = sr.ReadToEnd();
+
+                }
+
+                Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
+
+                MainGrid.Children.Remove(canvas);
+                canvas = null;
+                canvas = oldCanvas;
+                SetCanvas();
+                FigureList = RestoreFigureListTest(canvas.Children);///////////
+
+                MessageBox.Show("Przywrócono poprzedni Canvas :)");
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show("The file could not be read: " + e.Message);
             }
         }
         private void InitializeCaretakerList()
@@ -295,7 +349,7 @@ namespace NPaint
         }
         private void RemoveFigure(object sender, RoutedEventArgs e)
         {
-            if(SelectedFigure != null)
+            if (SelectedFigure != null)
             {
                 canvas.Children.Remove(SelectedFigure.adaptedPath);
                 FigureList.Remove(SelectedFigure);
@@ -317,7 +371,7 @@ namespace NPaint
         public void SetSelectedFigure(Figure figure)
         {
             // musimy wylaczyc ramke dla poprzednio wybranej figury
-            if(SelectedFigure != null)
+            if (SelectedFigure != null)
                 SelectedFigure.adaptedPath.StrokeDashArray = null;
             // dodanie ramki dla obecnie wybranej figury
             figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
@@ -384,7 +438,7 @@ namespace NPaint
         {
             Button button = sender as Button;
             FillColorButton.Background = button.Background;
-            if(SelectedFigure != null)
+            if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeFillColor(button.Background);
             }
@@ -415,8 +469,46 @@ namespace NPaint
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-          // RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow(this.originator);
+            RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow();
+            for (int i = 0; ; i++)
+            {
+                Memento.Memento memento = this.caretaker.GetMemento(i);
+                if (memento != null)
+                {
+                    String canvasName = this.originator.restoreFromMemento(memento);
+                    restoreCanvasWindow.canvasNameListbox.Items.Add(canvasName);
 
+                }
+                else
+                    break;
+                
+            }
+            if (true == restoreCanvasWindow.ShowDialog())
+            {
+                this.RestoreCanvas(restoreCanvasWindow.canvasNameListbox.SelectedIndex);
+            }
+        }
+
+        private void RestoreCaretaker()
+        {
+            if (!File.Exists(this.canvasListFilePath))
+            {
+                FileStream fs = File.Create(this.canvasListFilePath);
+                return;
+            }
+            if (new FileInfo(this.canvasListFilePath).Length != 0)
+            {
+                using (StreamReader reader = new StreamReader(this.canvasListFilePath))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        this.originator.SetMemento(line);
+                        MessageBox.Show(line);
+                        this.caretaker.AddMemento(this.originator.CreateMemento());
+                    }
+                }
+            }
         }
     }
 }

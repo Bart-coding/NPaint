@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="NPaint" WindowState="Maximized" Height="720" Width="1280" MinHeight="720" MinWidth="1240" Loaded="Window_Loaded">
+        Title="NPaint" WindowState="Maximized" Height="720" Width="1280" MinHeight="720" MinWidth="1240" Loaded="Window_Loaded" Closing="Window_Closing">
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
