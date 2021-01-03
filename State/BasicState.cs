@@ -12,35 +12,37 @@ namespace NPaint.State
         public override void MouseLeftButtonDown(Point point)
         {
             UIElementCollection FiguresPath = ((MainWindow)Application.Current.MainWindow).canvas.Children;
-            Path CLickedFigurePath = new Path();
-            bool found = false;
+            Path CLickedFigurePath = null;
 
             // przechodzimy po wszystkich dzieciach canvasa
             foreach (UIElement figure in FiguresPath)
             {
-                if(figure.IsMouseOver)  // jezeli najechalismy myszka na figure
+                if (figure.IsMouseOver)  // jezeli najechalismy myszka na figure
                 {
                     CLickedFigurePath = figure as Path; // wlasciwie to znalezlismy Path dodana do canvasa
-                    
+
+                    // pobranie listy figur z MainWindow
+                    List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
+
                     // znajdujemy figure na podstawie kliknietego path
-                    found = true;
-                }
-            }
-            if (found)
-            {
-                List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
-                foreach (Figure f in figures)
-                {
-                    if (f.adaptedPath.Equals(CLickedFigurePath))
+                    foreach (Figure f in figures)
                     {
-                        // przypisanie obecnie wybranej figury w MainWindow
-                        ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(f);
+                        if (f.adaptedPath.Equals(CLickedFigurePath))
+                        {
+                            // przypisanie obecnie wybranej figury w MainWindow
+                            ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(f);
+                            break; // przerywamy, bo juz znalezlismy figure zawieracjaca dana zmienna path
+                        }
                     }
+                    break; // przerywamy, bo juz znalezlismy kliknieta figure
                 }
-                break; // przerywamy, bo juz znalezlismy dana figure}
-
-
             }
+            // jezeli kliknelismy gdzies indziej niz w figure
+            if (CLickedFigurePath == null)
+            {
+                ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
+            }
+        }
 
         public override void MouseMove(Point point)
         {

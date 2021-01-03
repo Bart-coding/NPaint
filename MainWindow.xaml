@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>            <!--   tutaj jest miejsce na canvas Grid.Row="1"   -->
         </Grid.RowDefinitions>
 
-        <Grid Name="MenuGrid" Grid.Row="0">
+        <Grid Name="MenuGrid" Grid.Row="0" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -32,11 +32,12 @@
 
                 <Button Name="CursorButton" Margin="1" Height="56" Width="56"   Click="CursorButton_Click">kursor</Button>
                 <Button Name="PlusSizeButton" Margin="1" Height="56" Width="56">plus size</Button>
-                <Button Name="RemoveButton" Margin="1" Height="56" Width="56">usun</Button>
+                <Button Name="RemoveButton" Margin="1" Height="56" Width="56"   Click="RemoveFigure">usun</Button>
                 <Separator Width="10"/>
 
-                <Label Name="BorderColorLabel" Margin="1" Padding="0" VerticalContentAlignment="Center">Border Color</Label>
-                <Button Name="BorderColorButton" Margin="1" Height="56" Width="56" ></Button>
+                <Label Name="BorderColorLabel" Margin="1" Padding="1" VerticalContentAlignment="Center">Border Color</Label>
+                <Separator Width="10"/>
+                <Button Name="BorderColorButton" Margin="1" Height="56" Width="56" Background="Black"></Button>
                 <Separator Width="10"/>
 
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Black"/>
@@ -66,7 +67,8 @@
                 <Separator Width="10"/>
 
                 <Label Name="FillrColorLabel" Margin="1" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Fill Color</Label>
-                <Button Name="FillColorButton" Margin="1" Height="56" Width="56" ></Button>
+                <Separator Width="10"/>
+                <Button Name="FillColorButton" Margin="1" Height="56" Width="56" Background="White"></Button>
                 <Separator Width="10"/>
 
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="White"/>
@@ -94,9 +96,9 @@
                 </Grid.ColumnDefinitions>
 
                 <Label  Grid.Row="0" Grid.Column="0" FontSize="14">Transparency</Label>
-                <Slider Grid.Row="0" Grid.Column="1" Name="TransparencySlider" Width="300" VerticalAlignment="Center" Maximum="100" Value="50"/>
+                <Slider Grid.Row="0" Grid.Column="1" Name="TransparencySlider" Width="300" VerticalAlignment="Center" Maximum="100" Value="0"/>
                 <Label  Grid.Row="1" Grid.Column="0" FontSize="14">BorderThickness</Label>
-                <Slider Grid.Row="1" Grid.Column="1" Name="BorderThicknessySlider" Width="300" VerticalAlignment="Center" Maximum="100" Value="50"/>
+                <Slider Grid.Row="1" Grid.Column="1" Name="BorderThicknessySlider" Width="300" VerticalAlignment="Center" Maximum="100" Value="5"/>
             </Grid>
 
             <Separator Grid.Row="4"/>

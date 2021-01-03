@@ -12,11 +12,12 @@ namespace NPaint.State
             Figure = (NCircle)shapeFactory.getFigure("Circle");
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
+            MouseMove(point);
         }
 
         public override void MouseMove(Point point)
         {
-            throw new NotImplementedException();
+            Figure.Resize(point);            
         }
     }
 }

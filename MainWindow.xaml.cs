@@ -66,7 +66,7 @@ namespace NPaint
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            //if (Mouse.Captured == canvas)
+            //if(Mouse.Captured == canvas)
             {
                 if(Mouse.LeftButton == MouseButtonState.Pressed)
                 {
@@ -75,6 +75,10 @@ namespace NPaint
                         // zaleznie od stanu podejmujemy akcje
 
                         Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
+                        if(pt.Y < 0 + BorderThicknessySlider.Value/2)
+                        {
+                            pt.Y = 0 + BorderThicknessySlider.Value / 2;
+                        }
                         menuState.MouseMove(pt);
                     }
                 }
@@ -89,11 +93,24 @@ namespace NPaint
             // zaleznie od stanu podejmujemy akcje
             if (menuState != null)
             {
+                Point pt = e.GetPosition(canvas);
+
+                if(pt.Y < 0 + BorderThicknessySlider.Value/2)
+                {
+                    pt.Y = 0 + BorderThicknessySlider.Value / 2;
+                }
                 // np. stan rysowanie figury 
-                Point point = e.GetPosition(canvas);
-                menuState.MouseLeftButtonDown(point);
+                menuState.MouseLeftButtonDown(pt);
+
+                Figure figure = FigureList.Last();
+
+                figure.ChangeBorderColor(BorderColorButton.Background);
+                figure.ChangeFillColor(FillColorButton.Background);
+                figure.ChangeTransparency((100 - TransparencySlider.Value) / 100);
+                figure.ChangeBorderThickness(BorderThicknessySlider.Value);
             }
         }
+
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             // zwolnienie myszy z Canvasa
@@ -110,8 +127,6 @@ namespace NPaint
             MessageBox.Show("Wyczyszczono Canvas");
 
             this.RestoreLastCanvas();
-
-
         }
 
         private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
@@ -195,12 +210,34 @@ namespace NPaint
             canvas.Children.Add(figure.adaptedPath);
             FigureList.Add(figure);
         }
+        private void RemoveFigure(object sender, RoutedEventArgs e)
+        {
+            if(SelectedFigure != null)
+            {
+                canvas.Children.Remove(SelectedFigure.adaptedPath);
+                FigureList.Remove(SelectedFigure);
+                SelectedFigure = null;
+            }
+        }
         public List<Figure> GetFigureList()
         {
             return FigureList;
         }
+        public void ResetSelectedFigure()
+        {
+            // musimy wylaczyc ramke dla obecnie wybranej figury
+            if (SelectedFigure != null)
+                SelectedFigure.adaptedPath.StrokeDashArray = null;
+            SelectedFigure = null;
+        }
         public void SetSelectedFigure(Figure figure)
         {
+            // musimy wylaczyc ramke dla poprzednio wybranej figury
+            if(SelectedFigure != null)
+                SelectedFigure.adaptedPath.StrokeDashArray = null;
+            // dodanie ramki dla obecnie wybranej figury
+            figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
+
             SelectedFigure = figure;
 
             // ustawienia pod wybrana figure

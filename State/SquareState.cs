@@ -12,6 +12,7 @@ namespace NPaint.State
             Figure = (NSquare)shapeFactory.getFigure("Square");
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
+            MouseMove(point);
         }
 
         public override void MouseMove(Point point)

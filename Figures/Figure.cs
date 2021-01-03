@@ -56,10 +56,6 @@ namespace NPaint.Figures
             clonedFigure.adaptedGeometry = this.adaptedGeometry.Clone(); //lub metoda ala clonePath
             clonedFigure.startPoint.X = this.startPoint.X;//
             clonedFigure.startPoint.Y = this.startPoint.Y;
-            clonedFigure.ChangeBorderColor(((MainWindow)System.Windows.Application.Current.MainWindow).BorderColorButton.Background);
-            clonedFigure.ChangeFillColor(((MainWindow)System.Windows.Application.Current.MainWindow).FillColorButton.Background);
-            clonedFigure.ChangeTransparency((100-((MainWindow)System.Windows.Application.Current.MainWindow).TransparencySlider.Value)/100);
-            clonedFigure.ChangeBorderThickness(((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value);
             if (this.PointsList != null)
             {
                 clonedFigure.PointsList = this.PointsList.Clone();//

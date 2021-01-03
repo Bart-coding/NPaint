@@ -47,7 +47,7 @@ namespace NPaint.Figures
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
         }
-        private Point MidPoint(Point a, Point b)
+        protected Point MidPoint(Point a, Point b)
         {
             Point tmp;
             tmp.X = (a.X + b.X) / 2;

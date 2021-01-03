@@ -8,6 +8,7 @@ namespace NPaint.State
         public override void MouseLeftButtonDown(Point point)
         {
             throw new NotImplementedException();
+            //MouseMove(point);
         }
 
         public override void MouseMove(Point point)
