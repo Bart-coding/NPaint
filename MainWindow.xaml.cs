@@ -149,6 +149,7 @@ namespace NPaint
             canvas.MouseMove += new MouseEventHandler(Canvas_MouseMove);
             canvas.MouseLeftButtonDown += new MouseButtonEventHandler(Canvas_MouseLeftButtonDown);
             canvas.MouseLeftButtonUp += new MouseButtonEventHandler(Canvas_MouseLeftButtonUp);
+            canvas.MouseRightButtonDown += new MouseButtonEventHandler(Canvas_MouseRightButtonDown);
         }
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
@@ -223,6 +224,10 @@ namespace NPaint
             }
             // zwolnienie myszy z Canvasa
             //Mouse.Capture(null);
+        }
+        private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ResetSelectedFigure();
         }
 
         private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
@@ -334,7 +339,7 @@ namespace NPaint
             {
                 figure.ChangeBorderColor(BorderColorButton.Background);
                 figure.ChangeFillColor(FillColorButton.Background);
-                figure.ChangeTransparency((100 - TransparencySlider.Value) / 100);
+                figure.ChangeTransparency(TransparencySlider.Value / 100.0);
                 figure.ChangeBorderThickness(BorderThicknessySlider.Value);
             }
             // dodanie nowej figury
@@ -378,7 +383,7 @@ namespace NPaint
             // ustawienia pod wybrana figure
             BorderColorButton.Background = figure.adaptedPath.Stroke;
             FillColorButton.Background = figure.adaptedPath.Fill;
-            TransparencySlider.Value = figure.adaptedPath.Fill.Opacity;
+            TransparencySlider.Value = figure.adaptedPath.Fill.Opacity * 100.0;
             BorderThicknessySlider.Value = figure.adaptedPath.StrokeThickness;
         }
 
@@ -450,7 +455,7 @@ namespace NPaint
         {
             if (SelectedFigure != null)
             {
-                SelectedFigure.ChangeTransparency((100 - TransparencySlider.Value) / 100);
+                SelectedFigure.ChangeTransparency(TransparencySlider.Value / 100.0);
             }
         }
 
