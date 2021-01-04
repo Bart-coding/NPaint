@@ -19,15 +19,19 @@ namespace NPaint.Figures
 
         public override void MoveBy(Point point) // Tu znów kwestia nieustawianego startpointu i nie wiadomo kiedy
         {
+            // ustawienie srodka elipsy tam gdzie jest myszka
             // obliczenie polozenia elipsy na osi XY
-            /*CenterPoint.X = Math.Min(point.X, startPoint.X);
-            CenterPoint.Y = Math.Min(point.Y, startPoint.Y);*/
-
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
             EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
-            CenterPoint.X = point.X - startPoint.X + tmp.RadiusX;
-            CenterPoint.Y = point.Y - startPoint.Y + tmp.RadiusY;
+            CenterPoint.X = point.X;
+            CenterPoint.Y = point.Y;
             tmp.Center = CenterPoint;
+
+            // zakomentowany kod Bartka
+            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
+            //EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
+            //CenterPoint.X = point.X - startPoint.X + tmp.RadiusX;
+            //CenterPoint.Y = point.Y - startPoint.Y + tmp.RadiusY;
+            //tmp.Center = CenterPoint;
 
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
