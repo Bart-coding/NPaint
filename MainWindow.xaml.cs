@@ -24,6 +24,7 @@ namespace NPaint
         private List<Figure> FigureList;///
         public FigureListClass FigureListClassObject;
         private Figure SelectedFigure;
+        private ObservableFigure ObservableFigure;
 
         private Caretaker caretaker;
         private Originator originator;
@@ -322,36 +323,33 @@ namespace NPaint
 
         public void AddObservable(Figure figure)
         {
+            // jezeli mamy juz narysowanego obserwatora to chcemy go usunac
+            ObservableFigure observable = new ObservableFigure();
+            foreach (Figure f in FigureList)
+            {
+                // jezeli natrafilismy na obiekt/figure obserwowanego
+                if (f.GetType() == typeof(ObservableFigure))
+                {
+                    observable = f as ObservableFigure;
+                    break;
+                }
+            }
+            // usuniecie starego obserwowanego
+            FigureList.Remove(observable);
+            canvas.Children.Remove(observable.adaptedPath);
 
+            // dodanie nowej figury
+            canvas.Children.Add(figure.adaptedPath);
+            FigureList.Add(figure);
         }
         public void AddFigure(Figure figure)
         {
-            // jesli figura to obserwowany
-            if (figure.GetType() == typeof(ConcreteObservable))
-            {
-                // jezeli mamy juz narysowanego obserwatora to chcemy go usunac
-                ConcreteObservable observable = new ConcreteObservable();
-                foreach (Figure f in FigureList)
-                {
-                    // jezeli natrafilismy na obiekt/figure obserwowanego
-                    if (f.GetType() == typeof(ConcreteObservable))
-                    {
-                        observable = f as ConcreteObservable;
-                        break;
-                    }
-                }
-                // usuniecie starego obserwowanego
-                FigureList.Remove(observable);
-                canvas.Children.Remove(observable.adaptedPath);
-            }
-            // jesli to zwykla figura to zmieniamy jej wlasciwosci na te wybrane
-            else
-            {
-                figure.ChangeBorderColor(BorderColorButton.Background);
-                figure.ChangeFillColor(FillColorButton.Background);
-                figure.ChangeTransparency(TransparencySlider.Value);
-                figure.ChangeBorderThickness(BorderThicknessySlider.Value);
-            }
+            // zmieniamy jej wlasciwosci na te wybrane
+            figure.ChangeBorderColor(BorderColorButton.Background);
+            figure.ChangeFillColor(FillColorButton.Background);
+            figure.ChangeTransparency(TransparencySlider.Value);
+            figure.ChangeBorderThickness(BorderThicknessySlider.Value);
+
             // dodanie nowej figury
             canvas.Children.Add(figure.adaptedPath);
             FigureList.Add(figure);

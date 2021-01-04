@@ -65,9 +65,20 @@ namespace NPaint.State
                         lengthShift = point.Y - Figure.GetStartPoint().Y; //stała odległość myszki od środka figury
                         widthShift = point.X - Figure.GetStartPoint().X;
                     }
-                    point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
-                    point.X -= widthShift;
                 }
+                else if (Figure.GetType() == typeof(NEllipse) || Figure.GetType() == typeof(NCircle))
+                {
+                    if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
+                    {
+                        dynamic f_tmp = Figure;
+                        Point center = f_tmp.GetCenterPoint();
+                        lengthShift = point.Y - center.Y; //stała odległość myszki od środka figury
+                        widthShift = point.X - center.X;
+                    }
+                    
+                }
+                point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
+                point.X -= widthShift;
                 Figure.MoveBy(point);
             }
         }

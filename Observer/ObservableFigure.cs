@@ -7,10 +7,10 @@ using NPaint.Figures;
 
 namespace NPaint.Observer
 {
-    class ConcreteObservable : NRectangle, Observable
+    class ObservableFigure : NRectangle, Observable
     {
         private List<Figure> Observers;
-        public ConcreteObservable()
+        public ObservableFigure()
         {
             adaptedPath = new Path();
             adaptedPath.Fill = Brushes.Transparent;
