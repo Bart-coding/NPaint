@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="NPaint" WindowState="Maximized" Height="720" Width="1280" MinHeight="720" MinWidth="1240" Loaded="Window_Loaded" Closing="Window_Closing">
-
+    
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>            <!--   tutaj jest miejsce na canvas Grid.Row="1"   -->
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Name="MenuGrid" Grid.Row="0" Background="White">
@@ -31,16 +31,22 @@
                     <Image Source="Graphics/circle.png"/>
                 </Button>
                 <Button Name="SquareButton" Margin="1" Height="56" Width="56"   Click="SquareButton_Click" Background="White" BorderBrush="Black">
-                    <Image Source="Graphics/square.png"/>
+                    <Image Source="Graphics/square.png" Margin="4"/>
                 </Button>
                 <Button Name="TriangleButton" Margin="1" Height="56" Width="56" Click="TriangleButton_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/triangle.png"/>
                 </Button>
                 <Separator Width="10"/>
 
-                <Button Name="CursorButton" Margin="1" Height="56" Width="56"   Click="CursorButton_Click" Background="White" BorderBrush="Black">kursor</Button>
-                <Button Name="PlusSizeButton" Margin="1" Height="56" Width="56" Background="White" BorderBrush="Black">plus size</Button>
-                <Button Name="RemoveButton" Margin="1" Height="56" Width="56"   Click="RemoveFigure" Background="White" BorderBrush="Black">usun</Button>
+                <Button Name="CursorButton" Margin="1" Height="56" Width="56"   Click="CursorButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/cursor.png" Margin="10,2,0,2"/>
+                </Button>
+                <Button Name="PlusSizeButton" Margin="1" Height="56" Width="56" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/plus.png" Margin="5"/>
+                </Button>
+                <Button Name="RemoveButton" Margin="1" Height="56" Width="56"   Click="RemoveFigure" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/delete.png" Margin="5"/>
+                </Button>
                 <Separator Width="10"/>
 
                 <Label Name="BorderColorLabel" Margin="1" Padding="1" VerticalContentAlignment="Center">Border Color</Label>
@@ -77,9 +83,15 @@
                 </Button>
                 <Separator Width="10"/>
 
-                <Button Name="MarkingButton" Margin="1" Height="56" Width="56"      Click="SelectionButton_Click" Background="White" BorderBrush="Black">zaznacz</Button>
-                <Button Name="MinusSizeButton" Margin="1" Height="56" Width="56" Background="White" BorderBrush="Black">minus size</Button>
-                <Button Margin="1" Height="56" Width="56" Click="ClearCanvas" Background="White" BorderBrush="Black">WYCZYSC</Button>
+                <Button Name="MarkingButton" Margin="1" Height="56" Width="56"      Click="SelectionButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/marking.png" Margin="2"/>
+                </Button>
+                <Button Name="MinusSizeButton" Margin="1" Height="56" Width="56" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/minus.png" Margin="5"/>
+                </Button>
+                <Button Margin="1" Height="56" Width="56" Click="ClearCanvas" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/clear.png" Margin="3"/>
+                </Button>
                 <Separator Width="10"/>
 
                 <Label Name="FillrColorLabel" Margin="1" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Fill Color</Label>

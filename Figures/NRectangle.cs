@@ -45,21 +45,13 @@ namespace NPaint.Figures
 
         public override void Resize(Point point)
         {
-            // wersja z mozliwoscia rysowania w kazdym z czterech kierunkow
-
             // obliczenie polozenia prostokata na osi XY
-            double x = Math.Min(point.X, startPoint.X);
-            double y = Math.Min(point.Y, startPoint.Y);
-            
-            // obliczenie wysokosci i szerokosci prostokata
-            double width = Math.Max(point.X, startPoint.X) - x;
-            double height = Math.Max(point.Y, startPoint.Y) - y;
+            rect.X = Math.Min(point.X, startPoint.X);
+            rect.Y = Math.Min(point.Y, startPoint.Y);
 
-            // przypisanie wyliczonych wartosci do zmiennej
-            rect.X = x;
-            rect.Y = y;
-            rect.Width = width;
-            rect.Height = height;
+            // obliczenie wysokosci i szerokosci prostokata
+            rect.Width = Math.Max(point.X, startPoint.X) - rect.X;
+            rect.Height = Math.Max(point.Y, startPoint.Y) - rect.Y;
 
             // przypisanie wyliczonych wartosci do zmiennej (geometrii)
             ((RectangleGeometry)adaptedGeometry).Rect = rect;
