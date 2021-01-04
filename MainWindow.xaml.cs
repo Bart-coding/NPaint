@@ -80,7 +80,6 @@ namespace NPaint
             //sw.Close();
         }
 
-
         private List<Figure> RestoreFigureListTest(UIElementCollection CanvasChildren) //*I METODA ODZYSKANIA FIGUR*//
         {
             List<Figure> RestoredFigureList = new List<Figure>();
@@ -99,7 +98,6 @@ namespace NPaint
             }
             return RestoredFigureList;
         }
-
         private void SaveFigureListTest()////*II METODA ZAPISU I ODZYSKANIA FIGUR (TA I PONIŻSZA)*//
         {
             IFormatter formatter = new BinaryFormatter();
@@ -115,7 +113,6 @@ namespace NPaint
             }
             stream.Close();
         }
-
         private void ReadFigureListTest()//
         {
             IFormatter formatter = new BinaryFormatter();
@@ -131,7 +128,6 @@ namespace NPaint
             }
             stream.Close();
         }
-
         private void SaveFigureListXmlTest()//*III METODA*//
         {
             XmlSerializer serializer = new XmlSerializer(typeof(FigureListClass));
@@ -140,13 +136,11 @@ namespace NPaint
             fs.Close();/////gdzies indziej moze tez go brakuje
         }
 
-
         private void AddCanvas()
         {
             canvas = new Canvas();
             SetCanvas();
         }
-
         private void SetCanvas()
         {
             MainGrid.Children.Add(canvas);
@@ -158,6 +152,17 @@ namespace NPaint
             canvas.MouseMove += new MouseEventHandler(Canvas_MouseMove);
             canvas.MouseLeftButtonDown += new MouseButtonEventHandler(Canvas_MouseLeftButtonDown);
             canvas.MouseLeftButtonUp += new MouseButtonEventHandler(Canvas_MouseLeftButtonUp);
+        }
+        private void ClearCanvas(object sender, RoutedEventArgs e)
+        {
+
+            //this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
+
+            this.canvas.Children.Clear();
+
+            MessageBox.Show("Wyczyszczono Canvas");
+
+            //this.RestoreLastCanvas();
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
@@ -191,7 +196,6 @@ namespace NPaint
                 }
             }
         }
-
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // złapanie canvasa, aby umozliwic rysowanie poza ekranem
@@ -207,33 +211,13 @@ namespace NPaint
                     pt.Y = 0 + BorderThicknessySlider.Value / 2;
                 }
                 // np. stan rysowanie figury 
-                menuState.MouseLeftButtonDown(pt);
-
-                Figure figure = FigureList.Last();
-
-                figure.ChangeBorderColor(BorderColorButton.Background);
-                figure.ChangeFillColor(FillColorButton.Background);
-                figure.ChangeTransparency((100 - TransparencySlider.Value) / 100);
-                figure.ChangeBorderThickness(BorderThicknessySlider.Value);
+                menuState.MouseLeftButtonDown(pt); 
             }
         }
-
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             // zwolnienie myszy z Canvasa
             Mouse.Capture(null);
-        }
-
-        private void ClearCanvas(object sender, RoutedEventArgs e)
-        {
-
-            this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
-
-            this.canvas.Children.Clear();
-
-            MessageBox.Show("Wyczyszczono Canvas");
-
-            this.RestoreLastCanvas();
         }
 
         private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
@@ -258,8 +242,6 @@ namespace NPaint
                 MessageBox.Show("Wyjatek: " + e.Message);
             }
         }
-
-
         private void RestoreLastCanvas()
         {
             string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetLastMemento()); //Odczyt z listy Memento
@@ -289,7 +271,6 @@ namespace NPaint
                 Console.WriteLine(e.Message);
             }
         }
-
         private void RestoreCanvas(int index)
         {
             string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetMemento(index)); //Odczyt z listy Memento
@@ -325,9 +306,10 @@ namespace NPaint
 
         public void AddFigure(Figure figure)
         {
-            // jezeli mamy juz narysowanego obserwatora to chcemy go usunac
+            // jesli figura to obserwowany
             if (figure.GetType() == typeof(ConcreteObservable))
             {
+                // jezeli mamy juz narysowanego obserwatora to chcemy go usunac
                 ConcreteObservable observable = new ConcreteObservable();
                 foreach (Figure f in FigureList)
                 {
@@ -342,7 +324,14 @@ namespace NPaint
                 FigureList.Remove(observable);
                 canvas.Children.Remove(observable.adaptedPath);
             }
-
+            // jesli to zwykla figura to zmieniamy jej wlasciwosci na te wybrane
+            else
+            {
+                figure.ChangeBorderColor(BorderColorButton.Background);
+                figure.ChangeFillColor(FillColorButton.Background);
+                figure.ChangeTransparency((100 - TransparencySlider.Value) / 100);
+                figure.ChangeBorderThickness(BorderThicknessySlider.Value);
+            }
             // dodanie nowej figury
             canvas.Children.Add(figure.adaptedPath);
             FigureList.Add(figure);
@@ -390,32 +379,26 @@ namespace NPaint
         {
             menuState = new CircleState();
         }
-
         private void SquareButton_Click(object sender, RoutedEventArgs e)
         {
             menuState = new SquareState();
         }
-
         private void TriangleButton_Click(object sender, RoutedEventArgs e)
         {
             menuState = new TriangleState();
         }
-
         private void EllipseButton_Click(object sender, RoutedEventArgs e)
         {
             menuState = new EllipseState();
         }
-
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
         {
             menuState = new RectangleState();
         }
-
         private void PolygonButton_Click(object sender, RoutedEventArgs e)
         {
             menuState = new PolygonState();
         }
-
         private void CursorButton_Click(object sender, RoutedEventArgs e)
         {
             menuState = new BasicState();
@@ -433,7 +416,6 @@ namespace NPaint
                 SelectedFigure.ChangeBorderColor(button.Background);
             }
         }
-
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
             Button button = sender as Button;
@@ -454,7 +436,6 @@ namespace NPaint
             NCircle nCircle = (NCircle)shapeFactory.getFigure("Circle");
             canvas.Children.Add(nCircle.adaptedPath);
         }
-
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             CanvasNameWindow canvasNameWindow = new CanvasNameWindow();
@@ -466,7 +447,6 @@ namespace NPaint
             }
 
         }
-
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow();
@@ -488,7 +468,6 @@ namespace NPaint
                 this.RestoreCanvas(restoreCanvasWindow.canvasNameListbox.SelectedIndex);
             }
         }
-
         private void RestoreCaretaker()
         {
             if (!File.Exists(this.canvasListFilePath))

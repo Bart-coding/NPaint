@@ -2,3 +2,4 @@ A.txt
 B.txt
 C.txt
 D.txt
+FirstCanvas.txt
