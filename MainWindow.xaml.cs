@@ -178,7 +178,7 @@ namespace NPaint
                             pt.Y = 0 + (pt.Y - SelectedFigure.GetStartPoint().Y);
                         }
                         
-                       selectedFigureState.MouseMoveToMove(pt); //nie działa, bo menuState to BasicState
+                       selectedFigureState.MouseMoveToMove(pt); //nie działało, bo menuState to BasicState
                        // SelectedFigure.MoveBy(pt);
                         return;
                     }
