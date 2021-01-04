@@ -170,6 +170,8 @@ namespace NPaint
             {
                 if (Mouse.LeftButton == MouseButtonState.Pressed)
                 {
+                    if (this.Cursor != Cursors.SizeAll)
+                        this.Cursor = Cursors.SizeAll;
                     if (SelectedFigure != null)
                     {
                         Point pt = e.GetPosition(canvas);
@@ -185,6 +187,9 @@ namespace NPaint
                     if (menuState != null)
                     {
                         // zaleznie od stanu podejmujemy akcje
+
+                        if (this.Cursor != Cursors.Hand) //Cursors.SizeNESW
+                            this.Cursor = Cursors.Hand;
 
                         Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
                         if (pt.Y < 0 + BorderThicknessySlider.Value / 2)
@@ -222,6 +227,8 @@ namespace NPaint
         {
             if(menuState != null)
             {
+                if (this.Cursor != Cursors.Arrow)
+                    this.Cursor = Cursors.Arrow;
                 menuState.MouseLeftButtonUp(e.GetPosition(canvas));
             }
             //if (selectedFigureState != null)
