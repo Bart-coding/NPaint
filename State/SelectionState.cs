@@ -8,14 +8,14 @@ namespace NPaint.State
     {
         public override void MouseLeftButtonDown(Point point)
         {
-            Figure = new ConcreteObservable();
+            Figure = new ObservableFigure();
             Figure.SetStartPoint(point);
-            ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
+            ((MainWindow)Application.Current.MainWindow).AddObservable(Figure);
         }
 
         public override void MouseLeftButtonUp(Point point)
         {
-            return;
+            // nothing to do here...
         }
 
         public override void MouseMove(Point point)
