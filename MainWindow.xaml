@@ -22,65 +22,81 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
-                <Button Name="LoadButton" Margin="1" Height="56" Width="50" Click="LoadButton_Click">Wczytaj</Button>
-                <Separator Width="10"/>
-                
-                <Button Name="CircleButton" Margin="1" Height="56" Width="56"   Click="CircleButton_Click">kolo</Button>
-                <Button Name="SquareButton" Margin="1" Height="56" Width="56"   Click="SquareButton_Click">kwadrat</Button>
-                <Button Name="TriangleButton" Margin="1" Height="56" Width="56" Click="TriangleButton_Click">trojkat</Button>
+                <Button Name="LoadButton" Margin="1" Height="56" Width="50"     Click="LoadButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/load.png"/>
+                </Button>
                 <Separator Width="10"/>
 
-                <Button Name="CursorButton" Margin="1" Height="56" Width="56"   Click="CursorButton_Click">kursor</Button>
-                <Button Name="PlusSizeButton" Margin="1" Height="56" Width="56">plus size</Button>
-                <Button Name="RemoveButton" Margin="1" Height="56" Width="56"   Click="RemoveFigure">usun</Button>
+                <Button Name="CircleButton" Margin="1" Height="56" Width="56"   Click="CircleButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/circle.png"/>
+                </Button>
+                <Button Name="SquareButton" Margin="1" Height="56" Width="56"   Click="SquareButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/square.png"/>
+                </Button>
+                <Button Name="TriangleButton" Margin="1" Height="56" Width="56" Click="TriangleButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/triangle.png"/>
+                </Button>
+                <Separator Width="10"/>
+
+                <Button Name="CursorButton" Margin="1" Height="56" Width="56"   Click="CursorButton_Click" Background="White" BorderBrush="Black">kursor</Button>
+                <Button Name="PlusSizeButton" Margin="1" Height="56" Width="56" Background="White" BorderBrush="Black">plus size</Button>
+                <Button Name="RemoveButton" Margin="1" Height="56" Width="56"   Click="RemoveFigure" Background="White" BorderBrush="Black">usun</Button>
                 <Separator Width="10"/>
 
                 <Label Name="BorderColorLabel" Margin="1" Padding="1" VerticalContentAlignment="Center">Border Color</Label>
                 <Separator Width="10"/>
-                <Button Name="BorderColorButton" Margin="1" Height="56" Width="56" Background="Black"></Button>
+                <Button Name="BorderColorButton" Margin="1" Height="56" Width="56" Background="Black"  BorderBrush="Black"></Button>
                 <Separator Width="10"/>
 
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Black"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Gray"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="DarkRed"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Red"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Orange"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Yellow"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Green"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="DeepSkyBlue"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Blue"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Purple"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Black"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Gray"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="DarkRed"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Red"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Orange"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Yellow"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Green"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="DeepSkyBlue"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Blue"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Purple"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-                <Button Name="SaveButton" Margin="1" Height="56" Width="50" Click="SaveButton_Click">Zapisz</Button>
+                <Button Name="SaveButton" Margin="1" Height="56" Width="50" Click="SaveButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/save.png"/>
+                </Button>
                 <Separator Width="10"/>
 
-                <Button Name="EllipseButton" Margin="1" Height="56" Width="56"       Click="EllipseButton_Click">elipsa</Button>
-                <Button Name="RectangleButton" Margin="1" Height="56" Width="56"    Click="RectangleButton_Click">prost...</Button>
-                <Button Name="PolygonButton" Margin="1" Height="56" Width="56"      Click="PolygonButton_Click">wlasny</Button>
+                <Button Name="EllipseButton" Margin="1" Height="56" Width="56"      Click="EllipseButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/elipse.png"/>
+                </Button>
+                <Button Name="RectangleButton" Margin="1" Height="56" Width="56"    Click="RectangleButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/rectangle.png"/>
+                </Button>
+                <Button Name="PolygonButton" Margin="1" Height="56" Width="56"      Click="PolygonButton_Click" Background="White" BorderBrush="Black">
+                    <Image Source="Graphics/polygon.png"/>
+                </Button>
                 <Separator Width="10"/>
 
-                <Button Name="MarkingButton" Margin="1" Height="56" Width="56"      Click="SelectionButton_Click">zaznacz</Button>
-                <Button Name="MinusSizeButton" Margin="1" Height="56" Width="56">minus size</Button>
-                <Button Margin="1" Height="56" Width="56" Click="ClearCanvas">WYCZYSC</Button>
+                <Button Name="MarkingButton" Margin="1" Height="56" Width="56"      Click="SelectionButton_Click" Background="White" BorderBrush="Black">zaznacz</Button>
+                <Button Name="MinusSizeButton" Margin="1" Height="56" Width="56" Background="White" BorderBrush="Black">minus size</Button>
+                <Button Margin="1" Height="56" Width="56" Click="ClearCanvas" Background="White" BorderBrush="Black">WYCZYSC</Button>
                 <Separator Width="10"/>
 
                 <Label Name="FillrColorLabel" Margin="1" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Fill Color</Label>
                 <Separator Width="10"/>
-                <Button Name="FillColorButton" Margin="1" Height="56" Width="56" Background="White"></Button>
+                <Button Name="FillColorButton" Margin="1" Height="56" Width="56" Background="White" BorderBrush="Black"></Button>
                 <Separator Width="10"/>
 
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="White"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="LightGray"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="SaddleBrown"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="HotPink"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="LightPink"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="LightGoldenrodYellow"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Lime"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="Cyan"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="DarkCyan"/>
-                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" Background="MediumPurple"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="White"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="LightGray"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="SaddleBrown"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="HotPink"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="LightPink"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="LightGoldenrodYellow"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Lime"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Cyan"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="DarkCyan"/>
+                <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="MediumPurple"/>
             </StackPanel>
 
             <Separator Grid.Row="2"/>

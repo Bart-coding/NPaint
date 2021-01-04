@@ -7,7 +7,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Graphics\circle.png" />
+    <None Remove="Graphics\elipse.png" />
+    <None Remove="Graphics\load.png" />
+    <None Remove="Graphics\polygon.png" />
+    <None Remove="Graphics\rectangle.png" />
+    <None Remove="Graphics\save.png" />
+    <None Remove="Graphics\square.png" />
+    <None Remove="Graphics\triangle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Graphics\circle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Runtime" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Graphics\elipse.png" />
+    <Resource Include="Graphics\load.png" />
+    <Resource Include="Graphics\polygon.png" />
+    <Resource Include="Graphics\rectangle.png" />
+    <Resource Include="Graphics\save.png" />
+    <Resource Include="Graphics\square.png" />
+    <Resource Include="Graphics\triangle.png" />
   </ItemGroup>
 
 </Project>
