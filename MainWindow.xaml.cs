@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
@@ -11,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Xml.Serialization;
 using NPaint.Figures;
 using NPaint.Memento;
@@ -204,6 +201,10 @@ namespace NPaint
             // zaleznie od stanu podejmujemy akcje
             if (menuState != null)
             {
+                if(menuState.GetType() != typeof(BasicState))
+                {
+                    ResetSelectedFigure();
+                }
                 Point pt = e.GetPosition(canvas);
 
                 if (pt.Y < 0 + BorderThicknessySlider.Value / 2)
@@ -216,8 +217,12 @@ namespace NPaint
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if(menuState != null)
+            {
+                menuState.MouseLeftButtonUp(e.GetPosition(canvas));
+            }
             // zwolnienie myszy z Canvasa
-            Mouse.Capture(null);
+            //Mouse.Capture(null);
         }
 
         private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
@@ -354,8 +359,10 @@ namespace NPaint
         {
             // musimy wylaczyc ramke dla obecnie wybranej figury
             if (SelectedFigure != null)
+            {
                 SelectedFigure.adaptedPath.StrokeDashArray = null;
-            SelectedFigure = null;
+                SelectedFigure = null;
+            }
         }
         public void SetSelectedFigure(Figure figure)
         {
@@ -377,26 +384,32 @@ namespace NPaint
 
         private void CircleButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetSelectedFigure();
             menuState = new CircleState();
         }
         private void SquareButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetSelectedFigure();
             menuState = new SquareState();
         }
         private void TriangleButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetSelectedFigure();
             menuState = new TriangleState();
         }
         private void EllipseButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetSelectedFigure();
             menuState = new EllipseState();
         }
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetSelectedFigure();
             menuState = new RectangleState();
         }
         private void PolygonButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetSelectedFigure();
             menuState = new PolygonState();
         }
         private void CursorButton_Click(object sender, RoutedEventArgs e)
@@ -405,6 +418,7 @@ namespace NPaint
         }
         private void SelectionButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetSelectedFigure();
             menuState = new SelectionState();
         }
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
@@ -423,6 +437,20 @@ namespace NPaint
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeFillColor(button.Background);
+            }
+        }
+        private void BorderThicknessySlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if(SelectedFigure != null)
+            {
+                SelectedFigure.ChangeBorderThickness(BorderThicknessySlider.Value);
+            }
+        }
+        private void TransparencySlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (SelectedFigure != null)
+            {
+                SelectedFigure.ChangeTransparency((100 - TransparencySlider.Value) / 100);
             }
         }
 

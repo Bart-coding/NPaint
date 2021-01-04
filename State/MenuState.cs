@@ -9,5 +9,6 @@ namespace NPaint.State
         public abstract void MouseMoveToResize(Point point);
         public abstract void MouseMoveToMove(Point point);
         public abstract void MouseLeftButtonDown(Point point);
+        public abstract void MouseLeftButtonUp(Point point);
     }
 }

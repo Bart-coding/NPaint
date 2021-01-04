@@ -16,6 +16,11 @@ namespace NPaint.State
             MouseMoveToResize(point);
         }
 
+        public override void MouseLeftButtonUp(Point point)
+        {
+            ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
+        }
+
         public override void MouseMoveToMove(Point point)
         {
             Figure.MoveBy(point);
