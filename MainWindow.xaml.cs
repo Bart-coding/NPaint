@@ -20,7 +20,6 @@ namespace NPaint
     public partial class MainWindow : Window
     {
         private MenuState menuState;
-        private MenuState selectedFigureState;//po to, by podczas BasicState mieć stan figury; można go resetować też po każdej zmianie stanu, ale niekoniecznie
         public Canvas canvas;
         private List<Figure> FigureList;///
         public FigureListClass FigureListClassObject;
@@ -178,7 +177,7 @@ namespace NPaint
                             pt.Y = 0 + (pt.Y - SelectedFigure.GetStartPoint().Y);
                         }
                         
-                       selectedFigureState.MouseMoveToMove(pt); //nie działało, bo menuState to BasicState
+                       menuState.MouseMove(pt); //nie działało, bo menuState to BasicState
                        // SelectedFigure.MoveBy(pt);
                         return;
                     }
@@ -191,7 +190,7 @@ namespace NPaint
                         {
                             pt.Y = 0 + BorderThicknessySlider.Value / 2;
                         }
-                        menuState.MouseMoveToResize(pt);//to draw and resize
+                        menuState.MouseMove(pt);//to draw and resize
                     }
                 }
             }
@@ -204,7 +203,7 @@ namespace NPaint
             // zaleznie od stanu podejmujemy akcje
             if (menuState != null)
             {
-                if(menuState.GetType() != typeof(BasicState))
+                if(menuState.GetType() != typeof(CursorState))
                 {
                     ResetSelectedFigure();
                 }
@@ -224,10 +223,11 @@ namespace NPaint
             {
                 menuState.MouseLeftButtonUp(e.GetPosition(canvas));
             }
-            if (selectedFigureState != null)
-            {
-                selectedFigureState.MouseLeftButtonUp(e.GetPosition(canvas));
-            }
+            //if (selectedFigureState != null)
+            //{
+            //    //selectedFigureState = null;
+            //    selectedFigureState.MouseLeftButtonUp(e.GetPosition(canvas));
+            //}
             // zwolnienie myszy z Canvasa
             //Mouse.Capture(null);
         }
@@ -320,6 +320,10 @@ namespace NPaint
             //pobieranie nazw plików z folderu Canvases (ich lista może siedzieć w innym txt)
         }
 
+        public void AddObservable(Figure figure)
+        {
+
+        }
         public void AddFigure(Figure figure)
         {
             // jesli figura to obserwowany
@@ -345,7 +349,7 @@ namespace NPaint
             {
                 figure.ChangeBorderColor(BorderColorButton.Background);
                 figure.ChangeFillColor(FillColorButton.Background);
-                figure.ChangeTransparency(TransparencySlider.Value / 100.0);
+                figure.ChangeTransparency(TransparencySlider.Value);
                 figure.ChangeBorderThickness(BorderThicknessySlider.Value);
             }
             // dodanie nowej figury
@@ -380,16 +384,16 @@ namespace NPaint
             // musimy wylaczyc ramke dla poprzednio wybranej figury
             if (SelectedFigure != null)
                 SelectedFigure.adaptedPath.StrokeDashArray = null;
+            
             // dodanie ramki dla obecnie wybranej figury
             figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
 
             SelectedFigure = figure;
 
-
             // ustawienia pod wybrana figure
             BorderColorButton.Background = figure.adaptedPath.Stroke;
             FillColorButton.Background = figure.adaptedPath.Fill;
-            TransparencySlider.Value = figure.adaptedPath.Fill.Opacity * 100.0;
+            TransparencySlider.Value = figure.adaptedPath.Fill.Opacity;
             BorderThicknessySlider.Value = figure.adaptedPath.StrokeThickness;
         }
 
@@ -425,8 +429,8 @@ namespace NPaint
         }
         private void CursorButton_Click(object sender, RoutedEventArgs e)
         {
-            selectedFigureState = menuState;/////////////////////////////////
-            menuState = new BasicState();
+            //selectedFigureState = menuState;/////////////////////////////////
+            menuState = new CursorState();
         }
         private void SelectionButton_Click(object sender, RoutedEventArgs e)
         {
@@ -462,7 +466,7 @@ namespace NPaint
         {
             if (SelectedFigure != null)
             {
-                SelectedFigure.ChangeTransparency(TransparencySlider.Value / 100.0);
+                SelectedFigure.ChangeTransparency(TransparencySlider.Value);
             }
         }
 

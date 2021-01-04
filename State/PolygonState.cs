@@ -16,12 +16,7 @@ namespace NPaint.State
             ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
         }
 
-        public override void MouseMoveToMove(Point point)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MouseMoveToResize(Point point)
+        public override void MouseMove(Point point)
         {
             throw new NotImplementedException();
         }

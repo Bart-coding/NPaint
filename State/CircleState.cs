@@ -12,7 +12,7 @@ namespace NPaint.State
             Figure = (NCircle)shapeFactory.getFigure("Circle");
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
-            MouseMoveToResize(point);
+            MouseMove(point);
         }
 
         public override void MouseLeftButtonUp(Point point)
@@ -20,12 +20,7 @@ namespace NPaint.State
             ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
         }
 
-        public override void MouseMoveToMove(Point point)
-        {
-            Figure.MoveBy(point);
-        }
-
-        public override void MouseMoveToResize(Point point)
+        public override void MouseMove(Point point)
         {
             Figure.Resize(point);            
         }

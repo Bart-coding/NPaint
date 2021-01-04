@@ -96,9 +96,9 @@
                 </Grid.ColumnDefinitions>
 
                 <Label  Grid.Row="0" Grid.Column="0" FontSize="14">Transparency</Label>
-                <Slider Grid.Row="0" Grid.Column="1" Name="TransparencySlider" Width="300" VerticalAlignment="Center" Maximum="100" Value="0" ValueChanged="TransparencySlider_ValueChanged"/>
+                <Slider Grid.Row="0" Grid.Column="1" Name="TransparencySlider" Width="300" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="1" IsDirectionReversed="True" ValueChanged="TransparencySlider_ValueChanged"/>
                 <Label  Grid.Row="1" Grid.Column="0" FontSize="14">BorderThickness</Label>
-                <Slider Grid.Row="1" Grid.Column="1" Name="BorderThicknessySlider" Width="300" VerticalAlignment="Center" Maximum="100" Value="5" ValueChanged="BorderThicknessySlider_ValueChanged"/>
+                <Slider Grid.Row="1" Grid.Column="1" Name="BorderThicknessySlider" Width="300" VerticalAlignment="Center" Maximum="100" Minimum="0" Value="5" ValueChanged="BorderThicknessySlider_ValueChanged"/>
             </Grid>
 
             <Separator Grid.Row="4"/>

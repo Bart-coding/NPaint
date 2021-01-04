@@ -18,12 +18,7 @@ namespace NPaint.State
             return;
         }
 
-        public override void MouseMoveToMove(Point point)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MouseMoveToResize(Point point)
+        public override void MouseMove(Point point)
         {
             Figure.Resize(point);
         }
