@@ -62,5 +62,11 @@ namespace NPaint.Figures
             tmp.Y = (a.Y + b.Y) / 2;
             return tmp;
         }
+
+        public Point GetCenterPoint()//
+        {
+            EllipseGeometry tmp = this.adaptedGeometry as EllipseGeometry;
+            return tmp.Center;
+        }
     }
 }
