@@ -40,22 +40,17 @@ namespace NPaint
             
             RectangleGeometry rectangleG = new RectangleGeometry();
             Rect rect = new Rect();
-            //rect.X = 200;
-            //rect.Y = 100;
-            //rect.Width = 200;
-            //rect.Width = 200;
-            //rect.Height = 50;
+            rect.Width = 100;
+            rect.Height = 50;
             rectangleG.Rect = rect;
-            //rectangle.Rect = new Rect(100, 100, 200, 50);
             Path myPath = new Path();
-            myPath.Fill = Brushes.Red;
-            myPath.Stroke = Brushes.Black;
-            myPath.StrokeThickness = 2;
             myPath.Data = rectangleG;
+            string type = "Rectangle";
+            myPath.Tag = type;/////
             NRectangle rectangle = new NRectangle();
             rectangle.adaptedPath = myPath;
 
-            prototypedFigures.Add("Rectangle", rectangle);
+            prototypedFigures.Add(type, rectangle);
         }
 
         private void CreateSquarePrototype()
@@ -63,19 +58,17 @@ namespace NPaint
             
             RectangleGeometry squareG = new RectangleGeometry();
             Rect rect = new Rect();
-            rect.X = 200;//
-            rect.Y = 200;//
             rect.Width = 50;//
             rect.Height = 50;//
             squareG.Rect = rect;
-            //rectangle.Rect = new Rect(100, 100, 200, 50);
             Path myPath = new Path();
+            string type = "Square";
+            myPath.Tag = type;/////
             myPath.Data = squareG;
             NSquare square = new NSquare();
             square.adaptedPath = myPath;
-            //metoda do ustawienia domyslnej wielkosci
             
-            prototypedFigures.Add("Square", square);
+            prototypedFigures.Add(type, square);
         }
 
         private void CreateEllipsePrototype()
@@ -83,36 +76,33 @@ namespace NPaint
             
        
             EllipseGeometry ellipseGeometry = new EllipseGeometry();
-            ellipseGeometry.Center = new Point(20, 20);//
-            ellipseGeometry.RadiusX = 40;//
-            ellipseGeometry.RadiusY = 60;//
+            ellipseGeometry.RadiusX = 40;
+            ellipseGeometry.RadiusY = 60;
             Path myPath = new Path();
-            myPath.Fill = Brushes.Red;
-            myPath.Stroke = Brushes.Black;
-            myPath.StrokeThickness = 2;
+            string type = "Ellipse";
+            myPath.Tag = type;/////
             myPath.Data = ellipseGeometry;
 
             NEllipse ellipse = new NEllipse();
             ellipse.adaptedPath = myPath;
             
-            prototypedFigures.Add("Ellipse", ellipse);
+            prototypedFigures.Add(type, ellipse);
         }
 
         private void CreateCirclePrototype()
         {
             EllipseGeometry circleGeometry = new EllipseGeometry();
-            circleGeometry.Center = new Point(40, 40);//
             circleGeometry.RadiusX = 50;//
             circleGeometry.RadiusY = 50;//
             Path myPath = new Path();
-            myPath.Fill = Brushes.Red; //albo przy uzyciu metody circle
-            myPath.StrokeThickness = 2;
+            string type = "Circle";
+            myPath.Tag = type;/////
             myPath.Data = circleGeometry;
 
             NCircle circle = new NCircle();
             circle.adaptedPath = myPath;
             
-            prototypedFigures.Add("Circle", circle);
+            prototypedFigures.Add(type, circle);
         }
 
         private void CreateTrianglePrototype()
@@ -121,15 +111,16 @@ namespace NPaint
             PathGeometry pathGeometry = new PathGeometry();
             PathFigure pathFigure = new PathFigure();
             pathFigure.IsClosed = true;
-            pathFigure.StartPoint = new Point(50, 50); //na razie bez pktu poczatkowego
             
             pathFigure.Segments.Add(new LineSegment(new Point(50, 100), true)); //bez wielkosci
             pathFigure.Segments.Add(new LineSegment(new Point(100, 100), true));
             pathGeometry.Figures.Add(pathFigure);
+            string type = "Triangle";
+            myPath.Tag = type;/////
             myPath.Data = pathGeometry;
             NTriangle triangle = new NTriangle(myPath);
             
-            prototypedFigures.Add("Triangle", triangle);
+            prototypedFigures.Add(type, triangle);
         }
 
         private void CreatePolygonPrototype()/////

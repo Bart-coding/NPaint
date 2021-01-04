@@ -4,7 +4,7 @@ using NPaint.Figures;
 
 namespace NPaint.State
 {
-    class SquareState : MenuState
+    class SquareState : RectangleState //:MenuState
     {
         public override void MouseLeftButtonDown(Point point)
         {
@@ -13,6 +13,12 @@ namespace NPaint.State
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
             MouseMove(point);
+        }
+
+        public override void MouseLeftButtonUp(Point point)
+        {
+            base.MouseLeftButtonUp(point);
+            //((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
         }
 
         public override void MouseMove(Point point)

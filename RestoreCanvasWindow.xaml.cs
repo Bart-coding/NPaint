@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPaint.Memento;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -9,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using NPaint.Memento;
 
 namespace NPaint
 {
@@ -17,10 +19,18 @@ namespace NPaint
     /// </summary>
     public partial class RestoreCanvasWindow : Window
     {
+        
         public RestoreCanvasWindow()
         {
             InitializeComponent();
         }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
         private void Button_OK(object sender, RoutedEventArgs e)
         {
@@ -32,5 +42,6 @@ namespace NPaint
         {
             Close();
         }
+
     }
 }

@@ -10,11 +10,11 @@ namespace NPaint.Memento
         //Canvas State;
         String CanvasName;
 
-        public Memento(String CanvasName)//public Memento(Canvas State)
+        public Memento(String CanvasName)
         {
             this.CanvasName = CanvasName;
         }
-        public void SetState(String CanvasName)
+        public void SetState(String CanvasName)//być może niepotrzebne
         {
             this.CanvasName = CanvasName;
         }

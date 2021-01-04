@@ -18,6 +18,8 @@ namespace NPaint.Memento
 
         public Memento GetMemento(int index) // można dodać GetLastMemento
         {
+            if (index >= CanvasFiles.Count) return null;
+
             return CanvasFiles[index];
 
         }

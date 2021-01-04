@@ -13,6 +13,11 @@ namespace NPaint.State
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
         }
 
+        public override void MouseLeftButtonUp(Point point)
+        {
+            return;
+        }
+
         public override void MouseMove(Point point)
         {
             Figure.Resize(point);
