@@ -20,6 +20,7 @@ namespace NPaint
     public partial class MainWindow : Window
     {
         private MenuState menuState;
+        private MenuState selectedFigureState;//po to, by podczas BasicState mieć stan figury; można go resetować też po każdej zmianie stanu, ale niekoniecznie
         public Canvas canvas;
         private List<Figure> FigureList;///
         public FigureListClass FigureListClassObject;
@@ -176,8 +177,9 @@ namespace NPaint
                         {
                             pt.Y = 0 + (pt.Y - SelectedFigure.GetStartPoint().Y);
                         }
-                        //menuState.MouseMoveToMove(pt);
-                        SelectedFigure.MoveBy(pt);
+                        
+                       selectedFigureState.MouseMoveToMove(pt); //nie działa, bo menuState to BasicState
+                       // SelectedFigure.MoveBy(pt);
                         return;
                     }
                     if (menuState != null)
@@ -221,6 +223,10 @@ namespace NPaint
             if(menuState != null)
             {
                 menuState.MouseLeftButtonUp(e.GetPosition(canvas));
+            }
+            if (selectedFigureState != null)
+            {
+                selectedFigureState.MouseLeftButtonUp(e.GetPosition(canvas));
             }
             // zwolnienie myszy z Canvasa
             //Mouse.Capture(null);
@@ -419,6 +425,7 @@ namespace NPaint
         }
         private void CursorButton_Click(object sender, RoutedEventArgs e)
         {
+            selectedFigureState = menuState;/////////////////////////////////
             menuState = new BasicState();
         }
         private void SelectionButton_Click(object sender, RoutedEventArgs e)
@@ -516,7 +523,6 @@ namespace NPaint
                     while ((line = reader.ReadLine()) != null)
                     {
                         this.originator.SetMemento(line);
-                        MessageBox.Show(line);
                         this.caretaker.AddMemento(this.originator.CreateMemento());
                     }
                 }

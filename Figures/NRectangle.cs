@@ -19,8 +19,11 @@ namespace NPaint.Figures
         {
             // ustawienie srodka prostokata tam gdzie jest myszka
             // obliczenie polozenia prostokata na osi XY
-            double x = point.X - rect.Width / 2;
-            double y = point.Y - rect.Height / 2;
+           /*double x = point.X - rect.Width / 2;// => Działa, póki co zakomentowałem
+           double y = point.Y - rect.Height / 2;*/
+
+              double x = point.X;
+              double y = point.Y;
 
             // przypisanie wyliczonych wartosci do zmiennej
             rect.X = x;
