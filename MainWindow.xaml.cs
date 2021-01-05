@@ -4,11 +4,13 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.TextFormatting;
 using System.Xml.Serialization;
 using NPaint.Figures;
 using NPaint.Memento;
@@ -176,11 +178,12 @@ namespace NPaint
                     if (SelectedFigure != null)
                     {
                         Point pt = e.GetPosition(canvas);
-                        if (pt.Y < 0 + (pt.Y - SelectedFigure.GetStartPoint().Y))//nie wiem dlaczego nie działa
+                        /*CursorState tmpCursor = menuState as CursorState;//
+                        if (pt.Y < 0 + (pt.Y - tmpCursor.lengthShift))
                         {
-                            pt.Y = 0 + (pt.Y - SelectedFigure.GetStartPoint().Y);
-                        }
-                        
+                            pt.Y = 0 + (pt.Y - tmpCursor.lengthShift);
+                        }*/
+
                        menuState.MouseMove(pt); //nie działało, bo menuState to BasicState
                        // SelectedFigure.MoveBy(pt);
                         return;
@@ -337,9 +340,12 @@ namespace NPaint
                 canvas.Children.Remove(ObservableFigure.adaptedPath);
 
             ObservableFigure = figure as ObservableFigure;
+            //SetSelectedFigure(ObservableFigure);//możnaby też tworzyć fabryką
 
             // dodanie go do canvasa, zeby byl widoczny
             canvas.Children.Add(figure.adaptedPath);
+
+            //FigureList.Add(figure);//Test*********
         }
         public void AddFigure(Figure figure)
         {
@@ -361,7 +367,6 @@ namespace NPaint
                 FigureList.Remove(SelectedFigure);
                 SelectedFigure = null;
             }
-            //SaveFigureListTest();////////////////////////////////USUN
         }
         public List<Figure> GetFigureList()
         {
@@ -435,7 +440,34 @@ namespace NPaint
 
             menuState = (MenuState)Activator.CreateInstance(type);
         }
-
+        private void EllipseButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetSelectedFigure();
+            ResetObservableFigure();
+            menuState = new EllipseState();
+        }
+        private void RectangleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetSelectedFigure();
+            ResetObservableFigure();
+            menuState = new RectangleState();
+        }
+        private void PolygonButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetSelectedFigure();
+            ResetObservableFigure();
+            menuState = new PolygonState();
+        }
+        private void CursorButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetObservableFigure();
+            menuState = new CursorState();
+        }
+        private void SelectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetSelectedFigure();
+            menuState = new SelectionState();
+        }
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
