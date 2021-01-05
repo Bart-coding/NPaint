@@ -242,6 +242,15 @@ namespace NPaint
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             ResetSelectedFigure();
+            ResetObservableFigure();
+        }
+        private void ResetObservableFigure()
+        {
+            if(ObservableFigure != null)
+            {
+                canvas.Children.Remove(ObservableFigure.adaptedPath);
+                ObservableFigure = null;
+            }
         }
 
         private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
@@ -330,24 +339,14 @@ namespace NPaint
 
         public void AddObservable(Figure figure)
         {
-            // jezeli mamy juz narysowanego obserwatora to chcemy go usunac
-            ObservableFigure observable = new ObservableFigure();
-            foreach (Figure f in FigureList)
-            {
-                // jezeli natrafilismy na obiekt/figure obserwowanego
-                if (f.GetType() == typeof(ObservableFigure))
-                {
-                    observable = f as ObservableFigure;
-                    break;
-                }
-            }
-            // usuniecie starego obserwowanego
-            FigureList.Remove(observable);
-            canvas.Children.Remove(observable.adaptedPath);
+            // musimy usunac starego obserwowanego z canvasa
+            if(ObservableFigure != null)
+                canvas.Children.Remove(ObservableFigure.adaptedPath);
 
-            // dodanie nowej figury
+            ObservableFigure = figure as ObservableFigure;
+
+            // dodanie go do canvasa, zeby byl widoczny
             canvas.Children.Add(figure.adaptedPath);
-            FigureList.Add(figure);
         }
         public void AddFigure(Figure figure)
         {
@@ -434,7 +433,6 @@ namespace NPaint
         }
         private void CursorButton_Click(object sender, RoutedEventArgs e)
         {
-            //selectedFigureState = menuState;/////////////////////////////////
             menuState = new CursorState();
         }
         private void SelectionButton_Click(object sender, RoutedEventArgs e)

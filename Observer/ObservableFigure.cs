@@ -35,13 +35,26 @@ namespace NPaint.Observer
         {
             foreach(Figure figure in Observers)
             {
-                figure.MoveBy(point);
+                // poki co to nie przejdzie, przez te shifty
+                //figure.MoveBy(point);
+
+                // a to do sprawdzania jakie figury sie zaznaczyly
+                figure.ChangeFillColor(Brushes.Azure);
             }
         }
         public override void MoveBy(Point point)
         {
-            throw new NotImplementedException();
-            //Notify(point);
+            // poki co to nie przejdzie, przez te shifty
+            //base.MoveBy(point);
+            Notify(point);
+        }
+        public bool Contains(Figure figure)
+        {
+            // poki co zaznaczam wszystkie figury ktore sa prostokatami
+            if (figure.GetType() == typeof(NRectangle))
+                return true;
+            else
+                return false;
         }
     }
 }
