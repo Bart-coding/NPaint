@@ -12,35 +12,23 @@ namespace NPaint.State
         double widthShift, lengthShift = 0;
         public override void MouseLeftButtonDown(Point point)
         {
-            UIElementCollection FiguresPath = ((MainWindow)Application.Current.MainWindow).canvas.Children;
-            Path CLickedFigurePath = null;
+            // pobranie listy figur z MainWindow
+            List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
+            Figure CLickedFigure = null;
 
             // przechodzimy po wszystkich dzieciach canvasa
-            foreach (UIElement figure in FiguresPath)
+            foreach (Figure figure in figures)
             {
-                if (figure.IsMouseOver)  // jezeli najechalismy myszka na figure
+                if (figure.adaptedPath.IsMouseOver)  // jezeli najechalismy myszka na figure
                 {
-                    CLickedFigurePath = figure as Path; // wlasciwie to znalezlismy Path dodana do canvasa
-
-                    // pobranie listy figur z MainWindow
-                    List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
-
-                    // znajdujemy figure na podstawie kliknietego path
-                    foreach (Figure f in figures)
-                    {
-                        if (f.adaptedPath.Equals(CLickedFigurePath))
-                        {
-                            // przypisanie obecnie wybranej figury w MainWindow
-                            ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(f);
-                            Figure = f; // przypisanie obecnie wybranej figury do naszego Stanu
-                            break; // przerywamy, bo juz znalezlismy figure zawieracjaca dana zmienna path
-                        }
-                    }
+                    CLickedFigure = figure; // wlasciwie to znalezlismy Path dodana do canvasa
+                    ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(figure);
+                    Figure = figure; // przypisanie obecnie wybranej figury do naszego Stanu
                     break; // przerywamy, bo juz znalezlismy kliknieta figure
                 }
             }
             // jezeli kliknelismy gdzies indziej niz w figure
-            if (CLickedFigurePath == null)
+            if (CLickedFigure == null)
             {
                 ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
                 Figure = null;
