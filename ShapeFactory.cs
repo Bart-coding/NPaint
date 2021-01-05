@@ -115,10 +115,12 @@ namespace NPaint
             pathFigure.Segments.Add(new LineSegment(new Point(50, 100), true)); //bez wielkosci
             pathFigure.Segments.Add(new LineSegment(new Point(100, 100), true));
             pathGeometry.Figures.Add(pathFigure);
+
             string type = "Triangle";
-            myPath.Tag = type;/////
+            myPath.Tag = type;
             myPath.Data = pathGeometry;
-            NTriangle triangle = new NTriangle(myPath);
+            NTriangle triangle = new NTriangle();
+            triangle.adaptedPath = myPath;
             
             prototypedFigures.Add(type, triangle);
         }

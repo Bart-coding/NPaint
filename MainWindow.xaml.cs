@@ -1,8 +1,4 @@
-﻿using NPaint.Figures;
-using NPaint.Memento;
-using NPaint.Observer;
-using NPaint.State;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -14,7 +10,10 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml.Serialization;
-
+using NPaint.Figures;
+using NPaint.Memento;
+using NPaint.Observer;
+using NPaint.State;
 
 namespace NPaint
 {
@@ -155,13 +154,12 @@ namespace NPaint
         }
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz wyczyścić Canvas", "Usuń pracę", System.Windows.MessageBoxButton.YesNo);
 
-            if (messageBoxResult == MessageBoxResult.Yes)
-            {
-                //this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
-                this.canvas.Children.Clear();
-            }
+            //this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
+
+            this.canvas.Children.Clear();
+
+            MessageBox.Show("Wyczyszczono Canvas");
 
             //this.RestoreLastCanvas();
         }
@@ -263,6 +261,7 @@ namespace NPaint
                 }
                 this.originator.SetMemento(fileName);
                 this.caretaker.AddMemento(this.originator.CreateMemento());
+                MessageBox.Show("Zapisano Canvas :)");
             }
             catch (Exception e)
             {
@@ -279,6 +278,7 @@ namespace NPaint
                 using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
                 {
                     CanvasString = sr.ReadToEnd();
+
                 }
 
                 Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
@@ -288,6 +288,8 @@ namespace NPaint
                 canvas = oldCanvas;
                 SetCanvas();
                 FigureList = RestoreFigureListTest(canvas.Children);///////////
+
+                MessageBox.Show("Przywrócono poprzedni Canvas :)");
             }
             catch (IOException e)
             {
@@ -305,6 +307,7 @@ namespace NPaint
                 using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
                 {
                     CanvasString = sr.ReadToEnd();
+
                 }
 
                 Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
@@ -314,6 +317,8 @@ namespace NPaint
                 canvas = oldCanvas;
                 SetCanvas();
                 FigureList = RestoreFigureListTest(canvas.Children);///////////
+
+                MessageBox.Show("Przywrócono poprzedni Canvas :)");
             }
             catch (IOException e)
             {
@@ -414,7 +419,6 @@ namespace NPaint
             RemoveButton.Background = Brushes.White;
             ClearButton.Background = Brushes.White;
         }
-
         private void AfterClick(object sender)
         {
             ResetSelectedFigure();
@@ -423,7 +427,6 @@ namespace NPaint
             Button button = sender as Button;
             button.Background = Brushes.Gray;
         }
-
         private void Tool_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
@@ -432,11 +435,10 @@ namespace NPaint
 
             menuState = (MenuState)Activator.CreateInstance(type);
         }
-       
+
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-
             BorderColorButton.Background = button.Background;
 
             if (SelectedFigure != null)
@@ -444,7 +446,6 @@ namespace NPaint
                 SelectedFigure.ChangeBorderColor(button.Background);
             }
         }
-
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
             Button button = sender as Button;
