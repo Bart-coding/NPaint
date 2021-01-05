@@ -14,6 +14,7 @@ using NPaint.Figures;
 using NPaint.Memento;
 using NPaint.Observer;
 using NPaint.State;
+using Unity.Policy;
 
 namespace NPaint
 {
@@ -401,70 +402,62 @@ namespace NPaint
             }
         }
 
-        private void CircleButton_Click(object sender, RoutedEventArgs e)
+        private void ResetButtonsBackgrounds()
+        {
+            CircleButton.Background = Brushes.White;
+            EllipseButton.Background = Brushes.White;
+            SquareButton.Background = Brushes.White;
+            RectangleButton.Background = Brushes.White;
+            TriangleButton.Background = Brushes.White;
+            PolygonButton.Background = Brushes.White;
+            CursorButton.Background = Brushes.White;
+            MarkingButton.Background = Brushes.White;
+            PlusSizeButton.Background = Brushes.White;
+            MinusSizeButton.Background = Brushes.White;
+            RemoveButton.Background = Brushes.White;
+            ClearButton.Background = Brushes.White;
+        }
+
+        private void AfterClick(object sender)
         {
             ResetSelectedFigure();
             ResetObservableFigure();
-            menuState = new CircleState();
+            ResetButtonsBackgrounds();
+            Button button = sender as Button;
+            button.Background = Brushes.Gray;
         }
-        private void SquareButton_Click(object sender, RoutedEventArgs e)
+
+        private void Tool_Click(object sender, RoutedEventArgs e)
         {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new SquareState();
+            AfterClick(sender);
+
+            Type type = Type.GetType("NPaint.State." + (sender as Button).Tag.ToString());
+
+            menuState = (MenuState)Activator.CreateInstance(type);
         }
-        private void TriangleButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new TriangleState();
-        }
-        private void EllipseButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new EllipseState();
-        }
-        private void RectangleButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new RectangleState();
-        }
-        private void PolygonButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new PolygonState();
-        }
-        private void CursorButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetObservableFigure();
-            menuState = new CursorState();
-        }
-        private void SelectionButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            menuState = new SelectionState();
-        }
+
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             BorderColorButton.Background = button.Background;
+
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeBorderColor(button.Background);
             }
         }
+
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
             Button button = sender as Button;
             FillColorButton.Background = button.Background;
+
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeFillColor(button.Background);
             }
         }
+
         private void BorderThicknessySlider_ValueChanged(object sender, RoutedEventArgs e)
         {
             if(SelectedFigure != null)
@@ -472,6 +465,7 @@ namespace NPaint
                 SelectedFigure.ChangeBorderThickness(BorderThicknessySlider.Value);
             }
         }
+
         private void TransparencySlider_ValueChanged(object sender, RoutedEventArgs e)
         {
             if (SelectedFigure != null)
@@ -480,20 +474,11 @@ namespace NPaint
             }
         }
 
-        private void TestShapeFactory()
-        {
-            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
-            NSquare nSquare = (NSquare)shapeFactory.getFigure("Square");
-            canvas.Children.Add(nSquare.adaptedPath);
-            NEllipse nEllipse = (NEllipse)shapeFactory.getFigure("Ellipse");
-            canvas.Children.Add(nEllipse.adaptedPath);
-            NCircle nCircle = (NCircle)shapeFactory.getFigure("Circle");
-            canvas.Children.Add(nCircle.adaptedPath);
-        }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             CanvasNameWindow canvasNameWindow = new CanvasNameWindow();
             string canvasName;
+
             if (true == canvasNameWindow.ShowDialog())
             {
                 canvasName = canvasNameWindow.nameBox.Text;
@@ -504,36 +489,43 @@ namespace NPaint
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow();
+
             for (int i = 0; ; i++)
             {
                 Memento.Memento memento = this.caretaker.GetMemento(i);
+
                 if (memento != null)
                 {
                     String canvasName = this.originator.restoreFromMemento(memento);
                     restoreCanvasWindow.canvasNameListbox.Items.Add(canvasName);
-
                 }
                 else
+                {
                     break;
-                
+                }
             }
+
             if (true == restoreCanvasWindow.ShowDialog())
             {
                 this.RestoreCanvas(restoreCanvasWindow.canvasNameListbox.SelectedIndex);
             }
         }
+
         private void RestoreCaretaker()
         {
             if (!File.Exists(this.canvasListFilePath))
             {
                 FileStream fs = File.Create(this.canvasListFilePath);
+
                 return;
             }
+
             if (new FileInfo(this.canvasListFilePath).Length != 0)
             {
                 using (StreamReader reader = new StreamReader(this.canvasListFilePath))
                 {
                     string line;
+
                     while ((line = reader.ReadLine()) != null)
                     {
                         this.originator.SetMemento(line);
