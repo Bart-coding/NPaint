@@ -1,22 +1,20 @@
-﻿using System;
+﻿using NPaint.Figures;
+using NPaint.Memento;
+using NPaint.Observer;
+using NPaint.State;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.TextFormatting;
 using System.Xml.Serialization;
-using NPaint.Figures;
-using NPaint.Memento;
-using NPaint.Observer;
-using NPaint.State;
-using Unity.Policy;
+
 
 namespace NPaint
 {
@@ -157,12 +155,13 @@ namespace NPaint
         }
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz wyczyścić Canvas", "Usuń pracę", System.Windows.MessageBoxButton.YesNo);
 
-            //this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
-
-            this.canvas.Children.Clear();
-
-            MessageBox.Show("Wyczyszczono Canvas");
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                //this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
+                this.canvas.Children.Clear();
+            }
 
             //this.RestoreLastCanvas();
         }
@@ -264,7 +263,6 @@ namespace NPaint
                 }
                 this.originator.SetMemento(fileName);
                 this.caretaker.AddMemento(this.originator.CreateMemento());
-                MessageBox.Show("Zapisano Canvas :)");
             }
             catch (Exception e)
             {
@@ -281,7 +279,6 @@ namespace NPaint
                 using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
                 {
                     CanvasString = sr.ReadToEnd();
-
                 }
 
                 Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
@@ -291,8 +288,6 @@ namespace NPaint
                 canvas = oldCanvas;
                 SetCanvas();
                 FigureList = RestoreFigureListTest(canvas.Children);///////////
-
-                MessageBox.Show("Przywrócono poprzedni Canvas :)");
             }
             catch (IOException e)
             {
@@ -310,7 +305,6 @@ namespace NPaint
                 using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
                 {
                     CanvasString = sr.ReadToEnd();
-
                 }
 
                 Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
@@ -320,8 +314,6 @@ namespace NPaint
                 canvas = oldCanvas;
                 SetCanvas();
                 FigureList = RestoreFigureListTest(canvas.Children);///////////
-
-                MessageBox.Show("Przywrócono poprzedni Canvas :)");
             }
             catch (IOException e)
             {
@@ -440,37 +432,11 @@ namespace NPaint
 
             menuState = (MenuState)Activator.CreateInstance(type);
         }
-        private void EllipseButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new EllipseState();
-        }
-        private void RectangleButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new RectangleState();
-        }
-        private void PolygonButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new PolygonState();
-        }
-        private void CursorButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetObservableFigure();
-            menuState = new CursorState();
-        }
-        private void SelectionButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            menuState = new SelectionState();
-        }
+       
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
+
             BorderColorButton.Background = button.Background;
 
             if (SelectedFigure != null)
