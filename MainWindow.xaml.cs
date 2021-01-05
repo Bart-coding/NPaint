@@ -4,19 +4,16 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.TextFormatting;
 using System.Xml.Serialization;
 using NPaint.Figures;
 using NPaint.Memento;
 using NPaint.Observer;
 using NPaint.State;
-using Unity.Policy;
 
 namespace NPaint
 {
@@ -422,7 +419,6 @@ namespace NPaint
             RemoveButton.Background = Brushes.White;
             ClearButton.Background = Brushes.White;
         }
-
         private void AfterClick(object sender)
         {
             ResetSelectedFigure();
@@ -431,7 +427,6 @@ namespace NPaint
             Button button = sender as Button;
             button.Background = Brushes.Gray;
         }
-
         private void Tool_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
@@ -440,34 +435,7 @@ namespace NPaint
 
             menuState = (MenuState)Activator.CreateInstance(type);
         }
-        private void EllipseButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new EllipseState();
-        }
-        private void RectangleButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new RectangleState();
-        }
-        private void PolygonButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            ResetObservableFigure();
-            menuState = new PolygonState();
-        }
-        private void CursorButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetObservableFigure();
-            menuState = new CursorState();
-        }
-        private void SelectionButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetSelectedFigure();
-            menuState = new SelectionState();
-        }
+
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -478,7 +446,6 @@ namespace NPaint
                 SelectedFigure.ChangeBorderColor(button.Background);
             }
         }
-
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
             Button button = sender as Button;
