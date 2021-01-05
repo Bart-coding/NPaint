@@ -18,6 +18,7 @@ namespace NPaint.State
                 if (Figure.adaptedPath.IsMouseOver)
                 {
                     ToMove = true;
+
                     return;
                 }
             }
@@ -26,6 +27,10 @@ namespace NPaint.State
             Figure = new ObservableFigure();
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).AddObservable(Figure);
+            /*ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();//*Pewnie lepiej fabryką prostokątów
+            Figure = (NRectangle)shapeFactory.getFigure("Rectangle");*/
+
+            //MouseMove(point);//Test*******
             ToMove = false;
         }
 
@@ -40,7 +45,7 @@ namespace NPaint.State
             // przechodzimy po wszystkich figurach
             foreach (Figure figure in figures)
             {
-                if (tmp.Contains(figure))   // jezeli obserwowany obejmuje dana figure
+                if (tmp.Contains(figure) /*Added*/ && figure!=this.Figure)   // jezeli obserwowany obejmuje dana figure
                 {
                     tmp.Attach(figure);     // dodajemy dana figure do listy obserwatorow
                 }

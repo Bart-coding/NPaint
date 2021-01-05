@@ -7,7 +7,7 @@ namespace NPaint.State
 {
     class RectangleState : MenuState
     {
-        double widthShift, lengthShift = 0;
+        //double widthShift, lengthShift = 0;
         public override void MouseLeftButtonDown(Point point)
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
@@ -20,8 +20,8 @@ namespace NPaint.State
         public override void MouseLeftButtonUp(Point point)
         {
             ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
-            lengthShift = 0;
-            widthShift = 0;
+            /*lengthShift = 0;
+            widthShift = 0;*/
         }
 
         public override void MouseMove(Point point)

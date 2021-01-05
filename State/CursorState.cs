@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using NPaint.Figures;
+using NPaint.Observer;
 
 namespace NPaint.State
 {
@@ -12,6 +13,13 @@ namespace NPaint.State
         double widthShift, lengthShift = 0;
         public override void MouseLeftButtonDown(Point point)
         {
+            // jezeli kliknelismy w ta sama figure co poprzednio
+            if (Figure != null && Figure.adaptedPath.IsMouseOver)
+            {
+                ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
+                return;
+            }
+
             // pobranie listy figur z MainWindow
             List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
 
@@ -26,43 +34,64 @@ namespace NPaint.State
                     return; // przerywamy, bo juz znalezlismy kliknieta figure
                 }
             }
+
             // jezeli kliknelismy gdzies indziej niz w figure
             ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
             Figure = null;
         }
 
         public override void MouseLeftButtonUp(Point point)
-        {
-            lengthShift = 0;
-            widthShift = 0;
-        }
+            {
+                lengthShift = 0;
+                widthShift = 0;
+            }
 
         public override void MouseMove(Point point)
         {
             if(Figure != null)
             {
                 // gdy przesuwamy prostokat lub kwadrat
-                if (Figure.GetType() == typeof(NRectangle) || Figure.GetType() == typeof(NSquare))
+                if (Figure.GetType() == typeof(NRectangle) || Figure.GetType() == typeof(NSquare) ||/*optionally*/ Figure.GetType() == typeof(ObservableFigure))
                 {
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
                         lengthShift = point.Y - Figure.GetStartPoint().Y; //stała odległość myszki od środka figury
                         widthShift = point.X - Figure.GetStartPoint().X;
+
+                        
+                    }
+                    point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
+                    point.X -= widthShift;
+                    //Zabezpieczenie przed umieszczeniem figury na Menu
+                    if (point.Y < 0 + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
+                    {
+                        point.Y = 0 + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
                     }
                 }
                 else if (Figure.GetType() == typeof(NEllipse) || Figure.GetType() == typeof(NCircle))
                 {
+                    dynamic f_tmp = Figure;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        dynamic f_tmp = Figure;
+                        //dynamic f_tmp = Figure;
                         Point center = f_tmp.GetCenterPoint();
                         lengthShift = point.Y - center.Y; //stała odległość myszki od środka figury
                         widthShift = point.X - center.X;
+
+                        
                     }
-                    
+                    point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
+                    point.X -= widthShift;
+                    //Zabezpieczenie przed umieszczeniem figury na Menu
+                    if (point.Y < f_tmp.adaptedGeometry.RadiusY + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
+                    {
+                        point.Y = f_tmp.adaptedGeometry.RadiusY + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
+                    }
+
                 }
-                point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
-                point.X -= widthShift;
+
+                
+
                 Figure.MoveBy(point);
             }
         }
