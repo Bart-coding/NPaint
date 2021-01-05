@@ -24,5 +24,10 @@ namespace NPaint.Figures
         {
             throw new System.NotImplementedException();
         }
+
+        protected override void SetPointCollection()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

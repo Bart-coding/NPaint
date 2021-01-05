@@ -18,6 +18,10 @@ namespace NPaint.Figures
         protected Point startPoint;
         protected PointCollection PointsList;
 
+        public Figure()
+        {
+            PointsList = new PointCollection();
+        }
         public void ChangeFillColor(Brush brush)
         {
             adaptedPath.Fill = brush;
@@ -50,11 +54,16 @@ namespace NPaint.Figures
             return startPoint;
         }
 
+        public PointCollection GetPointCollection()
+        {
+            return PointsList;
+        }
+
+        protected abstract void SetPointCollection();
 
         public abstract void MoveBy(Point point);
 
         public abstract void Resize(Point point);
-
 
         public object Clone()
         {

@@ -10,7 +10,7 @@ namespace NPaint.Figures
     class NEllipse : Figure
     {
         protected Point CenterPoint;
-        public NEllipse()
+        public NEllipse() : base()
         {
             adaptedPath = new Path();
             adaptedGeometry = new EllipseGeometry();
@@ -35,6 +35,8 @@ namespace NPaint.Figures
 
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
         }
 
         public override void Resize(Point point)
@@ -54,6 +56,8 @@ namespace NPaint.Figures
 
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
         }
         protected Point MidPoint(Point a, Point b)
         {
@@ -67,6 +71,14 @@ namespace NPaint.Figures
         {
             EllipseGeometry tmp = this.adaptedGeometry as EllipseGeometry;
             return tmp.Center;
+        }
+
+        protected override void SetPointCollection()
+        {
+            // do zaznaczania elipsy wystarcza dwa rogi
+            Rect rect = ((EllipseGeometry)adaptedGeometry).Bounds;  // protokat w ktory wpisana jest elipsa
+            PointsList.Insert(0, rect.TopLeft);     // lewy gorny
+            PointsList.Insert(1, rect.BottomRight); // prawy dolny
         }
     }
 }

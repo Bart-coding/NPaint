@@ -24,6 +24,8 @@ namespace NPaint.Observer
         public void Attach(Figure figure)
         {
             Observers.Add(figure);
+            // a to do sprawdzania jakie figury sie zaznaczyly
+            figure.ChangeFillColor(Brushes.Silver);
         }
 
         public void Detach(Figure figure)
@@ -37,24 +39,34 @@ namespace NPaint.Observer
             {
                 // poki co to nie przejdzie, przez te shifty
                 //figure.MoveBy(point);
-
-                // a to do sprawdzania jakie figury sie zaznaczyly
-                figure.ChangeFillColor(Brushes.Azure);
             }
         }
         public override void MoveBy(Point point)
         {
             // poki co to nie przejdzie, przez te shifty
             //base.MoveBy(point);
-            Notify(point);
+            //Notify(point);
         }
         public bool Contains(Figure figure)
         {
-            // poki co zaznaczam wszystkie figury ktore sa prostokatami
-            if (figure.GetType() == typeof(NRectangle))
-                return true;
-            else
+            PointCollection points = figure.GetPointCollection();
+            // poki wszystkie figury nie maja ustalonej PointCollection
+            if (points.Count == 0)
                 return false;
+            foreach (Point point in points)
+            {
+                // jezeli zaznaczenie nie zawiera danego punktu figury to zwracamy falsz
+                if(!this.rect.Contains(point))
+                {
+                    return false;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            // jezeli przeszlo po wszystkich punktach i nie zwrocilo falszu tzn. ze wszystkie punkty sie zawieraja w zaznaczeniu
+            return true;
         }
     }
 }

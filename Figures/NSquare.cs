@@ -39,6 +39,8 @@ namespace NPaint.Figures
 
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
         }
     }
 }

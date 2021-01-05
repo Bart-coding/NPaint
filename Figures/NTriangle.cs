@@ -66,7 +66,18 @@ namespace NPaint.Figures
             point2.X = MidPointX(point.X,startPoint.X);
             point2.Y = Math.Min(point.Y, startPoint.Y);
             line2.Point = point2;
+
+            SetPointCollection();
         }
+
+        protected override void SetPointCollection()
+        {
+            // do zaznaczenia trojkata potrzebne sa wszystkie 3 wierzcholki
+            PointsList.Insert(0, PathFigure.StartPoint);    // lewy dolny
+            PointsList.Insert(1, line1.Point);              // prawy dolny
+            PointsList.Insert(2, line2.Point);              // gorny
+        }
+
         private double MidPointX(double a, double b)
         {
             double tmp;

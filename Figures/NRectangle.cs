@@ -9,7 +9,7 @@ namespace NPaint.Figures
     class NRectangle : Figure
     {
         protected Rect rect;
-        public NRectangle()
+        public NRectangle() : base()
         {
             adaptedPath = new Path();
             adaptedGeometry = new RectangleGeometry();
@@ -41,6 +41,8 @@ namespace NPaint.Figures
 
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
         }
 
         public override void Resize(Point point)
@@ -58,6 +60,15 @@ namespace NPaint.Figures
 
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
+        }
+
+        protected override void SetPointCollection()
+        {
+            // do zaznaczania prostokata wystarcza dwa rogi
+            PointsList.Insert(0, rect.TopLeft);     // lewy gorny
+            PointsList.Insert(1, rect.BottomRight); // prawy dolny
         }
     }
 }
