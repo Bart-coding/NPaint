@@ -14,25 +14,21 @@ namespace NPaint.State
         {
             // pobranie listy figur z MainWindow
             List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
-            Figure CLickedFigure = null;
 
-            // przechodzimy po wszystkich dzieciach canvasa
+            // przechodzimy po wszystkich figurach
             foreach (Figure figure in figures)
             {
                 if (figure.adaptedPath.IsMouseOver)  // jezeli najechalismy myszka na figure
                 {
-                    CLickedFigure = figure; // wlasciwie to znalezlismy Path dodana do canvasa
+                    // wlasciwie to znalezlismy Path dodana do canvasa
                     ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(figure);
                     Figure = figure; // przypisanie obecnie wybranej figury do naszego Stanu
-                    break; // przerywamy, bo juz znalezlismy kliknieta figure
+                    return; // przerywamy, bo juz znalezlismy kliknieta figure
                 }
             }
             // jezeli kliknelismy gdzies indziej niz w figure
-            if (CLickedFigure == null)
-            {
-                ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
-                Figure = null;
-            }
+            ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
+            Figure = null;
         }
 
         public override void MouseLeftButtonUp(Point point)
