@@ -244,14 +244,6 @@ namespace NPaint
             ResetSelectedFigure();
             ResetObservableFigure();
         }
-        private void ResetObservableFigure()
-        {
-            if(ObservableFigure != null)
-            {
-                canvas.Children.Remove(ObservableFigure.adaptedPath);
-                ObservableFigure = null;
-            }
-        }
 
         private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
         {
@@ -400,39 +392,54 @@ namespace NPaint
             TransparencySlider.Value = figure.adaptedPath.Fill.Opacity;
             BorderThicknessySlider.Value = figure.adaptedPath.StrokeThickness;
         }
+        private void ResetObservableFigure()
+        {
+            if (ObservableFigure != null)
+            {
+                canvas.Children.Remove(ObservableFigure.adaptedPath);
+                ObservableFigure = null;
+            }
+        }
 
         private void CircleButton_Click(object sender, RoutedEventArgs e)
         {
             ResetSelectedFigure();
+            ResetObservableFigure();
             menuState = new CircleState();
         }
         private void SquareButton_Click(object sender, RoutedEventArgs e)
         {
             ResetSelectedFigure();
+            ResetObservableFigure();
             menuState = new SquareState();
         }
         private void TriangleButton_Click(object sender, RoutedEventArgs e)
         {
             ResetSelectedFigure();
+            ResetObservableFigure();
             menuState = new TriangleState();
         }
         private void EllipseButton_Click(object sender, RoutedEventArgs e)
         {
             ResetSelectedFigure();
+            ResetObservableFigure();
             menuState = new EllipseState();
         }
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
         {
             ResetSelectedFigure();
+            ResetObservableFigure();
             menuState = new RectangleState();
         }
         private void PolygonButton_Click(object sender, RoutedEventArgs e)
         {
             ResetSelectedFigure();
+            ResetObservableFigure();
             menuState = new PolygonState();
         }
         private void CursorButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetObservableFigure();
             menuState = new CursorState();
         }
         private void SelectionButton_Click(object sender, RoutedEventArgs e)
