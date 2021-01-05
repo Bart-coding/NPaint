@@ -7,38 +7,38 @@ using NPaint.Figures;
 using NPaint.Observer;
 
 namespace NPaint.State
+{
+    class CursorState : MenuState
     {
-        class CursorState : MenuState
+        double widthShift, lengthShift = 0;
+        public override void MouseLeftButtonDown(Point point)
         {
-            double widthShift, lengthShift = 0;
-            public override void MouseLeftButtonDown(Point point)
-            {
-                // pobranie listy figur z MainWindow
-                List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
-
             if (Figure != null && Figure.adaptedPath.IsMouseOver)
             {
                 return;
             }
-            
+
+            // pobranie listy figur z MainWindow
+            List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
+
+            // przechodzimy po wszystkich dzieciach canvasa
             // przechodzimy po wszystkich figurach
             foreach (Figure figure in figures)
+            {
+                if (figure.adaptedPath.IsMouseOver)  // jezeli najechalismy myszka na figure
                 {
-                    if (figure.adaptedPath.IsMouseOver)  // jezeli najechalismy myszka na figure
-                    {
-                                                // wlasciwie to znalezlismy Path dodana do canvasa
-                        ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(figure);
-                        Figure = figure; // przypisanie obecnie wybranej figury do naszego Stanu
-                        return; // przerywamy, bo juz znalezlismy kliknieta figure
-                    }
+                    // wlasciwie to znalezlismy Path dodana do canvasa
+                    ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(figure);
+                    Figure = figure; // przypisanie obecnie wybranej figury do naszego Stanu
+                    return; // przerywamy, bo juz znalezlismy kliknieta figure
                 }
-                // jezeli kliknelismy gdzies indziej niz w figure
-                
-                ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
-                Figure = null;
             }
+            // jezeli kliknelismy gdzies indziej niz w figure
+                ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
+            Figure = null;
+        }
 
-            public override void MouseLeftButtonUp(Point point)
+        public override void MouseLeftButtonUp(Point point)
             {
                 lengthShift = 0;
                 widthShift = 0;
@@ -49,7 +49,7 @@ namespace NPaint.State
             if(Figure != null)
             {
                 // gdy przesuwamy prostokat lub kwadrat
-                if (Figure.GetType() == typeof(NRectangle) || Figure.GetType() == typeof(NSquare) ||/*added*/ Figure.GetType() == typeof(ObservableFigure))
+                if (Figure.GetType() == typeof(NRectangle) || Figure.GetType() == typeof(NSquare) ||/*optionally*/ Figure.GetType() == typeof(ObservableFigure))
                 {
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {

@@ -444,7 +444,7 @@ namespace NPaint
         }
         private void CursorButton_Click(object sender, RoutedEventArgs e)
         {
-            //ResetObservableFigure(); Test, żeby umożliwić przesuwanie Obserwowanego
+            //ResetObservableFigure();/**************Zakom. dla testu -- dla rysowania obserwowanego
             menuState = new CursorState();
         }
         private void SelectionButton_Click(object sender, RoutedEventArgs e)
