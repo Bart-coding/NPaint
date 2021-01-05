@@ -13,15 +13,16 @@ namespace NPaint.State
         double widthShift, lengthShift = 0;
         public override void MouseLeftButtonDown(Point point)
         {
+            // jezeli kliknelismy w ta sama figure co poprzednio
             if (Figure != null && Figure.adaptedPath.IsMouseOver)
             {
+                ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
                 return;
             }
 
             // pobranie listy figur z MainWindow
             List<Figure> figures = ((MainWindow)Application.Current.MainWindow).GetFigureList();
 
-            // przechodzimy po wszystkich dzieciach canvasa
             // przechodzimy po wszystkich figurach
             foreach (Figure figure in figures)
             {
@@ -33,8 +34,9 @@ namespace NPaint.State
                     return; // przerywamy, bo juz znalezlismy kliknieta figure
                 }
             }
+
             // jezeli kliknelismy gdzies indziej niz w figure
-                ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
+            ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
             Figure = null;
         }
 
