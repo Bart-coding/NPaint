@@ -11,6 +11,7 @@ namespace NPaint.State
     class CursorState : MenuState
     {
         double widthShift, lengthShift = 0;
+        double triangleDistanceFromStartPoint = 0;//
         public override void MouseLeftButtonDown(Point point)
         {
             // jezeli kliknelismy w ta sama figure co poprzednio
@@ -41,10 +42,11 @@ namespace NPaint.State
         }
 
         public override void MouseLeftButtonUp(Point point)
-            {
+        {
                 lengthShift = 0;
                 widthShift = 0;
-            }
+                triangleDistanceFromStartPoint = 0;//
+        }
 
         public override void MouseMove(Point point)
         {
@@ -89,10 +91,33 @@ namespace NPaint.State
                     }
 
                 }
+                else if (Figure.GetType() == typeof(NTriangle))
+                {
+                    NTriangle tmp_Triangle = Figure as NTriangle;
+                    if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
+                    {
+                        Point position = tmp_Triangle.GetStartPoint();
+                        triangleDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
+                        //Point position = tmp_Triangle.GetPointCollection()[2]; //GetStartPoint()
+                        //to co niżej nie wiedzieć czemu nie działało
+                        //Point position = new Point(Canvas.GetLeft(tmp_Triangle.adaptedPath), Canvas.GetTop(tmp_Triangle.adaptedPath));
+                        lengthShift = point.Y - position.Y;
+                        widthShift = point.X - position.X;
 
-                
 
-                Figure.MoveBy(point);
+                    }
+                    point.Y -= lengthShift;
+                    point.X -= widthShift;
+                    if (point.Y + triangleDistanceFromStartPoint < 0) //można wziąc też thickness z figury
+                    {
+                        point.Y = -triangleDistanceFromStartPoint;
+                    }
+
+                }
+
+
+
+                    Figure.MoveBy(point);
             }
         }
     }

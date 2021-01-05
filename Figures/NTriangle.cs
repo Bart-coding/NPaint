@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -74,7 +75,20 @@ namespace NPaint.Figures
 
         public override void MoveBy(Point point)
         {
-            //throw new NotImplementedException();
+            Canvas.SetTop(this.adaptedPath, point.Y);
+            Canvas.SetLeft(this.adaptedPath, point.X);
+
+            //PathFigure.StartPoint = point;
+            SetStartPoint(point);
+
+            /*if (point.Y < this.GetPointCollection()[2].Y + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
+            {
+                point.Y = this.GetPointCollection()[2].Y + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
+                Canvas.SetTop(this.adaptedPath, point.Y);
+                SetStartPoint(point);
+            }*/
+
+            SetPointCollection();
         }
 
         public override void Resize(Point point)

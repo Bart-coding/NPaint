@@ -10,7 +10,8 @@ namespace NPaint.State
     {
         public override void MouseLeftButtonDown(Point point)
         {
-            Figure = ShapeFactory.getShapeFactory().getFigure("Triangle") as NTriangle;
+            //Figure = ShapeFactory.getShapeFactory().getFigure("Triangle") as NTriangle;
+            Figure = new NTriangle();
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
             MouseMove(point);
