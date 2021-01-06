@@ -91,10 +91,14 @@ namespace NPaint.Figures
 
         public override void MoveByInsideGroup(Point point)
         {
-            
+            Vector vector = VisualTreeHelper.GetOffset(this.adaptedPath);
+            // Convert the vector to a point value.
+            Point positionOfTriangle = new Point(vector.X, vector.Y);
+
+
             //MessageBox.Show(Canvas.GetTop(this.adaptedPath) + "");
-            Canvas.SetTop(this.adaptedPath, this.adaptedPath.ActualHeight - point.Y);
-            Canvas.SetLeft(this.adaptedPath, this.adaptedPath.ActualWidth - point.X);
+            Canvas.SetTop(this.adaptedPath, positionOfTriangle.Y - point.Y);
+            Canvas.SetLeft(this.adaptedPath, positionOfTriangle.X - point.X);
             /*PathFigure.StartPoint.X -= point.X;
             double y = this.GetLeftDownCorner().Y - point.Y;
             double x2 = this.line1.Point.X - point.X;

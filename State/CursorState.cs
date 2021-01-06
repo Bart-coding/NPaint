@@ -100,13 +100,13 @@ namespace NPaint.State
                         
                         Vector vector = VisualTreeHelper.GetOffset(Figure.adaptedPath);
                         // Convert the vector to a point value.
-                        Point position = new Point(vector.X, vector.Y);
+                        Point positionOfTriangle = new Point(vector.X, vector.Y);
 
                        // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
 
 
-                        lengthShift = point.Y - position.Y;
-                        widthShift = point.X - position.X;
+                        lengthShift = point.Y - positionOfTriangle.Y;
+                        widthShift = point.X - positionOfTriangle.X;
 
 
                     }
