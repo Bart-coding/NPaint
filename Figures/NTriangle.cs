@@ -108,11 +108,11 @@ namespace NPaint.Figures
             point3.Y = Math.Min(point.Y, startPoint.Y);
             line2.Point = point3;
 
-            PathFigure.Segments.Clear(); //czyszczenie bedzie niezbedne przy shapefactory chyba?
-            PathFigure.Segments.Insert(0,line1);
-            PathFigure.Segments.Insert(1,line2);
+            PathFigure.Segments.Clear(); //czyszczenie niezbedne nwm dlaczego insert powinien zalatwic sprawe
+            PathFigure.Segments.Insert(0, line1);
+            PathFigure.Segments.Insert(1, line2);
 
-            ((PathGeometry)adaptedGeometry).Figures.Clear(); //czyszczenie bedzie niezbedne przy shapefactory chyba?
+            ((PathGeometry)adaptedGeometry).Figures.Clear(); //czyszczenie ten sam problem
             ((PathGeometry)adaptedGeometry).Figures.Insert(0,PathFigure);    // przypisanie figury trojkata do geometrii
 
             adaptedPath.Data = adaptedGeometry;
@@ -131,6 +131,17 @@ namespace NPaint.Figures
         private double MidPointX(double a, double b)
         {
             return (a+b)/2;
+        }
+
+        // musimy klonowac tez prywatne obiekty NTriangle, ale tylko te ktore sa inicjowane przez new
+        public override object Clone()
+        {
+            NTriangle clonedFigure = base.Clone() as NTriangle;
+            clonedFigure.PathFigure = PathFigure.Clone();
+            clonedFigure.PathFigure.IsClosed = true;
+            clonedFigure.line1 = line1.Clone();
+            clonedFigure.line2 = line2.Clone();
+            return clonedFigure;
         }
     }
 }

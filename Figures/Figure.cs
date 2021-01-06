@@ -65,7 +65,7 @@ namespace NPaint.Figures
 
         public abstract void Resize(Point point);
 
-        public object Clone()
+        public virtual object Clone()
         {
             //throw new NotImplementedException();
             Figure clonedFigure = this.MemberwiseClone() as Figure;
