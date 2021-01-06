@@ -75,37 +75,16 @@ namespace NPaint.Figures
 
         public override void MoveBy(Point point)
         {
-            /*if (((MainWindow)Application.Current.MainWindow).observer == true)
-            {
-                // źle te gety pobierają; przesuwanie w grp działa, ale dopiero po zwykłym MoveBy Trójkąta
-                // dlatego też pewnie jest ten bug z przesuwaniem na początku
-                //Ten GetTop i GetLeft to na starcie NaN
-                
-                y = Canvas.GetTop(this.adaptedPath) - point.Y;
-                x = Canvas.GetLeft(this.adaptedPath) - point.X;
-               
-            }*/
             
-
             double y = point.Y;
             double x = point.X;
 
             //adaptedGeometry.Transform = adaptedGeometry.Transform.TransformBounds(rect);
             //adaptedGeometry.Bounds.Y = y;
-
             Canvas.SetTop(this.adaptedPath, y);
             Canvas.SetLeft(this.adaptedPath, x);
             //PathFigure.StartPoint = new Point(x, y);
-
-            
-            //SetStartPoint(point);
-
-            /*if (point.Y < this.GetPointCollection()[2].Y + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
-            {
-                point.Y = this.GetPointCollection()[2].Y + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
-                Canvas.SetTop(this.adaptedPath, point.Y);
-                SetStartPoint(point);
-            }*/
+            //Nie wiem czy nie trza ustawić pól figury czy już są ustawione
 
             SetPointCollection();
         }
