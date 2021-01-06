@@ -10,6 +10,7 @@ namespace NPaint.Figures
         public void ChangeBorderThickness(double value);
         public void ChangeTransparency(double value);
         public void MoveBy(Point point);
+        public void MoveByInsideGroup(Point point);
         public void Resize(Point point);
         public void SetStartPoint(Point point);
     }

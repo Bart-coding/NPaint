@@ -31,18 +31,37 @@ namespace NPaint.Observer
         public void Detach(Figure figure)
         {
             Observers.Remove(figure);
+            
+            figure.ChangeFillColor(Brushes.White); //testowo
+
+        }
+
+        public void DetachAll()
+        {
+            for (int i = Observers.Count-1; i>=0; i--) //od końca
+            {
+                Observers[i].ChangeFillColor(Brushes.White); //testowo
+                Observers.RemoveAt(i);
+            }
+            
         }
 
         public void Notify(Point point)
         {
             foreach(Figure figure in Observers)
             {
-                // poki co to nie przejdzie, przez te shifty
-                //figure.MoveBy(point);
+                figure.MoveByInsideGroup(point);
             }
         }
         public override void MoveBy(Point point)
         {
+            double widthShift = this.GetTopLeft().X - point.X; //GetStartPoint()
+            double lengthShift = this.GetTopLeft().Y - point.Y;
+            Point shiftTmpPoint = new Point(widthShift, lengthShift);
+            base.MoveBy(point); //póki co\
+            
+            
+            Notify(shiftTmpPoint); //Notify(point)
             // poki co to nie przejdzie, przez te shifty
             //base.MoveBy(point);
             //Notify(point);

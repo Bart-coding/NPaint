@@ -172,17 +172,19 @@ namespace NPaint
                 {
                     if (this.Cursor != Cursors.SizeAll)
                         this.Cursor = Cursors.SizeAll;
+                    if (ObservableFigure!=null) //Test
+                    {
+                        
+                        Point pt = e.GetPosition(canvas);
+
+                        menuState.MouseMove(pt);
+                                                
+                        return;
+                    }
                     if (SelectedFigure != null)
                     {
                         Point pt = e.GetPosition(canvas);
-                        /*CursorState tmpCursor = menuState as CursorState;//
-                        if (pt.Y < 0 + (pt.Y - tmpCursor.lengthShift))
-                        {
-                            pt.Y = 0 + (pt.Y - tmpCursor.lengthShift);
-                        }*/
-
-                       menuState.MouseMove(pt); //nie działało, bo menuState to BasicState
-                       // SelectedFigure.MoveBy(pt);
+                       menuState.MouseMove(pt);
                         return;
                     }
                     if (menuState != null)
@@ -401,6 +403,8 @@ namespace NPaint
             {
                 canvas.Children.Remove(ObservableFigure.adaptedPath);
                 ObservableFigure = null;
+
+                
             }
         }
 

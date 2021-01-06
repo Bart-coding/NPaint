@@ -63,6 +63,8 @@ namespace NPaint.Figures
 
         public abstract void MoveBy(Point point);
 
+        public abstract void MoveByInsideGroup(Point point);
+
         public abstract void Resize(Point point);
 
         public virtual object Clone()

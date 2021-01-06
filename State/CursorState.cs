@@ -11,7 +11,7 @@ namespace NPaint.State
     class CursorState : MenuState
     {
         double widthShift, lengthShift = 0;
-        double triangleDistanceFromStartPoint = 0;//
+        double triangleTopDistanceFromStartPoint = 0;//
         public override void MouseLeftButtonDown(Point point)
         {
             // jezeli kliknelismy w ta sama figure co poprzednio
@@ -45,7 +45,7 @@ namespace NPaint.State
         {
                 lengthShift = 0;
                 widthShift = 0;
-                triangleDistanceFromStartPoint = 0;//
+            triangleTopDistanceFromStartPoint = 0;//
         }
 
         public override void MouseMove(Point point)
@@ -57,9 +57,10 @@ namespace NPaint.State
                 {
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        lengthShift = point.Y - Figure.GetStartPoint().Y; //stała odległość myszki od środka figury
-                        widthShift = point.X - Figure.GetStartPoint().X;
-
+                        /*lengthShift = point.Y - Figure.GetStartPoint().Y; //stała odległość myszki od środka figury
+                        widthShift = point.X - Figure.GetStartPoint().X;*/
+                        lengthShift = point.Y - ((NRectangle)Figure).GetTopLeft().Y;
+                        widthShift = point.X - ((NRectangle)Figure).GetTopLeft().X;
                         
                     }
                     point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
@@ -96,8 +97,13 @@ namespace NPaint.State
                     NTriangle tmp_Triangle = Figure as NTriangle;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        Point position = tmp_Triangle.GetStartPoint();
-                        triangleDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
+                        //Point position = tmp_Triangle.GetStartPoint();
+                        Point position = tmp_Triangle.GetTopLeft();
+
+
+                        //triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
+
+                        
                         //Point position = tmp_Triangle.GetPointCollection()[2]; //GetStartPoint()
                         //to co niżej nie wiedzieć czemu nie działało
                         //Point position = new Point(Canvas.GetLeft(tmp_Triangle.adaptedPath), Canvas.GetTop(tmp_Triangle.adaptedPath));
@@ -108,10 +114,10 @@ namespace NPaint.State
                     }
                     point.Y -= lengthShift;
                     point.X -= widthShift;
-                    if (point.Y + triangleDistanceFromStartPoint < 0) //można wziąc też thickness z figury
+                    /*if (point.Y + triangleTopDistanceFromStartPoint < 0) //można wziąc też thickness z figury
                     {
-                        point.Y = -triangleDistanceFromStartPoint;
-                    }
+                        point.Y = -triangleTopDistanceFromStartPoint;
+                    }*/
 
                 }
 

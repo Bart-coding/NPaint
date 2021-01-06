@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using NPaint.Observer;
+using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -17,24 +19,23 @@ namespace NPaint.Figures
         }
         public override void MoveBy(Point point)
         {
-            // ustawienie srodka prostokata tam gdzie jest myszka
-            // obliczenie polozenia prostokata na osi XY
-           /*double x = point.X - rect.Width / 2;// => Działa, póki co zakomentowałem
-           double y = point.Y - rect.Height / 2;*/
-
-              double x = point.X;
-              double y = point.Y;
+            //przesuwanie wewnątrz zaznaczenia
+            /*if (((MainWindow)Application.Current.MainWindow).observer == true && this.GetType()!=typeof(ObservableFigure))
+            {
+                 x = rect.X - point.X; //-> w obserwatorze
+                 y = rect.Y - point.Y;
+            }*/
+            //zwykłe przesuwanie
+            
+            double x = point.X;
+            double y = point.Y;
+            
 
             // przypisanie wyliczonych wartosci do zmiennej
             rect.X = x;
             rect.Y = y;
 
-            this.SetStartPoint(new Point(x, y));
-
-            // zakomentowany kod Bartka
-            //double x = point.X - startPoint.X; //lub po prostu przyrownac oba
-            //double y = point.Y - startPoint.Y;
-            //**this.SetStartPoint(new Point(x, y));//=> Trzeba to zrobić w którymś momencie, ale aktualnie to przeszkadza rysowaniu
+            //this.SetStartPoint(new Point(x, y));//Do przemyślenia
 
             // przypisanie wyliczonych wartosci do zmiennej (geometrii)
             ((RectangleGeometry)adaptedGeometry).Rect = rect;
@@ -43,6 +44,19 @@ namespace NPaint.Figures
             adaptedPath.Data = adaptedGeometry;
 
             SetPointCollection();
+        }
+
+        public override void MoveByInsideGroup(Point point)
+        {
+            double x = rect.X - point.X; //-> w obserwatorze
+            double y = rect.Y - point.Y;
+
+            rect.X = x;
+            rect.Y = y;
+            ((RectangleGeometry)adaptedGeometry).Rect = rect;
+            adaptedPath.Data = adaptedGeometry;
+            SetPointCollection();
+
         }
 
         public override void Resize(Point point)
@@ -67,8 +81,14 @@ namespace NPaint.Figures
         protected override void SetPointCollection()
         {
             // do zaznaczania prostokata wystarcza dwa rogi
-            PointsList.Insert(0, rect.TopLeft);     // lewy gorny
-            PointsList.Insert(1, rect.BottomRight); // prawy dolny
+            PointsList.Clear();
+            PointsList.Add(rect.TopLeft);     // lewy gorny
+            PointsList.Add(rect.BottomRight);// prawy dolny
+        }
+
+        public Point GetTopLeft()
+        {
+            return rect.TopLeft;
         }
     }
 }

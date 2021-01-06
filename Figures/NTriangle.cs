@@ -75,11 +75,29 @@ namespace NPaint.Figures
 
         public override void MoveBy(Point point)
         {
-            Canvas.SetTop(this.adaptedPath, point.Y);
-            Canvas.SetLeft(this.adaptedPath, point.X);
+            /*if (((MainWindow)Application.Current.MainWindow).observer == true)
+            {
+                // źle te gety pobierają; przesuwanie w grp działa, ale dopiero po zwykłym MoveBy Trójkąta
+                // dlatego też pewnie jest ten bug z przesuwaniem na początku
+                //Ten GetTop i GetLeft to na starcie NaN
+                
+                y = Canvas.GetTop(this.adaptedPath) - point.Y;
+                x = Canvas.GetLeft(this.adaptedPath) - point.X;
+               
+            }*/
+            
 
-            //PathFigure.StartPoint = point;
-            SetStartPoint(point);
+            double y = point.Y;
+            double x = point.X;
+            
+            //adaptedGeometry.Transform = adaptedGeometry.Transform.TransformBounds(rect);
+            //adaptedGeometry.Bounds.Y = y;
+
+            Canvas.SetTop(this.adaptedPath, y);
+            Canvas.SetLeft(this.adaptedPath, x);
+
+            
+            //SetStartPoint(point);
 
             /*if (point.Y < this.GetPointCollection()[2].Y + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
             {
@@ -91,6 +109,14 @@ namespace NPaint.Figures
             SetPointCollection();
         }
 
+        public override void MoveByInsideGroup(Point point)
+        {
+            /*double y = Canvas.GetTop(this.adaptedPath) - point.Y;
+            double x = Canvas.GetLeft(this.adaptedPath) - point.X;*/
+            double x = this.GetTopLeft().X - point.X;
+            double y = this.GetTopLeft().Y - point.Y;
+            SetPointCollection();
+        }
         public override void Resize(Point point)
         {
             // obliczenie polozenia lewego dolnego wierzcholka
@@ -123,9 +149,10 @@ namespace NPaint.Figures
         protected override void SetPointCollection()
         {
             // do zaznaczenia trojkata potrzebne sa wszystkie 3 wierzcholki
-            PointsList.Insert(0, PathFigure.StartPoint);    // lewy dolny
-            PointsList.Insert(1, line1.Point);              // prawy dolny
-            PointsList.Insert(2, line2.Point);              // gorny
+            PointsList.Clear();
+            PointsList.Add(PathFigure.StartPoint);    // lewy dolny
+            PointsList.Add(line1.Point);              // prawy dolny
+            PointsList.Add(line2.Point);              // gorny
         }
 
         private double MidPointX(double a, double b)
@@ -142,6 +169,11 @@ namespace NPaint.Figures
             clonedFigure.line1 = line1.Clone();
             clonedFigure.line2 = line2.Clone();
             return clonedFigure;
+        }
+
+        public Point GetTopLeft()
+        {
+            return this.adaptedGeometry.Bounds.TopLeft;
         }
     }
 }

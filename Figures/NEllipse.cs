@@ -19,12 +19,19 @@ namespace NPaint.Figures
 
         public override void MoveBy(Point point) // Tu znów kwestia nieustawianego startpointu i nie wiadomo kiedy
         {
-            // ustawienie srodka elipsy tam gdzie jest myszka
-            // obliczenie polozenia elipsy na osi XY
-            EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
-            CenterPoint.X = point.X;
-            CenterPoint.Y = point.Y;
-            tmp.Center = CenterPoint;
+
+            /*if (((MainWindow)Application.Current.MainWindow).observer == true)
+            {
+                x = CenterPoint.X - point.X; //-> w obserwatorze
+                y = CenterPoint.Y - point.Y;
+            }*/
+            
+             double x = point.X;
+             double y = point.Y;
+            
+            CenterPoint.X = x;
+            CenterPoint.Y = y;
+            ((EllipseGeometry)adaptedGeometry).Center = CenterPoint;
 
             // zakomentowany kod Bartka
             // przypisanie wyliczonych wartosci do zmiennej (geometrii)
@@ -36,6 +43,17 @@ namespace NPaint.Figures
             // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
 
+            SetPointCollection();
+        }
+
+        public override void MoveByInsideGroup(Point point)
+        {
+            double x = CenterPoint.X - point.X; //-> w obserwatorze
+            double y = CenterPoint.Y - point.Y;
+            CenterPoint.X = x;
+            CenterPoint.Y = y;
+            ((EllipseGeometry)adaptedGeometry).Center = CenterPoint;
+            adaptedPath.Data = adaptedGeometry;
             SetPointCollection();
         }
 
@@ -77,8 +95,9 @@ namespace NPaint.Figures
         {
             // do zaznaczania elipsy wystarcza dwa rogi
             Rect rect = ((EllipseGeometry)adaptedGeometry).Bounds;  // protokat w ktory wpisana jest elipsa
-            PointsList.Insert(0, rect.TopLeft);     // lewy gorny
-            PointsList.Insert(1, rect.BottomRight); // prawy dolny
+            PointsList.Clear();
+            PointsList.Add(rect.TopLeft);     // lewy gorny
+            PointsList.Add(rect.BottomRight); // prawy dolny
         }
     }
 }

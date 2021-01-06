@@ -19,6 +19,10 @@ namespace NPaint.Figures
         {
             throw new System.NotImplementedException();
         }
+        public override void MoveByInsideGroup(Point point)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Resize(Point point)
         {
