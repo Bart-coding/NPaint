@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using NPaint.Figures;
@@ -50,6 +51,11 @@ namespace NPaint.Observer
         {
             foreach(Figure figure in Observers)
             {
+                /*if (figure.GetType()==typeof(NTriangle))
+                {
+                    Canvas.SetLeft(figure.adaptedPath, ((NTriangle)figure).GetLeftDownCorner().X + figure.adaptedPath.ActualWidth);
+                    Canvas.SetTop(figure.adaptedPath, ((NTriangle)figure).GetLeftDownCorner().Y + figure.adaptedPath.ActualHeight);
+                }*/
                 figure.MoveByInsideGroup(point);
             }
         }

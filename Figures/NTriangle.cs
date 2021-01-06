@@ -89,12 +89,13 @@ namespace NPaint.Figures
 
             double y = point.Y;
             double x = point.X;
-            
+
             //adaptedGeometry.Transform = adaptedGeometry.Transform.TransformBounds(rect);
             //adaptedGeometry.Bounds.Y = y;
 
             Canvas.SetTop(this.adaptedPath, y);
             Canvas.SetLeft(this.adaptedPath, x);
+            //PathFigure.StartPoint = new Point(x, y);
 
             
             //SetStartPoint(point);
@@ -111,10 +112,18 @@ namespace NPaint.Figures
 
         public override void MoveByInsideGroup(Point point)
         {
-            /*double y = Canvas.GetTop(this.adaptedPath) - point.Y;
-            double x = Canvas.GetLeft(this.adaptedPath) - point.X;*/
-            double x = this.GetTopLeft().X - point.X;
-            double y = this.GetTopLeft().Y - point.Y;
+            
+            //MessageBox.Show(Canvas.GetTop(this.adaptedPath) + "");
+            Canvas.SetTop(this.adaptedPath, this.adaptedPath.ActualHeight - point.Y);
+            Canvas.SetLeft(this.adaptedPath, this.adaptedPath.ActualWidth - point.X);
+            /*PathFigure.StartPoint.X -= point.X;
+            double y = this.GetLeftDownCorner().Y - point.Y;
+            double x2 = this.line1.Point.X - point.X;
+            double y2 = this.line1.Point.Y - point.Y;
+            double x3 = this.line2.Point.X - point.X;
+            double y3 = this.line2.Point.Y - point.Y;*/
+
+
             SetPointCollection();
         }
         public override void Resize(Point point)
@@ -174,6 +183,11 @@ namespace NPaint.Figures
         public Point GetTopLeft()
         {
             return this.adaptedGeometry.Bounds.TopLeft;
+        }
+
+        public Point GetLeftDownCorner()
+        {
+            return PathFigure.StartPoint;
         }
     }
 }
