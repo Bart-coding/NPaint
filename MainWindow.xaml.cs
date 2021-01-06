@@ -21,7 +21,7 @@ namespace NPaint
     {
         private MenuState menuState;
         public Canvas canvas;
-        private List<Figure> FigureList;///
+        private List<Figure> FigureList;
         public FigureListClass FigureListClassObject;
         private Figure SelectedFigure;
         private ObservableFigure ObservableFigure;
@@ -142,8 +142,11 @@ namespace NPaint
         private void SetCanvas()
         {
             MainGrid.Children.Add(canvas);
+
             if (canvas.Background == null)
-                canvas.Background = Brushes.Transparent;    // przypisanie tla do canvasa, zeby przechwytywac eventy
+            {
+                canvas.Background = Brushes.Transparent;   // przypisanie tla do canvasa, zeby przechwytywac eventy
+            }
             Grid.SetRow(canvas, 1); // przypisanie canvasa do pierwszego wiersza w Gridzie
 
             // przypisanie eventow do canvasa
@@ -154,13 +157,13 @@ namespace NPaint
         }
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz wyczyścić canvas?", "Wyczyść", System.Windows.MessageBoxButton.YesNo);
 
-            //this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
-
-            this.canvas.Children.Clear();
-
-            MessageBox.Show("Wyczyszczono Canvas");
-
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                //this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
+                this.canvas.Children.Clear();
+            }
             //this.RestoreLastCanvas();
         }
 
@@ -262,8 +265,7 @@ namespace NPaint
                     writer.Write(CanvasXAML);
                 }
                 this.originator.SetMemento(fileName);
-                this.caretaker.AddMemento(this.originator.CreateMemento());
-                MessageBox.Show("Zapisano Canvas :)");
+                this.caretaker.AddMemento(this.originator.CreateMemento());    
             }
             catch (Exception e)
             {
@@ -289,9 +291,7 @@ namespace NPaint
                 canvas = null;
                 canvas = oldCanvas;
                 SetCanvas();
-                FigureList = RestoreFigureListTest(canvas.Children);///////////
-
-                MessageBox.Show("Przywrócono poprzedni Canvas :)");
+                FigureList = RestoreFigureListTest(canvas.Children);
             }
             catch (IOException e)
             {
@@ -319,12 +319,10 @@ namespace NPaint
                 canvas = oldCanvas;
                 SetCanvas();
                 FigureList = RestoreFigureListTest(canvas.Children);///////////
-
-                MessageBox.Show("Przywrócono poprzedni Canvas :)");
             }
             catch (IOException e)
             {
-                MessageBox.Show("The file could not be read: " + e.Message);
+                MessageBox.Show("Nie można odczytać pliku: " + e.Message);
             }
         }
         private void InitializeCaretakerList()
@@ -423,6 +421,7 @@ namespace NPaint
             RemoveButton.Background = Brushes.White;
             ClearButton.Background = Brushes.White;
         }
+
         private void AfterClick(object sender)
         {
             ResetSelectedFigure();
@@ -431,6 +430,7 @@ namespace NPaint
             Button button = sender as Button;
             button.Background = Brushes.Gray;
         }
+
         private void Tool_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
