@@ -100,10 +100,9 @@ namespace NPaint.State
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
                         
-                        Vector vector = VisualTreeHelper.GetOffset(Figure.adaptedPath);
-                        // Convert the vector to a point value.
-                        Point positionOfTriangle = new Point(vector.X, vector.Y);
-                        positionOfTriangle = ((NTriangle)Figure).GetLeftDownCorner();
+                        //Vector vector = VisualTreeHelper.GetOffset(Figure.adaptedPath);
+                        //Point positionOfTriangle = new Point(vector.X, vector.Y);
+                        Point positionOfTriangle = ((NTriangle)Figure).GetLeftDownCorner();
                        // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
 
 
@@ -114,10 +113,10 @@ namespace NPaint.State
                     }
                     point.Y -= lengthShift;
                     point.X -= widthShift;
-                    /*if (point.Y < lengthShift) //można wziąc też thickness z figury
+                    if (point.Y < 0) //można wziąc też thickness z figury
                     {
-                        point.Y = lengthShift;
-                    }*/
+                        point.Y = 0;
+                    }
 
                 }
 
