@@ -41,10 +41,10 @@ namespace NPaint.State
             Figure = null;
         }
 
-        public override void MouseLeftButtonUp(Point point)
+        public override void MouseLeftButtonUp()
         {
-                lengthShift = 0;
-                widthShift = 0;
+            lengthShift = 0;
+            widthShift = 0;
             triangleTopDistanceFromStartPoint = 0;//
         }
 
@@ -77,7 +77,9 @@ namespace NPaint.State
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
                         //dynamic f_tmp = Figure;
-                        Point center = f_tmp.GetLeftDownCorner();
+                        //Point center = f_tmp.GetLeftDownCorner(); 
+                        // dlaczego zmienione? powinno byc getcenterpoint
+                        Point center = f_tmp.GetCenterPoint();
                         lengthShift = point.Y - center.Y; //stała odległość myszki od środka figury
                         widthShift = point.X - center.X;
 

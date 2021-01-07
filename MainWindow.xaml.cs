@@ -235,13 +235,8 @@ namespace NPaint
             {
                 if (this.Cursor != Cursors.Arrow)
                     this.Cursor = Cursors.Arrow;
-                menuState.MouseLeftButtonUp(e.GetPosition(canvas));
+                menuState.MouseLeftButtonUp();
             }
-            //if (selectedFigureState != null)
-            //{
-            //    //selectedFigureState = null;
-            //    selectedFigureState.MouseLeftButtonUp(e.GetPosition(canvas));
-            //}
             // zwolnienie myszy z Canvasa
             //Mouse.Capture(null);
         }
@@ -369,6 +364,7 @@ namespace NPaint
         {
             return FigureList;
         }
+
         public void ResetSelectedFigure()
         {
             // musimy wylaczyc ramke dla obecnie wybranej figury
@@ -421,7 +417,6 @@ namespace NPaint
             RemoveButton.Background = Brushes.White;
             ClearButton.Background = Brushes.White;
         }
-
         private void AfterClick(object sender)
         {
             ResetSelectedFigure();
@@ -430,7 +425,6 @@ namespace NPaint
             Button button = sender as Button;
             button.Background = Brushes.Gray;
         }
-
         private void Tool_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
@@ -468,7 +462,6 @@ namespace NPaint
                 SelectedFigure.ChangeBorderThickness(BorderThicknessySlider.Value);
             }
         }
-
         private void TransparencySlider_ValueChanged(object sender, RoutedEventArgs e)
         {
             if (SelectedFigure != null)

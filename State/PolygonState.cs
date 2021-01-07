@@ -11,11 +11,6 @@ namespace NPaint.State
             //MouseMove(point);
         }
 
-        public override void MouseLeftButtonUp(Point point)
-        {
-            ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
-        }
-
         public override void MouseMove(Point point)
         {
             throw new NotImplementedException();
