@@ -433,6 +433,20 @@ namespace NPaint
 
             menuState = (MenuState)Activator.CreateInstance(type);
         }
+        private void PlusSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(SelectedFigure != null)
+            {
+                SelectedFigure.IncreaseSize();
+            }
+        }
+        private void MinusSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedFigure != null)
+            {
+                SelectedFigure.DecreaseSize();
+            }
+        }
 
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {

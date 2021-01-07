@@ -26,17 +26,14 @@ namespace NPaint.Figures
         {
             adaptedPath.Fill = brush;
         }
-
         public void ChangeBorderColor(Brush brush)
         {
             adaptedPath.Stroke = brush;
         }
-
         public void ChangeBorderThickness(double value)
         {
             adaptedPath.StrokeThickness = value;
         }
-
         public void ChangeTransparency(double value)
         {
             Brush brush = new SolidColorBrush(((SolidColorBrush)adaptedPath.Fill).Color);
@@ -48,7 +45,6 @@ namespace NPaint.Figures
         {
             startPoint = point;
         }
-
         public Point GetStartPoint()////////////
         {
             return startPoint;
@@ -58,14 +54,15 @@ namespace NPaint.Figures
         {
             return PointsList;
         }
-
         protected abstract void SetPointCollection();
 
+        public abstract void IncreaseSize();
+        public abstract void DecreaseSize();
+
         public abstract void MoveBy(Point point);
-
         public abstract void MoveByInsideGroup(Point point);//może czytelniejsze by były dwa double'e//Bartek
-
         public abstract void Resize(Point point);
+        protected abstract void Repaint();
 
         public virtual object Clone()
         {

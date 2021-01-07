@@ -40,10 +40,7 @@ namespace NPaint.Figures
             //CenterPoint.Y = point.Y - startPoint.Y + tmp.RadiusY;
             //tmp.Center = CenterPoint;
 
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
+            Repaint();
         }
 
         public override void MoveByInsideGroup(Point point)
@@ -53,8 +50,8 @@ namespace NPaint.Figures
             CenterPoint.X = x;
             CenterPoint.Y = y;
             ((EllipseGeometry)adaptedGeometry).Center = CenterPoint;
-            adaptedPath.Data = adaptedGeometry;
-            SetPointCollection();
+
+            Repaint();
         }
 
         public override void Resize(Point point)
@@ -72,11 +69,18 @@ namespace NPaint.Figures
             tmp.RadiusX = width;
             tmp.RadiusY = height;
 
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
+            Repaint();
         }
+
+        public override void IncreaseSize()
+        {
+            throw new NotImplementedException();
+        }
+        public override void DecreaseSize()
+        {
+            throw new NotImplementedException();
+        }
+
         protected Point MidPoint(Point a, Point b)
         {
             Point tmp;
@@ -98,6 +102,14 @@ namespace NPaint.Figures
             PointsList.Clear();
             PointsList.Add(rect.TopLeft);     // lewy gorny
             PointsList.Add(rect.BottomRight); // prawy dolny
+        }
+
+        protected override void Repaint()
+        {
+            // przypisanie zmienionej geometrii do Path
+            adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
         }
     }
 }

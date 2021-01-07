@@ -33,5 +33,19 @@ namespace NPaint.Figures
         {
             throw new NotImplementedException();
         }
+
+        public override void DecreaseSize()
+        {
+            throw new NotImplementedException();
+        }
+        public override void IncreaseSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void Repaint()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

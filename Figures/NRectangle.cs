@@ -37,13 +37,7 @@ namespace NPaint.Figures
 
             //this.SetStartPoint(new Point(x, y));//Do przemyślenia
 
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            ((RectangleGeometry)adaptedGeometry).Rect = rect;
-
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
+            Repaint();
         }
 
         public override void MoveByInsideGroup(Point point)
@@ -53,10 +47,8 @@ namespace NPaint.Figures
 
             rect.X = x;
             rect.Y = y;
-            ((RectangleGeometry)adaptedGeometry).Rect = rect;
-            adaptedPath.Data = adaptedGeometry;
-            SetPointCollection();
 
+            Repaint();
         }
 
         public override void Resize(Point point)
@@ -69,13 +61,26 @@ namespace NPaint.Figures
             rect.Width = Math.Max(point.X, startPoint.X) - rect.X;
             rect.Height = Math.Max(point.Y, startPoint.Y) - rect.Y;
 
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            ((RectangleGeometry)adaptedGeometry).Rect = rect;
+            Repaint();
+        }
 
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
+        public override void DecreaseSize()
+        {
+            rect.X++;
+            rect.Y++;
+            rect.Width -= 2;
+            rect.Height -= 2;
 
-            SetPointCollection();
+            Repaint();
+        }
+        public override void IncreaseSize()
+        {
+            rect.X--;
+            rect.Y--;
+            rect.Width += 2;
+            rect.Height += 2;
+            
+            Repaint();
         }
 
         protected override void SetPointCollection()
@@ -89,6 +94,17 @@ namespace NPaint.Figures
         public Point GetTopLeft()
         {
             return rect.TopLeft;
+        }
+
+        protected override void Repaint()
+        {
+            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
+            ((RectangleGeometry)adaptedGeometry).Rect = rect;
+
+            // przypisanie zmienionej geometrii do Path
+            adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
         }
     }
 }

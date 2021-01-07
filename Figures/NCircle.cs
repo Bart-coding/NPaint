@@ -28,10 +28,7 @@ namespace NPaint.Figures
                 tmp.RadiusY = radius;
             }
 
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
+            Repaint();
         }
     }
 }

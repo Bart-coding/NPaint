@@ -44,7 +44,7 @@ namespace NPaint.Figures
             //Nie wiem czy nie trza ustawić pól figury czy już są ustawione
             // trzeba, bo geometry zostaje w tym samym miejscu, choc path sie przemieszcza
 
-            SetPointCollection();
+            Repaint();
         }
 
         public override void MoveByInsideGroup(Point point)
@@ -65,7 +65,7 @@ namespace NPaint.Figures
             double y3 = this.line2.Point.Y - point.Y;*/
 
 
-            SetPointCollection();
+            Repaint();
         }
         public override void Resize(Point point)
         {
@@ -84,16 +84,16 @@ namespace NPaint.Figures
             point3.Y = Math.Min(point.Y, startPoint.Y);
             line2.Point = point3;
 
-            PathFigure.Segments.Clear(); //czyszczenie niezbedne nwm dlaczego insert powinien zalatwic sprawe
-            PathFigure.Segments.Insert(0, line1);
-            PathFigure.Segments.Insert(1, line2);
+            Repaint();
+        }
 
-            ((PathGeometry)adaptedGeometry).Figures.Clear(); //czyszczenie ten sam problem
-            ((PathGeometry)adaptedGeometry).Figures.Insert(0,PathFigure);    // przypisanie figury trojkata do geometrii
-
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
+        public override void DecreaseSize()
+        {
+            throw new NotImplementedException();
+        }
+        public override void IncreaseSize()
+        {
+            throw new NotImplementedException();
         }
 
         protected override void SetPointCollection()
@@ -129,6 +129,20 @@ namespace NPaint.Figures
         public Point GetLeftDownCorner()
         {
             return PathFigure.StartPoint;
+        }
+
+        protected override void Repaint()
+        {
+            PathFigure.Segments.Clear(); //czyszczenie niezbedne nwm dlaczego insert powinien zalatwic sprawe
+            PathFigure.Segments.Insert(0, line1);
+            PathFigure.Segments.Insert(1, line2);
+
+            ((PathGeometry)adaptedGeometry).Figures.Clear(); //czyszczenie ten sam problem
+            ((PathGeometry)adaptedGeometry).Figures.Insert(0, PathFigure);    // przypisanie figury trojkata do geometrii
+
+            adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
         }
     }
 }

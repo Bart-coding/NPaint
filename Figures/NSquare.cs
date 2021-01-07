@@ -34,13 +34,7 @@ namespace NPaint.Figures
                 rect.Y = startPoint.Y - squarelength;
             }
 
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            ((RectangleGeometry)adaptedGeometry).Rect = rect;
-
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
+            Repaint();
         }
     }
 }
