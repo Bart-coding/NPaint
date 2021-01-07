@@ -106,8 +106,7 @@ namespace NPaint.Figures
 
         public Point GetCenterPoint()//
         {
-            EllipseGeometry tmp = this.adaptedGeometry as EllipseGeometry;
-            return tmp.Center;
+            return ((EllipseGeometry)this.adaptedGeometry).Center;
         }
 
         protected override void SetPointCollection()
@@ -125,6 +124,24 @@ namespace NPaint.Figures
             adaptedPath.Data = adaptedGeometry;
 
             SetPointCollection();
+        }
+
+        public override void ChangeBorderThickness(double value)
+        {
+            if (this.GetCenterPoint().Y-this.GetRadiusY() - GetBorderThickness()/2 <= 0 && value > adaptedPath.StrokeThickness) 
+                        value = adaptedPath.StrokeThickness;
+            
+            adaptedPath.StrokeThickness = value;
+
+        }
+
+        private double GetRadiusX()
+        {
+            return ((EllipseGeometry)adaptedGeometry).RadiusX;
+        }
+        private double GetRadiusY()
+        {
+            return ((EllipseGeometry)adaptedGeometry).RadiusY;
         }
     }
 }

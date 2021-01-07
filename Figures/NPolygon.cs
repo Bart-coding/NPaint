@@ -47,5 +47,11 @@ namespace NPaint.Figures
         {
             throw new NotImplementedException();
         }
+
+        public override void ChangeBorderThickness(double value)
+        {
+            //if
+            adaptedPath.StrokeThickness = value;
+        }
     }
 }

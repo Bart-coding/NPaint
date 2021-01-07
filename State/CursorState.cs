@@ -11,7 +11,7 @@ namespace NPaint.State
     class CursorState : MenuState
     {
         double widthShift, lengthShift = 0;
-        double triangleTopDistanceFromStartPoint = 0;//
+        //double triangleTopDistanceFromStartPoint = 0;
         public override void MouseLeftButtonDown(Point point)
         {
             // jezeli kliknelismy w ta sama figure co poprzednio
@@ -45,7 +45,7 @@ namespace NPaint.State
         {
             lengthShift = 0;
             widthShift = 0;
-            triangleTopDistanceFromStartPoint = 0;//
+            //triangleTopDistanceFromStartPoint = 0;//
         }
 
         public override void MouseMove(Point point)
@@ -66,9 +66,9 @@ namespace NPaint.State
                     point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
                     point.X -= widthShift;
                     //Zabezpieczenie przed umieszczeniem figury na Menu
-                    if (point.Y < 0 + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
+                    if (point.Y < 0 + Figure.GetBorderThickness() / 2) //można wziąc też thickness z figury
                     {
-                        point.Y = 0 + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
+                        point.Y = 0 + Figure.GetBorderThickness() / 2;
                     }
                 }
                 else if (Figure.GetType() == typeof(NEllipse) || Figure.GetType() == typeof(NCircle))
@@ -88,9 +88,9 @@ namespace NPaint.State
                     point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
                     point.X -= widthShift;
                     //Zabezpieczenie przed umieszczeniem figury na Menu
-                    if (point.Y < f_tmp.adaptedGeometry.RadiusY + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
+                    if (point.Y < f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2) //można wziąc też thickness z figury
                     {
-                        point.Y = f_tmp.adaptedGeometry.RadiusY + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
+                        point.Y = f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2;
                     }
 
                 }
@@ -99,11 +99,13 @@ namespace NPaint.State
                     NTriangle tmp_Triangle = Figure as NTriangle;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        
+
                         //Vector vector = VisualTreeHelper.GetOffset(Figure.adaptedPath);
                         //Point positionOfTriangle = new Point(vector.X, vector.Y);
-                        Point positionOfTriangle = ((NTriangle)Figure).GetLeftDownCorner();
-                       // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
+                        //Point positionOfTriangle = ((NTriangle)Figure).GetLeftDownCorner();
+                        Point positionOfTriangle = ((NTriangle)Figure).GetTopCorner();
+
+                        // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
 
 
                         lengthShift = point.Y - positionOfTriangle.Y;
@@ -113,9 +115,9 @@ namespace NPaint.State
                     }
                     point.Y -= lengthShift;
                     point.X -= widthShift;
-                    if (point.Y < 0) //można wziąc też thickness z figury
+                    if (point.Y < 0 + Figure.GetBorderThickness()/2) //Póki co nie działa
                     {
-                        point.Y = 0;
+                        point.Y = Figure.GetBorderThickness()/2;
                     }
 
                 }
