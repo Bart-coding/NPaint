@@ -332,7 +332,6 @@ namespace NPaint
                 canvas.Children.Remove(ObservableFigure.adaptedPath);
 
             ObservableFigure = figure as ObservableFigure;
-            //SetSelectedFigure(ObservableFigure);//możnaby też tworzyć fabryką
 
             // dodanie go do canvasa, zeby byl widoczny
             canvas.Children.Add(figure.adaptedPath);

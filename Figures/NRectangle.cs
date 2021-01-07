@@ -39,7 +39,6 @@ namespace NPaint.Figures
 
             Repaint();
         }
-
         public override void MoveByInsideGroup(Point point)
         {
             double x = rect.X - point.X; //-> w obserwatorze
@@ -117,11 +116,14 @@ namespace NPaint.Figures
 
         public override void ChangeBorderThickness(double value)
         {
-            if (this.GetTopLeft().Y - GetBorderThickness() / 2 <= 0 && value > adaptedPath.StrokeThickness) 
+            // pierwsze wywolanie - prostokat ma polozenie 0,0 
+            if (rect.Width == 0 || rect.Height == 0)
+            {
+                ;   // nothing to do here
+            }
+            else if ((rect.Y - (GetBorderThickness()/2)) <= 0 && value > adaptedPath.StrokeThickness)
                 value = adaptedPath.StrokeThickness;
-
             adaptedPath.StrokeThickness = value;
-            
         }
 
     }

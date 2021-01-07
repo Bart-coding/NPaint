@@ -128,7 +128,11 @@ namespace NPaint.Figures
 
         public override void ChangeBorderThickness(double value)
         {
-            if (this.GetCenterPoint().Y-this.GetRadiusY() - GetBorderThickness()/2 <= 0 && value > adaptedPath.StrokeThickness) 
+            if(((EllipseGeometry)adaptedGeometry).RadiusX == 0 || ((EllipseGeometry)adaptedGeometry).RadiusY == 0)
+            {
+                ;   // nothing to do here
+            }
+            else if (this.GetCenterPoint().Y-this.GetRadiusY() - GetBorderThickness()/2 <= 0 && value > adaptedPath.StrokeThickness) 
                         value = adaptedPath.StrokeThickness;
             
             adaptedPath.StrokeThickness = value;

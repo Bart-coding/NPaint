@@ -87,20 +87,25 @@ namespace NPaint.Figures
             point3.X = MidPointX(point.X,startPoint.X);
             point3.Y = Math.Min(point.Y, startPoint.Y);
 
-            // jezeli gorny wierzcholek nie wchodzi na Menu
-            double margin = CalculateMargin();
-            if (point3.Y - margin >= 1)
+            // jezeli zaczelismy rysowac czyli wszystkie punkty sa w tym samym miejscu
+            if(point1 == point2 && point2 == point3)
             {
                 Repaint();
+            }
+            else
+            {
+                // jezeli gorny wierzcholek nie wchodzi na Menu
+                if (point3.Y - CalculateMargin() >= 1)
+                {
+                    Repaint();
+                }
             }
         }
 
         public override void IncreaseSize()
         {
-            double margin = CalculateMargin();
-
             // zabezpieczenie, zebysmy nie weszli na Menu
-            if ( point3.Y - margin >= 1)
+            if ( point3.Y - CalculateMargin() >= 1 || (point1 == point2 && point2 == point3))
             {
                 // lewy dolny 
                 point1.X--;
@@ -153,7 +158,7 @@ namespace NPaint.Figures
         {
             return Math.Abs(Point.Subtract(p2, p1).Length);
         }
-        private double CalculateMargin()
+        public double CalculateMargin()
         {
             // skorzystanie z podobienstwa trojkatow
             // obliczenia wedlug wzoru
@@ -165,10 +170,6 @@ namespace NPaint.Figures
             double cosB = 1 - (a*a) / (2 * b*b);            // cosinus kata miedzy ramionami
             double Beta = Math.Acos(cosB);                  // wyliczony kat miedzy ramionami
             double Alpha = (Math.PI - Beta) / 2;            // kat przy podstawie
-
-            // wlasnosci trygonometryczne trojkata prostokatnego
-            // c = a/sinA
-            double h = (adaptedPath.StrokeThickness / 2.0) / Math.Sin(Alpha);
 
             // wlasnosci trygonometryczne trojkata prostokatnego
             // c = b/cosA
@@ -220,7 +221,7 @@ namespace NPaint.Figures
 
         public override void ChangeBorderThickness(double value)
         {
-            if (this.GetTopCorner().Y - GetBorderThickness() / 2 <= 0 && value > adaptedPath.StrokeThickness) // do korekty
+            if (this.GetTopCorner().Y - CalculateMargin() <= 0 && value > adaptedPath.StrokeThickness) // do korekty
                 value = adaptedPath.StrokeThickness;
 
             adaptedPath.StrokeThickness = value;

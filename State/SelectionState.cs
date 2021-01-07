@@ -70,28 +70,30 @@ namespace NPaint.State
 
         public override void MouseMove(Point point)
         {
-            if (ToMove)
+            if(Figure != null)
             {
-                if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
+                if (ToMove)
                 {
-                    lengthShift = point.Y - ((ObservableFigure)Figure).GetTopLeft().Y; //stała odległość myszki od środka figury
-                    widthShift = point.X - ((ObservableFigure)Figure).GetTopLeft().X; //GetStartPoint()
+                    if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
+                    {
+                        lengthShift = point.Y - ((ObservableFigure)Figure).GetTopLeft().Y; //stała odległość myszki od środka figury
+                        widthShift = point.X - ((ObservableFigure)Figure).GetTopLeft().X; //GetStartPoint()
 
 
+                    }
+                    point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
+                    point.X -= widthShift;
+                    //Zabezpieczenie przed umieszczeniem figury na Menu
+                    if (point.Y < 0 + Figure.GetBorderThickness() / 2) //można wziąc też thickness z figury
+                    {
+                        point.Y = 0 + Figure.GetBorderThickness() / 2;
+                    }
+                    Figure.MoveBy(point);
+
                 }
-                point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
-                point.X -= widthShift;
-                //Zabezpieczenie przed umieszczeniem figury na Menu
-                if (point.Y < 0 + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
-                {
-                    point.Y = 0 + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
-                }
-                Figure.MoveBy(point);
-                
+                else
+                    Figure.Resize(point); //Raz wywaliło wyjątek //Figure = null
             }
-
-            else
-                Figure.Resize(point); //Raz wywaliło wyjątek //Figure = null
         }
     }
 }

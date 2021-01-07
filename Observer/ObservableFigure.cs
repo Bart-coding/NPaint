@@ -93,5 +93,9 @@ namespace NPaint.Observer
             // jezeli przeszlo po wszystkich punktach i nie zwrocilo falszu tzn. ze wszystkie punkty sie zawieraja w zaznaczeniu
             return true;
         }
+        public override void ChangeBorderThickness(double value)
+        {
+            return;
+        }
     }
 }
