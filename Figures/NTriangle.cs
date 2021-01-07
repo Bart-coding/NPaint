@@ -81,38 +81,53 @@ namespace NPaint.Figures
             point3.X = MidPointX(point.X,startPoint.X);
             point3.Y = Math.Min(point.Y, startPoint.Y);
 
-            Repaint();
+            // jezeli gorny wierzcholek nie wchodzi na Menu
+            if(point3.Y - adaptedPath.StrokeThickness >= 1)
+            {
+                Repaint();
+            }
         }
 
-        public override void DecreaseSize()
-        {
-            // lewy dolny 
-            point1.X++;
-            point1.Y--;
-
-            // prawy dolny
-            point2.X--;
-            point2.Y--;
-
-            //srodkowy
-            point3.Y++;
-
-            Repaint();
-        }
         public override void IncreaseSize()
         {
-            // lewy dolny 
-            point1.X--;
-            point1.Y++;
+            // idealnie musielibysmy liczyc dlugosc przekatnej rombu, ktorego a = border thickness
 
-            // prawy dolny
-            point2.X++;
-            point2.Y++;
-            
-            //srodkowy
-            point3.Y--;
+            // zabezpieczenie, zebysmy nie weszli na Menu
+            // wyglada ok tylko dla malych border thickness
+            if(point3.Y - adaptedPath.StrokeThickness >= 1)
+            {
+                // lewy dolny 
+                point1.X--;
+                point1.Y++;
 
-            Repaint();
+                // prawy dolny
+                point2.X++;
+                point2.Y++;
+
+                //srodkowy
+                point3.Y--;
+
+                Repaint();
+            }
+        }
+        public override void DecreaseSize()
+        {
+            // zabezpieczenie, zeby rozmiary trojkata nie spadly ponizej 0
+            if( (point1.X < point2.X - 1) && (point3.Y + 1 < point1.Y) )
+            {
+                // lewy dolny 
+                point1.X++;
+                point1.Y--;
+
+                // prawy dolny
+                point2.X--;
+                point2.Y--;
+
+                //srodkowy
+                point3.Y++;
+
+                Repaint();
+            }
         }
 
         protected override void SetPointCollection()

@@ -64,23 +64,31 @@ namespace NPaint.Figures
             Repaint();
         }
 
-        public override void DecreaseSize()
-        {
-            rect.X++;
-            rect.Y++;
-            rect.Width -= 2;
-            rect.Height -= 2;
-
-            Repaint();
-        }
         public override void IncreaseSize()
         {
-            rect.X--;
-            rect.Y--;
-            rect.Width += 2;
-            rect.Height += 2;
-            
-            Repaint();
+            // zabezpieczenie, zebysmy nie weszli na Menu
+            if (rect.Y - adaptedPath.StrokeThickness / 2 > 1)
+            {
+                rect.X--;
+                rect.Y--;
+                rect.Width += 2;
+                rect.Height += 2;
+
+                Repaint();
+            }
+        }
+        public override void DecreaseSize()
+        {
+            // zabezpieczenie, zeby rozmiary prostokata nie spadly ponizej 0
+            if(rect.Width >= 2 && rect.Height >= 2)
+            {
+                rect.X++;
+                rect.Y++;
+                rect.Width -= 2;
+                rect.Height -= 2;
+
+                Repaint();
+            }
         }
 
         protected override void SetPointCollection()
