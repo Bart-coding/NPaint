@@ -100,8 +100,6 @@ namespace NPaint.Figures
             double margin = CalculateMargin();
 
             // zabezpieczenie, zebysmy nie weszli na Menu
-            // wyglada ok tylko dla malych border thickness
-            //if (point3.Y - margin >= 1)
             if ( point3.Y - margin >= 1)
             {
                 // lewy dolny 
@@ -193,12 +191,10 @@ namespace NPaint.Figures
         {
             return this.adaptedGeometry.Bounds.TopLeft;
         }
-
         public Point GetLeftDownCorner()
         {
             return PathFigure.StartPoint;
         }
-
         public Point GetTopCorner()
         {
             return point3;
