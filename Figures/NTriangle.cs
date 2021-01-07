@@ -17,37 +17,6 @@ namespace NPaint.Figures
         private LineSegment line2;
         private Point point3;
 
-        //path może być wszędzie w konstruktorze                  
-        //można w sumie dodać jakieś obostrzenia żeby nie można było podać path z wieloma figurami w środku
-        public NTriangle(Path path) : base()
-        {
-            adaptedPath = path;
-            adaptedGeometry = path.Data;
-            PathGeometry tmp = adaptedGeometry as PathGeometry;  //Może w ogóle tych wartości nie ustawiać jak na starcie są niepotrzebne?
-            PathFigure = tmp.Figures[0];
-            line1 = PathFigure.Segments[0] as LineSegment;
-            line2 = PathFigure.Segments[1] as LineSegment;
-            
-            /*
-            // inicjalizacja zmiennych
-            adaptedPath = new Path();
-            adaptedGeometry = new PathGeometry();
-            adaptedPath.Data = adaptedGeometry;
-            PathFigure = new PathFigure();
-            line1 = new LineSegment();
-            line2 = new LineSegment();
-
-            PathFigure.IsClosed = true; // domkniecie trojkata
-            PathGeometry tmp = adaptedGeometry as PathGeometry;
-
-            // przypisanie linii do figury
-            //PathFigure.Segments.Clear(); czyszczenie bedzie niezbedne przy shapefactory chyba?
-            PathFigure.Segments.Add(line1);
-            PathFigure.Segments.Add(line2);
-
-            //tmp.Figures.Clear(); czyszczenie bedzie niezbedne przy shapefactory chyba?
-            tmp.Figures.Add(PathFigure);    // przypisanie figury trojkata do geometrii  */
-        }
         public NTriangle() : base()
         {
             // inicjalizacja zmiennych
@@ -58,19 +27,7 @@ namespace NPaint.Figures
             line1 = new LineSegment();
             line2 = new LineSegment();
 
-            PathFigure.IsClosed = true; // domkniecie trojkata
-
-            // to chyba nie potrzebne
-            //PathGeometry tmp = adaptedGeometry as PathGeometry;
-
-            //// przypisanie linii do figury
-            //PathFigure.Segments.Clear(); //czyszczenie bedzie niezbedne przy shapefactory chyba?
-            //PathFigure.Segments.Add(line1);
-            //PathFigure.Segments.Add(line2);
-
-            //// przypisanie figury do geometrii
-            //tmp.Figures.Clear(); //czyszczenie bedzie niezbedne przy shapefactory chyba?
-            //tmp.Figures.Add(PathFigure);    // przypisanie figury trojkata do geometrii  
+            PathFigure.IsClosed = true; // domkniecie trojkata 
         }
 
         public override void MoveBy(Point point)
@@ -85,6 +42,7 @@ namespace NPaint.Figures
             Canvas.SetLeft(this.adaptedPath, x);
             //PathFigure.StartPoint = new Point(x, y);
             //Nie wiem czy nie trza ustawić pól figury czy już są ustawione
+            // trzeba, bo geometry zostaje w tym samym miejscu, choc path sie przemieszcza
 
             SetPointCollection();
         }
