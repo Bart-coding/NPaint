@@ -30,10 +30,7 @@ namespace NPaint.Figures
         {
             adaptedPath.Stroke = brush;
         }
-        public void ChangeBorderThickness(double value)
-        {
-            adaptedPath.StrokeThickness = value;
-        }
+        
         public void ChangeTransparency(double value)
         {
             Brush brush = new SolidColorBrush(((SolidColorBrush)adaptedPath.Fill).Color);
@@ -54,6 +51,11 @@ namespace NPaint.Figures
         {
             return PointsList;
         }
+
+        public double GetBorderThickness()
+        {
+            return adaptedPath.StrokeThickness;
+        }
         protected abstract void SetPointCollection();
 
         public abstract void IncreaseSize();
@@ -63,6 +65,8 @@ namespace NPaint.Figures
         public abstract void MoveByInsideGroup(Point point);//może czytelniejsze by były dwa double'e//Bartek
         public abstract void Resize(Point point);
         protected abstract void Repaint();
+
+        public abstract void ChangeBorderThickness(double value);
 
         public virtual object Clone()
         {

@@ -193,5 +193,13 @@ namespace NPaint.Figures
 
             SetPointCollection();
         }
+
+        public override void ChangeBorderThickness(double value)
+        {
+            if (this.GetTopCorner().Y - GetBorderThickness() / 2 <= 0 && value > adaptedPath.StrokeThickness) // do korekty
+                value = adaptedPath.StrokeThickness;
+
+            adaptedPath.StrokeThickness = value;
+        }
     }
 }
