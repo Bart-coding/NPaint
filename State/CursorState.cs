@@ -99,11 +99,13 @@ namespace NPaint.State
                     NTriangle tmp_Triangle = Figure as NTriangle;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        
+
                         //Vector vector = VisualTreeHelper.GetOffset(Figure.adaptedPath);
                         //Point positionOfTriangle = new Point(vector.X, vector.Y);
-                        Point positionOfTriangle = ((NTriangle)Figure).GetLeftDownCorner();
-                       // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
+                        //Point positionOfTriangle = ((NTriangle)Figure).GetLeftDownCorner();
+                        Point positionOfTriangle = ((NTriangle)Figure).GetTopCorner();
+
+                        // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
 
 
                         lengthShift = point.Y - positionOfTriangle.Y;

@@ -39,15 +39,15 @@ namespace NPaint.Figures
             //////Canvas.SetTop(this.adaptedPath, y);
             //////Canvas.SetLeft(this.adaptedPath, x);
 
-            double lengthShift = point1.Y - y;
-            double widthShift = point1.X - x;
+            double lengthShift = point3.Y - y;
+            double widthShift = point3.X - x;
              
-            point1.Y = y;
-            point1.X = x;
+            point3.Y = y;
+            point3.X = x;
+            point1.Y -= lengthShift;
+            point1.X -= widthShift;
             point2.Y -= lengthShift;
             point2.X -= widthShift;
-            point3.Y -= lengthShift;
-            point3.X -= widthShift;
             
 
             //PathFigure.StartPoint = new Point(x, y);
@@ -169,6 +169,11 @@ namespace NPaint.Figures
         public Point GetLeftDownCorner()
         {
             return PathFigure.StartPoint;
+        }
+
+        public Point GetTopCorner()
+        {
+            return point3;
         }
 
         protected override void Repaint()
