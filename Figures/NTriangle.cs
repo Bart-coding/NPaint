@@ -72,28 +72,47 @@ namespace NPaint.Figures
             // obliczenie polozenia lewego dolnego wierzcholka
             point1.X = Math.Min(point.X, startPoint.X);
             point1.Y = Math.Max(point.Y, startPoint.Y);
-            PathFigure.StartPoint = point1;
 
             // obliczenie polozenia prawego dolnego wierzcholka
             point2.X = Math.Max(point.X, startPoint.X);
             point2.Y = Math.Max(point.Y, startPoint.Y);
-            line1.Point = point2;
 
             // obliczenie polozenia gornego wierzcholka
             point3.X = MidPointX(point.X,startPoint.X);
             point3.Y = Math.Min(point.Y, startPoint.Y);
-            line2.Point = point3;
 
             Repaint();
         }
 
         public override void DecreaseSize()
         {
-            throw new NotImplementedException();
+            // lewy dolny 
+            point1.X++;
+            point1.Y--;
+
+            // prawy dolny
+            point2.X--;
+            point2.Y--;
+
+            //srodkowy
+            point3.Y++;
+
+            Repaint();
         }
         public override void IncreaseSize()
         {
-            throw new NotImplementedException();
+            // lewy dolny 
+            point1.X--;
+            point1.Y++;
+
+            // prawy dolny
+            point2.X++;
+            point2.Y++;
+            
+            //srodkowy
+            point3.Y--;
+
+            Repaint();
         }
 
         protected override void SetPointCollection()
@@ -133,6 +152,10 @@ namespace NPaint.Figures
 
         protected override void Repaint()
         {
+            PathFigure.StartPoint = point1;
+            line1.Point = point2;
+            line2.Point = point3;
+
             PathFigure.Segments.Clear(); //czyszczenie niezbedne nwm dlaczego insert powinien zalatwic sprawe
             PathFigure.Segments.Insert(0, line1);
             PathFigure.Segments.Insert(1, line2);

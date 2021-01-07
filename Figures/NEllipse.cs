@@ -74,11 +74,15 @@ namespace NPaint.Figures
 
         public override void IncreaseSize()
         {
-            throw new NotImplementedException();
+            ((EllipseGeometry)adaptedGeometry).RadiusX++;
+            ((EllipseGeometry)adaptedGeometry).RadiusY++;
+            Repaint();
         }
         public override void DecreaseSize()
         {
-            throw new NotImplementedException();
+            ((EllipseGeometry)adaptedGeometry).RadiusX--;
+            ((EllipseGeometry)adaptedGeometry).RadiusY--;
+            Repaint();
         }
 
         protected Point MidPoint(Point a, Point b)
