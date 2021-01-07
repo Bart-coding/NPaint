@@ -103,7 +103,7 @@ namespace NPaint.State
                         Vector vector = VisualTreeHelper.GetOffset(Figure.adaptedPath);
                         // Convert the vector to a point value.
                         Point positionOfTriangle = new Point(vector.X, vector.Y);
-
+                        positionOfTriangle = ((NTriangle)Figure).GetLeftDownCorner();
                        // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
 
 

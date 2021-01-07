@@ -11,7 +11,7 @@ namespace NPaint.Figures
     class NTriangle : Figure
     {
         private PathFigure PathFigure;
-        private Point point1;
+        private Point point1; //można by było chyba bezpośrednio ustawiać ten StartPoint i Line'y
         private LineSegment line1;
         private Point point2;
         private LineSegment line2;
@@ -36,10 +36,20 @@ namespace NPaint.Figures
             double y = point.Y;
             double x = point.X;
 
-            //adaptedGeometry.Transform = adaptedGeometry.Transform.TransformBounds(rect);
-            //adaptedGeometry.Bounds.Y = y;
-            Canvas.SetTop(this.adaptedPath, y);
-            Canvas.SetLeft(this.adaptedPath, x);
+            //////Canvas.SetTop(this.adaptedPath, y);
+            //////Canvas.SetLeft(this.adaptedPath, x);
+
+            double lengthShift = point1.Y - y;
+            double widthShift = point1.X - x;
+             
+            point1.Y = y;
+            point1.X = x;
+            point2.Y -= lengthShift;
+            point2.X -= widthShift;
+            point3.Y -= lengthShift;
+            point3.X -= widthShift;
+            
+
             //PathFigure.StartPoint = new Point(x, y);
             //Nie wiem czy nie trza ustawić pól figury czy już są ustawione
             // trzeba, bo geometry zostaje w tym samym miejscu, choc path sie przemieszcza
@@ -49,20 +59,16 @@ namespace NPaint.Figures
 
         public override void MoveByInsideGroup(Point point)
         {
-            Vector vector = VisualTreeHelper.GetOffset(this.adaptedPath);
-            // Convert the vector to a point value.
-            Point positionOfTriangle = new Point(vector.X, vector.Y);
-
-
-            //MessageBox.Show(Canvas.GetTop(this.adaptedPath) + "");
-            Canvas.SetTop(this.adaptedPath, positionOfTriangle.Y - point.Y);
-            Canvas.SetLeft(this.adaptedPath, positionOfTriangle.X - point.X);
-            /*PathFigure.StartPoint.X -= point.X;
-            double y = this.GetLeftDownCorner().Y - point.Y;
-            double x2 = this.line1.Point.X - point.X;
-            double y2 = this.line1.Point.Y - point.Y;
-            double x3 = this.line2.Point.X - point.X;
-            double y3 = this.line2.Point.Y - point.Y;*/
+            //////////Vector vector = VisualTreeHelper.GetOffset(this.adaptedPath);
+            ///////////Point positionOfTriangle = new Point(vector.X, vector.Y);
+            ///////Canvas.SetTop(this.adaptedPath, positionOfTriangle.Y - point.Y);
+            //////Canvas.SetLeft(this.adaptedPath, positionOfTriangle.X - point.X);
+            point1.Y -= point.Y;
+            point1.X -= point.X;
+            point2.Y -= point.Y;
+            point2.X -= point.X;
+            point3.Y -= point.Y;
+            point3.X -= point.X;
 
 
             Repaint();
