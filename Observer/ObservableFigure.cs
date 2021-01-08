@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using NPaint.Figures;
 
@@ -24,53 +25,40 @@ namespace NPaint.Observer
         }
         public void Attach(Figure figure)
         {
-            Observers.Add(figure);
-            // a to do sprawdzania jakie figury sie zaznaczyly
-            figure.ChangeFillColor(Brushes.Silver);
+            Observers.Add(figure); // dodanie do listy obserwujacych
+
+            // efekt wizualny zaznaczenia
+            figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 0.5 };
+            figure.adaptedPath.Effect = new DropShadowEffect();
         }
-
-        public void Detach(Figure figure)
-        {
-            Observers.Remove(figure);
-            
-            figure.ChangeFillColor(Brushes.White); //testowo
-
-        }
-
         public void DetachAll()
         {
-            for (int i = Observers.Count-1; i>=0; i--) //od końca
+            // usuniecie efektu wizualnego
+            foreach(Figure figure in Observers)
             {
-                Observers[i].ChangeFillColor(Brushes.White); //testowo
-                Observers.RemoveAt(i);
+                figure.adaptedPath.Effect = null;
+                figure.adaptedPath.StrokeDashArray = null;
             }
-            
+
+            Observers.Clear(); // wyczyszczenie listy obserwujacych
         }
 
         public void Notify(Point point)
         {
             foreach(Figure figure in Observers)
             {
-                /*if (figure.GetType()==typeof(NTriangle))
-                {
-                    Canvas.SetLeft(figure.adaptedPath, ((NTriangle)figure).GetLeftDownCorner().X + figure.adaptedPath.ActualWidth);
-                    Canvas.SetTop(figure.adaptedPath, ((NTriangle)figure).GetLeftDownCorner().Y + figure.adaptedPath.ActualHeight);
-                }*/
                 figure.MoveByInsideGroup(point);
             }
         }
         public override void MoveBy(Point point)
         {
-            double widthShift = this.GetTopLeft().X - point.X; //GetStartPoint()
+            double widthShift = this.GetTopLeft().X - point.X;
             double lengthShift = this.GetTopLeft().Y - point.Y;
             Point shiftTmpPoint = new Point(widthShift, lengthShift);
-            base.MoveBy(point); //póki co\
-            
-            
-            Notify(shiftTmpPoint); //Notify(point)
-            // poki co to nie przejdzie, przez te shifty
-            //base.MoveBy(point);
-            //Notify(point);
+
+            base.MoveBy(point); //póki co
+
+            Notify(shiftTmpPoint);
         }
         public bool Contains(Figure figure)
         {
@@ -93,6 +81,7 @@ namespace NPaint.Observer
             // jezeli przeszlo po wszystkich punktach i nie zwrocilo falszu tzn. ze wszystkie punkty sie zawieraja w zaznaczeniu
             return true;
         }
+
         public override void ChangeBorderThickness(double value)
         {
             return;

@@ -394,10 +394,9 @@ namespace NPaint
         {
             if (ObservableFigure != null)
             {
+                ObservableFigure.DetachAll();
                 canvas.Children.Remove(ObservableFigure.adaptedPath);
                 ObservableFigure = null;
-
-                
             }
         }
 
