@@ -50,6 +50,30 @@ namespace NPaint.Observer
                 figure.MoveByInsideGroup(point);
             }
         }
+
+        public void Notify_ChangeFillColor(Brush brush)
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.ChangeFillColor(brush);
+            }
+        }
+
+        public void Notify_ChangeBorderColor(Brush brush)
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.ChangeBorderColor(brush);
+            }
+        }
+
+        public void Notify_ChangeTransparency(double value)
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.ChangeTransparency(value);
+            }
+        }
         public override void MoveBy(Point point)
         {
             double widthShift = this.GetTopLeft().X - point.X;

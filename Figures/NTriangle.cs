@@ -221,7 +221,7 @@ namespace NPaint.Figures
 
         public override void ChangeBorderThickness(double value)
         {
-            if (this.GetTopCorner().Y - CalculateMargin() <= 0 && value > adaptedPath.StrokeThickness) // do korekty
+            if (this.GetTopCorner().Y - CalculateMargin() <= 0 && value > adaptedPath.StrokeThickness)
                 value = adaptedPath.StrokeThickness;
 
             adaptedPath.StrokeThickness = value;

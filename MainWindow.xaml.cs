@@ -454,7 +454,13 @@ namespace NPaint
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeBorderColor(button.Background);
+                return;
             }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.ChangeBorderColor(button.Background);
+            }
+
         }
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
@@ -464,6 +470,11 @@ namespace NPaint
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeFillColor(button.Background);
+                return;
+            }
+            if (ObservableFigure !=null)
+            {
+                ObservableFigure.ChangeFillColor(button.Background);
             }
         }
 
@@ -479,6 +490,11 @@ namespace NPaint
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeTransparency(TransparencySlider.Value);
+                return;
+            }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.ChangeTransparency(TransparencySlider.Value);
             }
         }
 
