@@ -13,6 +13,8 @@ namespace NPaint.Figures
     {
         private PathFigure PathFigure;
         private List<LineSegment> Lines;
+        private double scale = 1;
+        Point CenterPoint;
         public NPolygon() : base()
         {
             // inicjalizacja zmiennych
@@ -46,16 +48,20 @@ namespace NPaint.Figures
 
         public override void Draw(Point point)
         {
+            // ustawienie konca obecnej linii w danym punkcie
             Lines.Last().Point = point;
+
             Repaint();
         }
 
         protected override void SetPointCollection()
         {
-            // waiting for implementation
+            // do zaznaczenia wielokata potrzebne sa wszystkie wierzcholki
             PointsList.Clear();
             foreach (LineSegment line in Lines)
+            {
                 PointsList.Add(line.Point);
+            }
         }
         public override void SetStartPoint(Point point)
         {
@@ -68,13 +74,105 @@ namespace NPaint.Figures
             Repaint();
         }
 
-        public override void DecreaseSize()
-        {
-            // waiting for implementation
-        }
         public override void IncreaseSize()
         {
-            // waiting for implementation
+            // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+            CenterPoint = GetCenterPoint();
+            scale = 1.01;   // skalujemy o jeden pkt
+            adaptedGeometry.Transform = new ScaleTransform(scale, scale, CenterPoint.X, CenterPoint.Y);
+            
+            DecodeTransform();
+        }
+        public override void DecreaseSize()
+        {
+            // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+            CenterPoint = GetCenterPoint();
+            scale = 0.99;   // skalujemy o jeden pkt
+            adaptedGeometry.Transform = new ScaleTransform(scale, scale, CenterPoint.X, CenterPoint.Y);
+            
+            DecodeTransform();
+        }
+        private void DecodeTransform()
+        {
+            Lines.Clear();
+
+            // przesuwamy punkt poczatkowy
+            PathFigure.StartPoint = ShiftPoint(PathFigure.StartPoint);
+
+            // przesuwamy wszystkie wierzcholki figury
+            foreach (LineSegment line in PathFigure.Segments)
+            {
+                line.Point = ShiftPoint(line.Point);
+                Lines.Add(line);
+            }
+
+            // zerujemy transformacje, bo juz ja zdekodowalismy
+            adaptedGeometry.Transform = null;
+
+            Repaint();
+        }
+        private double CalculateDistance(Point p1, Point p2)
+        {
+            // dlugosc odcinka miedzy dwoma punktami
+            return Math.Abs(Point.Subtract(p2, p1).Length);
+        }
+        private Point ShiftPoint(Point point)
+        {
+            // skorzystanie z podobienstwa trojkatow
+            // z,x,y - duzy trojkat, gdzie wierzcholki to CenterPoint, point (obecnie przetwarzany wierzcholek)
+            // oraz punkt tworzacy z nimi trojkat prostokatny - zmienna CornerPoint
+            // z1,x1,y1 - maly trojkat, gdzie wierzcholki to CenterPoint, return point ( wierzcholek po shifcie)
+            // oraz punkt tworzacy z nimi trojkat prostokatny
+            double z = CalculateDistance(point, CenterPoint);
+            Point CornerPoint = new Point(CenterPoint.X, point.Y);
+            double x = CalculateDistance(point, CornerPoint);
+            double z1 = z * scale;
+
+            // z1/z = x1/x => x1 = z1*x/z
+            double x1 = z1 * x / z;
+
+            // z1 = x1 + y1 => y1 = sqrt(z1^2 - x1^2)
+            double y1 = Math.Sqrt(z1 * z1 - x1 * x1);
+
+            // to mozna uproscic chyba?
+            // polozenie wierzcholka wzgledem CenterPointa
+
+            // lewy dol
+            if (point.X <= CenterPoint.X && point.Y >= CenterPoint.Y)
+            {
+                point.X = CenterPoint.X - x1;
+                point.Y = CenterPoint.Y + y1;
+            }
+            // prawy dol
+            else if (point.X >= CenterPoint.X && point.Y >= CenterPoint.Y)
+            {
+                point.X = CenterPoint.X + x1;
+                point.Y = CenterPoint.Y + y1;
+            }
+            // prawy gora
+            else if (point.X >= CenterPoint.X && point.Y <= CenterPoint.Y)
+            {
+                point.X = CenterPoint.X + x1;
+                point.Y = CenterPoint.Y - y1;
+            }
+            // lewy gora
+            else if (point.X <= CenterPoint.X && point.Y <= CenterPoint.Y)
+            {
+                point.X = CenterPoint.X - x1;
+                point.Y = CenterPoint.Y - y1;
+            }
+
+            return point;
+        }
+        private Point GetCenterPoint()
+        {
+            Point point = new Point();
+            point.X = adaptedGeometry.Bounds.X + adaptedGeometry.Bounds.Width / 2;
+            point.Y = adaptedGeometry.Bounds.Y + adaptedGeometry.Bounds.Height / 2;
+            // jezeli MoveBy() popsuje to bedzie trzeba recznia znajdowac te punkty
+            //point.X = MostRight() - MostLeft();
+            //point.Y = Bottom() - Top();
+            return point;
         }
         public override object Clone()
         {
