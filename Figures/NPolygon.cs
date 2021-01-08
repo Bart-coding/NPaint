@@ -12,40 +12,40 @@ namespace NPaint.Figures
         {
             adaptedPath = new Path();
             adaptedGeometry = new PathGeometry();
-            //startPoint = point;
+            adaptedPath.Data = adaptedGeometry;
         }
 
         public override void MoveBy(Point point)
         {
-            throw new System.NotImplementedException();
+            // waiting for implementation
         }
         public override void MoveByInsideGroup(Point point)
         {
-            throw new System.NotImplementedException();
+            // waiting for implementation
         }
 
-        public override void Resize(Point point)
+        public override void Draw(Point point)
         {
-            throw new System.NotImplementedException();
+            // waiting for implementation
         }
 
         protected override void SetPointCollection()
         {
-            throw new NotImplementedException();
+            // waiting for implementation
         }
 
         public override void DecreaseSize()
         {
-            throw new NotImplementedException();
+            // waiting for implementation
         }
         public override void IncreaseSize()
         {
-            throw new NotImplementedException();
+            // waiting for implementation
         }
 
         protected override void Repaint()
         {
-            throw new NotImplementedException();
+            // waiting for implementation
         }
 
         public override void ChangeBorderThickness(double value)
@@ -56,7 +56,7 @@ namespace NPaint.Figures
 
         public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
         {
-            throw new NotImplementedException();
+            // waiting for implementation
         }
     }
 }

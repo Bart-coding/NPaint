@@ -96,7 +96,7 @@ namespace NPaint.State
                 }
                 // jezeli rysujemy
                 else
-                    Figure.Resize(point);
+                    Figure.Draw(point);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using NPaint.Figures;
 
 namespace NPaint.State
 {
@@ -7,13 +8,15 @@ namespace NPaint.State
     {
         public override void MouseLeftButtonDown(Point point)
         {
-            throw new NotImplementedException();
-            //MouseMove(point);
+            Figure = ShapeFactory.getShapeFactory().getFigure("Polygon") as NPolygon;
+            Figure.SetStartPoint(point);
+            ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
+            MouseMove(point);
         }
 
         public override void MouseMove(Point point)
         {
-            throw new NotImplementedException();
+            Figure.Draw(point);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace NPaint.Figures
             Repaint();
         }
 
-        public override void Resize(Point point)
+        public override void Draw(Point point)
         {
             // obliczenie polozenia prostokata na osi XY
             rect.X = Math.Min(point.X, startPoint.X);

@@ -18,7 +18,7 @@ namespace NPaint.State
 
         public override void MouseMove(Point point)
         {
-            Figure.Resize(point);
+            Figure.Draw(point);
         }
     }
 }

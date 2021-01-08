@@ -9,7 +9,7 @@ namespace NPaint.Figures
     class NSquare : NRectangle
     {
         public NSquare() : base() {}
-        public override void Resize(Point point)
+        public override void Draw(Point point)
         {
             double squarelength;
 

@@ -19,7 +19,7 @@ namespace NPaint.State
 
         public override void MouseMove(Point point)
         {
-            Figure.Resize(point);//*czasem Figure = null exception
+            Figure.Draw(point);//*czasem Figure = null exception
             //throw new NotImplementedException();
         }
     }

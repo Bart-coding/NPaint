@@ -54,7 +54,7 @@ namespace NPaint.Figures
             Repaint();
         }
 
-        public override void Resize(Point point)
+        public override void Draw(Point point)
         {
             // obliczenie polozenia elipsy na osi XY
             CenterPoint = MidPoint(point, startPoint);

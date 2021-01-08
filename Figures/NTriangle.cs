@@ -73,7 +73,7 @@ namespace NPaint.Figures
 
             Repaint();
         }
-        public override void Resize(Point point)
+        public override void Draw(Point point)
         {
             // obliczenie polozenia lewego dolnego wierzcholka
             point1.X = Math.Min(point.X, startPoint.X);
