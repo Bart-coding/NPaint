@@ -13,7 +13,6 @@ namespace NPaint.Figures
     {
         private PathFigure PathFigure;
         private List<LineSegment> Lines;
-        private double scale = 1;
         Point CenterPoint;
         public NPolygon() : base()
         {
@@ -78,45 +77,31 @@ namespace NPaint.Figures
         {
             // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
             CenterPoint = GetCenterPoint();
-            scale = 1.01;   // skalujemy o jeden pkt
-            adaptedGeometry.Transform = new ScaleTransform(scale, scale, CenterPoint.X, CenterPoint.Y);
-            
-            DecodeTransform();
+            ShiftApexes(1.01);// skalujemy o jeden pkt
         }
         public override void DecreaseSize()
         {
             // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
             CenterPoint = GetCenterPoint();
-            scale = 0.99;   // skalujemy o jeden pkt
-            adaptedGeometry.Transform = new ScaleTransform(scale, scale, CenterPoint.X, CenterPoint.Y);
-            
-            DecodeTransform();
+            ShiftApexes(0.99);// skalujemy o jeden pkt
         }
-        private void DecodeTransform()
+        private void ShiftApexes(double scale)
         {
             Lines.Clear();
 
             // przesuwamy punkt poczatkowy
-            PathFigure.StartPoint = ShiftPoint(PathFigure.StartPoint);
+            PathFigure.StartPoint = ShiftPointFromCenter(PathFigure.StartPoint,scale);
 
             // przesuwamy wszystkie wierzcholki figury
             foreach (LineSegment line in PathFigure.Segments)
             {
-                line.Point = ShiftPoint(line.Point);
+                line.Point = ShiftPointFromCenter(line.Point,scale);
                 Lines.Add(line);
             }
 
-            // zerujemy transformacje, bo juz ja zdekodowalismy
-            adaptedGeometry.Transform = null;
-
             Repaint();
         }
-        private double CalculateDistance(Point p1, Point p2)
-        {
-            // dlugosc odcinka miedzy dwoma punktami
-            return Math.Abs(Point.Subtract(p2, p1).Length);
-        }
-        private Point ShiftPoint(Point point)
+        private Point ShiftPointFromCenter(Point point, double scale)
         {
             // skorzystanie z podobienstwa trojkatow
             // z,x,y - duzy trojkat, gdzie wierzcholki to CenterPoint, point (obecnie przetwarzany wierzcholek)
@@ -164,6 +149,12 @@ namespace NPaint.Figures
 
             return point;
         }
+        private double CalculateDistance(Point p1, Point p2)
+        {
+            // dlugosc odcinka miedzy dwoma punktami
+            return Math.Abs(Point.Subtract(p2, p1).Length);
+        }
+
         private Point GetCenterPoint()
         {
             Point point = new Point();
@@ -174,6 +165,7 @@ namespace NPaint.Figures
             //point.Y = Bottom() - Top();
             return point;
         }
+
         public override object Clone()
         {
             NPolygon clonedFigure = base.Clone() as NPolygon;
@@ -202,7 +194,6 @@ namespace NPaint.Figures
             //if
             adaptedPath.StrokeThickness = value;
         }
-
         public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
         {
             // waiting for implementation
