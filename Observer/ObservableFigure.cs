@@ -74,6 +74,14 @@ namespace NPaint.Observer
                 figure.ChangeTransparency(value);
             }
         }
+
+        public void Notify_ChangeBorderThickness(double value)
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.ChangeBorderThicknessInsideGroup(value, this.GetPointCollection());
+            }
+        }
         public override void MoveBy(Point point)
         {
             double widthShift = this.GetTopLeft().X - point.X;
@@ -108,7 +116,7 @@ namespace NPaint.Observer
 
         public override void ChangeBorderThickness(double value)
         {
-            return;
+            Notify_ChangeBorderThickness(value);
         }
     }
 }

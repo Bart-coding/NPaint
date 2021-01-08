@@ -25,31 +25,16 @@ namespace NPaint.Figures
         }
         public void ChangeFillColor(Brush brush)
         {
-            if (this.GetType() == typeof(ObservableFigure)) //albo uabstrakcyjnić metodę
-            {
-                ((ObservableFigure)this).Notify_ChangeFillColor(brush);
-                return;
-            }
             
             adaptedPath.Fill = brush;
         }
         public void ChangeBorderColor(Brush brush)
         {
-            if (this.GetType() == typeof(ObservableFigure)) //albo uabstrakcyjnić metodę
-            {
-                ((ObservableFigure)this).Notify_ChangeBorderColor(brush);
-                return;
-            }
             adaptedPath.Stroke = brush;
         }
         
         public void ChangeTransparency(double value)
         {
-            if (this.GetType() == typeof(ObservableFigure))
-            {
-                ((ObservableFigure)this).Notify_ChangeTransparency(value);
-                return;
-            }
             Brush brush = new SolidColorBrush(((SolidColorBrush)adaptedPath.Fill).Color);
             brush.Opacity = value;
             adaptedPath.Fill = brush;
@@ -85,6 +70,7 @@ namespace NPaint.Figures
 
         public abstract void ChangeBorderThickness(double value);
 
+        public abstract void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection);
         public virtual object Clone()
         {
             //throw new NotImplementedException();

@@ -147,5 +147,21 @@ namespace NPaint.Figures
         {
             return ((EllipseGeometry)adaptedGeometry).RadiusY;
         }
+
+        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
+        {
+            if (GetCenterPoint().X+GetRadiusX()+value/2>pointCollectionOfSelection[1].X
+                || GetCenterPoint().X - GetRadiusX() - value / 2 < pointCollectionOfSelection[0].X
+                || GetCenterPoint().Y + GetRadiusY() + value / 2 > pointCollectionOfSelection[1].Y
+                || GetCenterPoint().Y - GetRadiusY() - value / 2 < pointCollectionOfSelection[0].Y)
+            {
+                return;
+            }
+            else
+            {
+                adaptedPath.StrokeThickness = value;
+            }
+
+        }
     }
 }

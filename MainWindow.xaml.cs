@@ -458,7 +458,7 @@ namespace NPaint
             }
             if (ObservableFigure != null)
             {
-                ObservableFigure.ChangeBorderColor(button.Background);
+                ObservableFigure.Notify_ChangeBorderColor(button.Background);
             }
 
         }
@@ -474,7 +474,8 @@ namespace NPaint
             }
             if (ObservableFigure !=null)
             {
-                ObservableFigure.ChangeFillColor(button.Background);
+                //ObservableFigure.ChangeFillColor(button.Background);
+                ObservableFigure.Notify_ChangeFillColor(button.Background);
             }
         }
 
@@ -483,6 +484,11 @@ namespace NPaint
             if(SelectedFigure != null)
             {
                 SelectedFigure.ChangeBorderThickness(BorderThicknessySlider.Value);
+                return;
+            }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.ChangeBorderThickness(BorderThicknessySlider.Value);
             }
         }
         private void TransparencySlider_ValueChanged(object sender, RoutedEventArgs e)
@@ -494,7 +500,7 @@ namespace NPaint
             }
             if (ObservableFigure != null)
             {
-                ObservableFigure.ChangeTransparency(TransparencySlider.Value);
+                ObservableFigure.Notify_ChangeTransparency(TransparencySlider.Value);
             }
         }
 

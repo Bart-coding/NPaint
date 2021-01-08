@@ -53,5 +53,10 @@ namespace NPaint.Figures
             //if
             adaptedPath.StrokeThickness = value;
         }
+
+        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
