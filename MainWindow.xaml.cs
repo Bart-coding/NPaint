@@ -235,7 +235,7 @@ namespace NPaint
             {
                 if (this.Cursor != Cursors.Arrow)
                     this.Cursor = Cursors.Arrow;
-                menuState.MouseLeftButtonUp();
+                menuState.MouseLeftButtonUp(e.GetPosition(canvas));
             }
             // zwolnienie myszy z Canvasa
             //Mouse.Capture(null);

@@ -41,7 +41,7 @@ namespace NPaint.State
             Figure = null;
         }
 
-        public override void MouseLeftButtonUp()
+        public override void MouseLeftButtonUp(Point point)
         {
             lengthShift = 0;
             widthShift = 0;

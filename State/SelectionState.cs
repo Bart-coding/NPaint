@@ -45,7 +45,7 @@ namespace NPaint.State
             ToMove = false;
         }
 
-        public override void MouseLeftButtonUp()
+        public override void MouseLeftButtonUp(Point point)
         {
             if (selectedAtLeastOne)
                return;

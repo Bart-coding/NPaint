@@ -40,7 +40,7 @@ namespace NPaint.Figures
             adaptedPath.Fill = brush;
         }
 
-        public void SetStartPoint (Point point)
+        public virtual void SetStartPoint (Point point)
         {
             startPoint = point;
         }
