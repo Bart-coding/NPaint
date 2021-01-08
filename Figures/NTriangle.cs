@@ -10,6 +10,8 @@ namespace NPaint.Figures
     [Serializable]///
     class NTriangle : Figure
     {
+        private double scale = 1.1;
+
         private PathFigure PathFigure;
         private Point point1; //można by było chyba bezpośrednio ustawiać ten StartPoint i Line'y
         private LineSegment line1;
@@ -33,27 +35,24 @@ namespace NPaint.Figures
         public override void MoveBy(Point point)
         {
             
-            double y = point.Y;
-            double x = point.X;
-
             //////Canvas.SetTop(this.adaptedPath, y);
             //////Canvas.SetLeft(this.adaptedPath, x);
 
-            double lengthShift = point3.Y - y;
-            double widthShift = point3.X - x;
+            double lengthShift = point3.Y - point.Y;
+            double widthShift = point3.X - point.X;
              
-            point3.Y = y;
-            point3.X = x;
+            point3.Y = point.Y;
+            point3.X = point.X;
             point1.Y -= lengthShift;
             point1.X -= widthShift;
             point2.Y -= lengthShift;
             point2.X -= widthShift;
-            
+
 
             //PathFigure.StartPoint = new Point(x, y);
             //Nie wiem czy nie trza ustawić pól figury czy już są ustawione
             // trzeba, bo geometry zostaje w tym samym miejscu, choc path sie przemieszcza
-
+            
             Repaint();
         }
 

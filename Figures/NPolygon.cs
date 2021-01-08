@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -25,11 +26,22 @@ namespace NPaint.Figures
 
         public override void MoveBy(Point point)
         {
-            // waiting for implementation
+            double widthShift = Lines.Last().Point.X - point.X;
+            double lengthShift = Lines.Last().Point.Y - point.Y;
+            foreach (LineSegment line in Lines.TakeWhile(l=>l!=Lines.Last()))
+            {
+                line.Point = new Point(line.Point.X - widthShift, line.Point.Y - lengthShift);
+            }
+            Lines.Last().Point = point;
+            SetStartPoint(point); //Repaint() inside
         }
         public override void MoveByInsideGroup(Point point)
         {
-            // waiting for implementation
+            foreach (LineSegment line in Lines)
+            {
+                line.Point = new Point(line.Point.X - point.X, line.Point.Y - point.Y);
+            }
+            SetStartPoint(Lines.Last().Point);
         }
 
         public override void Draw(Point point)
@@ -41,6 +53,9 @@ namespace NPaint.Figures
         protected override void SetPointCollection()
         {
             // waiting for implementation
+            PointsList.Clear();
+            foreach (LineSegment line in Lines)
+                PointsList.Add(line.Point);
         }
         public override void SetStartPoint(Point point)
         {

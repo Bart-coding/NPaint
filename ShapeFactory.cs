@@ -11,7 +11,7 @@ namespace NPaint
 {
     class ShapeFactory
     {
-        private static ShapeFactory shapeFactory = new ShapeFactory();
+        private static readonly ShapeFactory shapeFactory = new ShapeFactory();
         private Dictionary<string, Figure> prototypedFigures = new Dictionary<string, Figure>();
 
         private ShapeFactory()

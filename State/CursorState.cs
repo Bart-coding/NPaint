@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -74,9 +75,7 @@ namespace NPaint.State
                     dynamic f_tmp = Figure;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        //dynamic f_tmp = Figure;
-                        //Point center = f_tmp.GetLeftDownCorner(); 
-                        // dlaczego zmienione? powinno byc getcenterpoint
+                       
                         Point center = f_tmp.GetCenterPoint();
                         lengthShift = point.Y - center.Y; //stała odległość myszki od środka figury
                         widthShift = point.X - center.X;
@@ -98,9 +97,6 @@ namespace NPaint.State
                     NTriangle tmp_Triangle = Figure as NTriangle;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        //Vector vector = VisualTreeHelper.GetOffset(Figure.adaptedPath);
-                        //Point positionOfTriangle = new Point(vector.X, vector.Y);
-                        //Point positionOfTriangle = ((NTriangle)Figure).GetLeftDownCorner();
                         Point positionOfTriangle = ((NTriangle)Figure).GetTopCorner();
 
                         // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
@@ -120,7 +116,16 @@ namespace NPaint.State
                 // gdy przesywamy dowolny wielokat
                 else if (Figure.GetType() == typeof(NPolygon))
                 {
-                    // waiting for implementation
+                    if (lengthShift == 0 && widthShift == 0)
+                    {
+                        Point startPointOfPolygon = Figure.GetPointCollection().Last();
+                        lengthShift = point.Y - startPointOfPolygon.Y;
+                        widthShift = point.X - startPointOfPolygon.X;
+                    }
+                    point.Y -= lengthShift;
+                    point.X -= widthShift;
+                    if (Figure.GetPointCollection().Any(e => e.Y-(Figure.GetPointCollection().Last().Y-point.Y) < 0))
+                        point.Y++;
                 }
 
                 Figure.MoveBy(point);
