@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using NPaint.Figures;
 
@@ -23,29 +25,72 @@ namespace NPaint.Observer
         }
         public void Attach(Figure figure)
         {
-            Observers.Add(figure);
-            // a to do sprawdzania jakie figury sie zaznaczyly
-            figure.ChangeFillColor(Brushes.Silver);
-        }
+            Observers.Add(figure); // dodanie do listy obserwujacych
 
-        public void Detach(Figure figure)
+            // efekt wizualny zaznaczenia
+            figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 0.5 };
+            figure.adaptedPath.Effect = new DropShadowEffect();
+        }
+        public void DetachAll()
         {
-            Observers.Remove(figure);
+            // usuniecie efektu wizualnego
+            foreach(Figure figure in Observers)
+            {
+                figure.adaptedPath.Effect = null;
+                figure.adaptedPath.StrokeDashArray = null;
+            }
+
+            Observers.Clear(); // wyczyszczenie listy obserwujacych
         }
 
         public void Notify(Point point)
         {
             foreach(Figure figure in Observers)
             {
-                // poki co to nie przejdzie, przez te shifty
-                //figure.MoveBy(point);
+                figure.MoveByInsideGroup(point);
+            }
+        }
+
+        public void Notify_ChangeFillColor(Brush brush)
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.ChangeFillColor(brush);
+            }
+        }
+
+        public void Notify_ChangeBorderColor(Brush brush)
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.ChangeBorderColor(brush);
+            }
+        }
+
+        public void Notify_ChangeTransparency(double value)
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.ChangeTransparency(value);
+            }
+        }
+
+        public void Notify_ChangeBorderThickness(double value)
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.ChangeBorderThicknessInsideGroup(value, this.GetPointCollection());
             }
         }
         public override void MoveBy(Point point)
         {
-            // poki co to nie przejdzie, przez te shifty
-            //base.MoveBy(point);
-            //Notify(point);
+            double widthShift = this.GetTopLeft().X - point.X;
+            double lengthShift = this.GetTopLeft().Y - point.Y;
+            Point shiftTmpPoint = new Point(widthShift, lengthShift);
+
+            base.MoveBy(point); //póki co
+
+            Notify(shiftTmpPoint);
         }
         public bool Contains(Figure figure)
         {
@@ -67,6 +112,11 @@ namespace NPaint.Observer
             }
             // jezeli przeszlo po wszystkich punktach i nie zwrocilo falszu tzn. ze wszystkie punkty sie zawieraja w zaznaczeniu
             return true;
+        }
+
+        public override void ChangeBorderThickness(double value)
+        {
+            Notify_ChangeBorderThickness(value);
         }
     }
 }

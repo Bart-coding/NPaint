@@ -182,17 +182,19 @@ namespace NPaint
                 {
                     if (this.Cursor != Cursors.SizeAll)
                         this.Cursor = Cursors.SizeAll;
+                    if (ObservableFigure!=null) //Test
+                    {
+                        
+                        Point pt = e.GetPosition(canvas);
+
+                        menuState.MouseMove(pt);
+                                                
+                        return;
+                    }
                     if (SelectedFigure != null)
                     {
                         Point pt = e.GetPosition(canvas);
-                        /*CursorState tmpCursor = menuState as CursorState;//
-                        if (pt.Y < 0 + (pt.Y - tmpCursor.lengthShift))
-                        {
-                            pt.Y = 0 + (pt.Y - tmpCursor.lengthShift);
-                        }*/
-
-                       menuState.MouseMove(pt); //nie działało, bo menuState to BasicState
-                       // SelectedFigure.MoveBy(pt);
+                       menuState.MouseMove(pt);
                         return;
                     }
                     if (menuState != null)
@@ -244,11 +246,6 @@ namespace NPaint
                 }
                 menuState.MouseLeftButtonUp(e.GetPosition(canvas));
             }
-            //if (selectedFigureState != null)
-            //{
-            //    //selectedFigureState = null;
-            //    selectedFigureState.MouseLeftButtonUp(e.GetPosition(canvas));
-            //}
             // zwolnienie myszy z Canvasa
             //Mouse.Capture(null);
         }
@@ -344,7 +341,6 @@ namespace NPaint
                 canvas.Children.Remove(ObservableFigure.adaptedPath);
 
             ObservableFigure = figure as ObservableFigure;
-            //SetSelectedFigure(ObservableFigure);//możnaby też tworzyć fabryką
 
             // dodanie go do canvasa, zeby byl widoczny
             canvas.Children.Add(figure.adaptedPath);
@@ -376,6 +372,7 @@ namespace NPaint
         {
             return FigureList;
         }
+
         public void ResetSelectedFigure()
         {
             // musimy wylaczyc ramke dla obecnie wybranej figury
@@ -425,6 +422,7 @@ namespace NPaint
         {
             if (ObservableFigure != null)
             {
+                ObservableFigure.DetachAll();
                 canvas.Children.Remove(ObservableFigure.adaptedPath);
                 ObservableFigure = null;
             }
@@ -445,7 +443,6 @@ namespace NPaint
             RemoveButton.Background = Brushes.White;
             ClearButton.Background = Brushes.White;
         }
-
         private void AfterClick(object sender)
         {
             ResetSelectedFigure();
@@ -454,7 +451,6 @@ namespace NPaint
             Button button = sender as Button;
             button.Background = Brushes.Gray;
         }
-
         private void Tool_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
@@ -462,6 +458,20 @@ namespace NPaint
             Type type = Type.GetType("NPaint.State." + (sender as Button).Tag.ToString());
 
             menuState = (MenuState)Activator.CreateInstance(type);
+        }
+        private void PlusSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(SelectedFigure != null)
+            {
+                SelectedFigure.IncreaseSize();
+            }
+        }
+        private void MinusSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedFigure != null)
+            {
+                SelectedFigure.DecreaseSize();
+            }
         }
 
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
@@ -475,7 +485,13 @@ namespace NPaint
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeBorderColor(button.Background);
+                return;
             }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.Notify_ChangeBorderColor(button.Background);
+            }
+
         }
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
@@ -488,6 +504,12 @@ namespace NPaint
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeFillColor(button.Background);
+                return;
+            }
+            if (ObservableFigure !=null)
+            {
+                //ObservableFigure.ChangeFillColor(button.Background);
+                ObservableFigure.Notify_ChangeFillColor(button.Background);
             }
         }
 
@@ -496,14 +518,23 @@ namespace NPaint
             if(SelectedFigure != null)
             {
                 SelectedFigure.ChangeBorderThickness(BorderThicknessySlider.Value);
+                return;
+            }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.ChangeBorderThickness(BorderThicknessySlider.Value);
             }
         }
-
         private void TransparencySlider_ValueChanged(object sender, RoutedEventArgs e)
         {
             if (SelectedFigure != null)
             {
                 SelectedFigure.ChangeTransparency(TransparencySlider.Value);
+                return;
+            }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.Notify_ChangeTransparency(TransparencySlider.Value);
             }
         }
 

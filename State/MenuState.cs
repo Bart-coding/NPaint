@@ -8,6 +8,9 @@ namespace NPaint.State
         protected Figure Figure;
         public abstract void MouseMove(Point point);
         public abstract void MouseLeftButtonDown(Point point);
-        public abstract void MouseLeftButtonUp(Point point);
+        public virtual void MouseLeftButtonUp(Point point)
+        {
+            ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
+        }
     }
 }

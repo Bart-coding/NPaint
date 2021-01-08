@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,7 +12,7 @@ namespace NPaint.State
     class CursorState : MenuState
     {
         double widthShift, lengthShift = 0;
-        double triangleDistanceFromStartPoint = 0;//
+        double TriangleMargin;
         public override void MouseLeftButtonDown(Point point)
         {
             // jezeli kliknelismy w ta sama figure co poprzednio
@@ -43,9 +44,9 @@ namespace NPaint.State
 
         public override void MouseLeftButtonUp(Point point)
         {
-                lengthShift = 0;
-                widthShift = 0;
-                triangleDistanceFromStartPoint = 0;//
+            lengthShift = 0;
+            widthShift = 0;
+            TriangleMargin = 0;
         }
 
         public override void MouseMove(Point point)
@@ -53,29 +54,28 @@ namespace NPaint.State
             if(Figure != null)
             {
                 // gdy przesuwamy prostokat lub kwadrat
-                if (Figure.GetType() == typeof(NRectangle) || Figure.GetType() == typeof(NSquare) ||/*optionally*/ Figure.GetType() == typeof(ObservableFigure))
+                if (Figure.GetType() == typeof(NRectangle) || Figure.GetType() == typeof(NSquare))
                 {
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        lengthShift = point.Y - Figure.GetStartPoint().Y; //stała odległość myszki od środka figury
-                        widthShift = point.X - Figure.GetStartPoint().X;
-
-                        
+                        lengthShift = point.Y - ((NRectangle)Figure).GetTopLeft().Y;
+                        widthShift = point.X - ((NRectangle)Figure).GetTopLeft().X;
                     }
-                    point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
+                    point.Y -= lengthShift; //podanie do metody od razu pktu startowego
                     point.X -= widthShift;
                     //Zabezpieczenie przed umieszczeniem figury na Menu
-                    if (point.Y < 0 + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
+                    if (point.Y < 0 + Figure.GetBorderThickness() / 2) //można wziąc też thickness z figury
                     {
-                        point.Y = 0 + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
+                        point.Y = 0 + Figure.GetBorderThickness() / 2;
                     }
                 }
+                // gdy przesuwamy elipse lub kolo
                 else if (Figure.GetType() == typeof(NEllipse) || Figure.GetType() == typeof(NCircle))
                 {
                     dynamic f_tmp = Figure;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        //dynamic f_tmp = Figure;
+                       
                         Point center = f_tmp.GetCenterPoint();
                         lengthShift = point.Y - center.Y; //stała odległość myszki od środka figury
                         widthShift = point.X - center.X;
@@ -85,39 +85,50 @@ namespace NPaint.State
                     point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
                     point.X -= widthShift;
                     //Zabezpieczenie przed umieszczeniem figury na Menu
-                    if (point.Y < f_tmp.adaptedGeometry.RadiusY + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2) //można wziąc też thickness z figury
+                    if (point.Y < f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2) //można wziąc też thickness z figury
                     {
-                        point.Y = f_tmp.adaptedGeometry.RadiusY + ((MainWindow)Application.Current.MainWindow).BorderThicknessySlider.Value / 2;
+                        point.Y = f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2;
                     }
 
                 }
+                // gdy przesywamy trojkat
                 else if (Figure.GetType() == typeof(NTriangle))
                 {
                     NTriangle tmp_Triangle = Figure as NTriangle;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                        Point position = tmp_Triangle.GetStartPoint();
-                        triangleDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
-                        //Point position = tmp_Triangle.GetPointCollection()[2]; //GetStartPoint()
-                        //to co niżej nie wiedzieć czemu nie działało
-                        //Point position = new Point(Canvas.GetLeft(tmp_Triangle.adaptedPath), Canvas.GetTop(tmp_Triangle.adaptedPath));
-                        lengthShift = point.Y - position.Y;
-                        widthShift = point.X - position.X;
+                        Point positionOfTriangle = ((NTriangle)Figure).GetTopCorner();
 
+                        // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
 
+                        lengthShift = point.Y - positionOfTriangle.Y;
+                        widthShift = point.X - positionOfTriangle.X;
+                        TriangleMargin = ((NTriangle)Figure).CalculateMargin();
                     }
                     point.Y -= lengthShift;
                     point.X -= widthShift;
-                    if (point.Y + triangleDistanceFromStartPoint < 0) //można wziąc też thickness z figury
+                    if (point.Y < 0 + TriangleMargin)
                     {
-                        point.Y = -triangleDistanceFromStartPoint;
+                        point.Y = TriangleMargin;
                     }
 
                 }
+                // gdy przesywamy dowolny wielokat
+                else if (Figure.GetType() == typeof(NPolygon))
+                {
+                    if (lengthShift == 0 && widthShift == 0)
+                    {
+                        Point startPointOfPolygon = Figure.GetPointCollection().Last();
+                        lengthShift = point.Y - startPointOfPolygon.Y;
+                        widthShift = point.X - startPointOfPolygon.X;
+                    }
+                    point.Y -= lengthShift;
+                    point.X -= widthShift;
+                    if (Figure.GetPointCollection().Any(e => e.Y-(Figure.GetPointCollection().Last().Y-point.Y) < 0))
+                        point.Y++;
+                }
 
-
-
-                    Figure.MoveBy(point);
+                Figure.MoveBy(point);
             }
         }
     }

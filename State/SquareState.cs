@@ -15,15 +15,9 @@ namespace NPaint.State
             MouseMove(point);
         }
 
-        public override void MouseLeftButtonUp(Point point)
-        {
-            base.MouseLeftButtonUp(point);
-            //((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
-        }
-
         public override void MouseMove(Point point)
         {
-            Figure.Resize(point);
+            Figure.Draw(point);
         }
     }
 }

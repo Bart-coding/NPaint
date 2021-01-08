@@ -11,7 +11,7 @@ namespace NPaint
 {
     class ShapeFactory
     {
-        private static ShapeFactory shapeFactory = new ShapeFactory();
+        private static readonly ShapeFactory shapeFactory = new ShapeFactory();
         private Dictionary<string, Figure> prototypedFigures = new Dictionary<string, Figure>();
 
         private ShapeFactory()
@@ -39,6 +39,8 @@ namespace NPaint
             
             RectangleGeometry rectangleG = new RectangleGeometry();
             Rect rect = new Rect();
+            rect.X = 100;
+            rect.Y = 100;
             rect.Width = 100;
             rect.Height = 50;
             rectangleG.Rect = rect;
@@ -57,6 +59,8 @@ namespace NPaint
             
             RectangleGeometry squareG = new RectangleGeometry();
             Rect rect = new Rect();
+            rect.X = 100;
+            rect.Y = 100;
             rect.Width = 50;//
             rect.Height = 50;//
             squareG.Rect = rect;
@@ -75,6 +79,7 @@ namespace NPaint
             
        
             EllipseGeometry ellipseGeometry = new EllipseGeometry();
+            ellipseGeometry.Center = new Point(200, 200);
             ellipseGeometry.RadiusX = 40;
             ellipseGeometry.RadiusY = 60;
             Path myPath = new Path();
@@ -91,6 +96,7 @@ namespace NPaint
         private void CreateCirclePrototype()
         {
             EllipseGeometry circleGeometry = new EllipseGeometry();
+            circleGeometry.Center = new Point(200, 200);
             circleGeometry.RadiusX = 50;//
             circleGeometry.RadiusY = 50;//
             Path myPath = new Path();
@@ -110,8 +116,9 @@ namespace NPaint
             PathGeometry pathGeometry = new PathGeometry();
             PathFigure pathFigure = new PathFigure();
             pathFigure.IsClosed = true;
-            
-            pathFigure.Segments.Add(new LineSegment(new Point(50, 100), true)); //bez wielkosci
+
+            pathFigure.StartPoint = new Point(200, 200);
+            pathFigure.Segments.Add(new LineSegment(new Point(50, 100), true));
             pathFigure.Segments.Add(new LineSegment(new Point(100, 100), true));
             pathGeometry.Figures.Add(pathFigure);
 

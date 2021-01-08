@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPaint.Observer;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Markup;
@@ -24,19 +25,14 @@ namespace NPaint.Figures
         }
         public void ChangeFillColor(Brush brush)
         {
+            
             adaptedPath.Fill = brush;
         }
-
         public void ChangeBorderColor(Brush brush)
         {
             adaptedPath.Stroke = brush;
         }
-
-        public void ChangeBorderThickness(double value)
-        {
-            adaptedPath.StrokeThickness = value;
-        }
-
+        
         public void ChangeTransparency(double value)
         {
             Brush brush = new SolidColorBrush(((SolidColorBrush)adaptedPath.Fill).Color);
@@ -44,12 +40,11 @@ namespace NPaint.Figures
             adaptedPath.Fill = brush;
         }
 
-        public void SetStartPoint (Point point)
+        public virtual void SetStartPoint (Point point)
         {
             startPoint = point;
         }
-
-        public Point GetStartPoint()
+        public Point GetStartPoint()////////////
         {
             return startPoint;
         }
@@ -59,12 +54,23 @@ namespace NPaint.Figures
             return PointsList;
         }
 
+        public double GetBorderThickness()
+        {
+            return adaptedPath.StrokeThickness;
+        }
         protected abstract void SetPointCollection();
 
+        public abstract void IncreaseSize();
+        public abstract void DecreaseSize();
+
         public abstract void MoveBy(Point point);
+        public abstract void MoveByInsideGroup(Point point);//może czytelniejsze by były dwa double'e//Bartek
+        public abstract void Draw(Point point);
+        protected abstract void Repaint();
 
-        public abstract void Resize(Point point);
+        public abstract void ChangeBorderThickness(double value);
 
+        public abstract void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection);
         public virtual object Clone()
         {
             //throw new NotImplementedException();

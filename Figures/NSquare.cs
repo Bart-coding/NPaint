@@ -9,7 +9,7 @@ namespace NPaint.Figures
     class NSquare : NRectangle
     {
         public NSquare() : base() {}
-        public override void Resize(Point point)
+        public override void Draw(Point point)
         {
             double squarelength;
 
@@ -34,13 +34,7 @@ namespace NPaint.Figures
                 rect.Y = startPoint.Y - squarelength;
             }
 
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            ((RectangleGeometry)adaptedGeometry).Rect = rect;
-
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
+            Repaint();
         }
     }
 }
