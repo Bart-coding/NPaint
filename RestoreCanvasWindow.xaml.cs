@@ -20,6 +20,5 @@ namespace NPaint
         {
             Close();
         }
-
     }
 }

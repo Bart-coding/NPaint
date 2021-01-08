@@ -49,7 +49,7 @@ namespace NPaint.Figures
             startPoint = point;
         }
 
-        public Point GetStartPoint()////////////
+        public Point GetStartPoint()
         {
             return startPoint;
         }

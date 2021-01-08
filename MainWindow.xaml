@@ -53,7 +53,7 @@
 
                 <Label Name="BorderColorLabel" Margin="1" Padding="1" VerticalContentAlignment="Center">Border Color</Label>
                 <Separator Width="10"/>
-                <Button Name="BorderColorButton" Margin="1" Height="56" Width="56" Background="Black"  BorderBrush="Black"></Button>
+                <Button Name="BorderColorButton" Margin="1" Height="56" Width="56" Background="Black" BorderBrush="Black"></Button>
                 <Separator Width="10"/>
 
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Black"/>
@@ -66,6 +66,9 @@
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="DeepSkyBlue"/>
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Blue"/>
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Purple"/>
+                <Button Name="ColorIterator" Margin="1" Height="56" Width="56" Click="ColorIterator_Click" MouseRightButtonDown="ColorIterator_RightClick" BorderBrush="Black" Background="White">
+                    <Image Source="Graphics/rgbIteratorCircle.png" Margin="2"/>
+                </Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
@@ -113,6 +116,9 @@
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="Cyan"/>
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="DarkCyan"/>
                 <Button Margin="1" Height="56" Width="56" Click="ChangeColor_Click" MouseRightButtonDown="ChangeColor_RightClick" BorderBrush="Black" Background="MediumPurple"/>
+                <Button Margin="1" Height="56" Width="56" Click="RGB_Click" BorderBrush="Black" Background="White">
+                    <Image Source="Graphics/rgbCircle.png" Margin="2"/>
+                </Button>
             </StackPanel>
 
             <Separator Grid.Row="2"/>

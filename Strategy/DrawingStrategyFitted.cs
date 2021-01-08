@@ -4,15 +4,15 @@ using System.Windows.Media;
 
 namespace NPaint.Strategy
 {
-    class DrawingStrategyCenter : DrawingStrategy
+    class DrawingStrategyFitted : DrawingStrategy
     {
         public void draw(Geometry geometry, Point startPoint, Point point)
         {
             EllipseGeometry tmp = geometry as EllipseGeometry;
 
-            tmp.Center = startPoint;
+            tmp.Center = MidPoint(startPoint, point);
 
-            double radius = Math.Abs(Math.Sqrt(Math.Pow(startPoint.X - point.X, 2) + Math.Pow(startPoint.Y - point.Y, 2)));
+            double radius = Math.Abs(Math.Sqrt(Math.Pow(startPoint.X - point.X, 2) + Math.Pow(startPoint.Y - point.Y, 2)))/2;
 
             tmp.RadiusX = radius;
             tmp.RadiusY = radius;

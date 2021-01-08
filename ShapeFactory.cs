@@ -21,8 +21,7 @@ namespace NPaint
             this.CreateEllipsePrototype();
             this.CreateCirclePrototype();
             this.CreateTrianglePrototype();
-            this.CreatePolygonPrototype();//
-            
+            this.CreatePolygonPrototype();
         }
 
         public static ShapeFactory getShapeFactory()

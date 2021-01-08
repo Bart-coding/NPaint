@@ -14,6 +14,7 @@ using NPaint.Figures;
 using NPaint.Memento;
 using NPaint.Observer;
 using NPaint.State;
+using NPaint.Iterator___singleton;
 
 namespace NPaint
 {
@@ -23,8 +24,13 @@ namespace NPaint
         public Canvas canvas;
         private List<Figure> FigureList;
         public FigureListClass FigureListClassObject;
-        private Figure SelectedFigure;
+        public Figure SelectedFigure;
         private ObservableFigure ObservableFigure;
+
+        private RGBIterator Iterator = RGBIterator.getIterator();
+
+        public bool BorderIteratorSelected = false;
+        public bool FillIteratorSelected = false;
 
         private Caretaker caretaker;
         private Originator originator;
@@ -52,7 +58,6 @@ namespace NPaint
             AddCanvas();
             RestoreCaretaker();
 
-
             // na sztywno, zeby sprawdzic czy mozna rysowac figury
             menuState = new SquareState();
         }
@@ -72,7 +77,9 @@ namespace NPaint
 
                     }
                     else
+                    {
                         break;
+                    }
                 }
             }
             //sw.Close();
@@ -232,7 +239,9 @@ namespace NPaint
             if(menuState != null)
             {
                 if (this.Cursor != Cursors.Arrow)
+                {
                     this.Cursor = Cursors.Arrow;
+                }
                 menuState.MouseLeftButtonUp(e.GetPosition(canvas));
             }
             //if (selectedFigureState != null)
@@ -392,6 +401,25 @@ namespace NPaint
             FillColorButton.Background = figure.adaptedPath.Fill;
             TransparencySlider.Value = figure.adaptedPath.Fill.Opacity;
             BorderThicknessySlider.Value = figure.adaptedPath.StrokeThickness;
+
+            if(BorderIteratorSelected || FillIteratorSelected)
+            {
+                if (!Iterator.isDone())
+                {
+                    RGB rgb = Iterator.Next();
+
+                    if(BorderIteratorSelected)
+                    {
+                        BorderColorButton.Background = new SolidColorBrush(Color.FromRgb(Byte.Parse(rgb.R.ToString()), Byte.Parse(rgb.G.ToString()), Byte.Parse(rgb.B.ToString())));
+                    }
+                    if (FillIteratorSelected)
+                    {
+                        FillColorButton.Background = new SolidColorBrush(Color.FromRgb(Byte.Parse(rgb.R.ToString()), Byte.Parse(rgb.G.ToString()), Byte.Parse(rgb.B.ToString())));
+                    }
+                }
+
+                
+            }
         }
         private void ResetObservableFigure()
         {
@@ -438,7 +466,10 @@ namespace NPaint
 
         private void ChangeColor_Click(object sender, RoutedEventArgs e)
         {
+            BorderIteratorSelected = false;
+
             Button button = sender as Button;
+
             BorderColorButton.Background = button.Background;
 
             if (SelectedFigure != null)
@@ -448,7 +479,10 @@ namespace NPaint
         }
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
+            FillIteratorSelected = false;
+
             Button button = sender as Button;
+
             FillColorButton.Background = button.Background;
 
             if (SelectedFigure != null)
@@ -483,30 +517,34 @@ namespace NPaint
                 canvasName = canvasNameWindow.nameBox.Text;
                 this.SerializeCanvas(canvasName);
             }
-
         }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow();
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz kontynuować? Utracisz obecny canvas.", "Wczytaj", System.Windows.MessageBoxButton.YesNo);
 
-            for (int i = 0; ; i++)
+            if (messageBoxResult == MessageBoxResult.Yes)
             {
-                Memento.Memento memento = this.caretaker.GetMemento(i);
+                RestoreCanvasWindow restoreCanvasWindow = new RestoreCanvasWindow();
 
-                if (memento != null)
+                for (int i = 0; ; i++)
                 {
-                    String canvasName = this.originator.restoreFromMemento(memento);
-                    restoreCanvasWindow.canvasNameListbox.Items.Add(canvasName);
-                }
-                else
-                {
-                    break;
-                }
-            }
+                    Memento.Memento memento = this.caretaker.GetMemento(i);
 
-            if (true == restoreCanvasWindow.ShowDialog())
-            {
-                this.RestoreCanvas(restoreCanvasWindow.canvasNameListbox.SelectedIndex);
+                    if (memento != null)
+                    {
+                        String canvasName = this.originator.restoreFromMemento(memento);
+                        restoreCanvasWindow.canvasNameListbox.Items.Add(canvasName);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (true == restoreCanvasWindow.ShowDialog())
+                {
+                    this.RestoreCanvas(restoreCanvasWindow.canvasNameListbox.SelectedIndex);
+                }
             }
         }
 
@@ -531,6 +569,50 @@ namespace NPaint
                         this.caretaker.AddMemento(this.originator.CreateMemento());
                     }
                 }
+            }
+        }
+
+        private void RGB_Click(object sender, RoutedEventArgs e)
+        {
+            RGBWindow rgbWindow = new RGBWindow();
+            rgbWindow.Owner = (MainWindow)Application.Current.MainWindow;
+            rgbWindow.Show();
+
+        }
+
+        private void ColorIterator_Click(object sender, RoutedEventArgs e)
+        {
+            FillIteratorSelected = false;
+            BorderIteratorSelected = true;
+
+            if(!Iterator.isDone())
+            {
+                RGB rgb = Iterator.Next();
+                
+                BorderColorButton.Background = new SolidColorBrush(Color.FromRgb(Byte.Parse(rgb.R.ToString()), Byte.Parse(rgb.G.ToString()), Byte.Parse(rgb.B.ToString())));
+            }
+
+            if (SelectedFigure != null)
+            {
+                SelectedFigure.ChangeBorderColor(BorderColorButton.Background);
+            }
+        }
+
+        private void ColorIterator_RightClick(object sender, MouseButtonEventArgs e)
+        {
+            BorderIteratorSelected = false;
+            FillIteratorSelected = true;
+
+            if (!Iterator.isDone())
+            {
+                RGB rgb = Iterator.Next();
+
+                FillColorButton.Background = new SolidColorBrush(Color.FromRgb(Byte.Parse(rgb.R.ToString()), Byte.Parse(rgb.G.ToString()), Byte.Parse(rgb.B.ToString())));
+            }
+
+            if (SelectedFigure != null)
+            {
+                SelectedFigure.ChangeFillColor(FillColorButton.Background);
             }
         }
     }

@@ -101,7 +101,7 @@ namespace NPaint.Iterator___singleton
             return temp;
         }
 
-        public Boolean isDOne()
+        public Boolean isDone()
         {
             return false;
         }

@@ -5,6 +5,6 @@ namespace NPaint.Strategy
 {
     interface DrawingStrategy
     {
-        public void draw(Geometry geometry, Point point);
+        public void draw(Geometry geometry, Point startPoint, Point point);
     }
 }

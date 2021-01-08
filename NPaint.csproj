@@ -18,6 +18,8 @@
     <None Remove="Graphics\plus.png" />
     <None Remove="Graphics\polygon.png" />
     <None Remove="Graphics\rectangle.png" />
+    <None Remove="Graphics\rgbCircle.png" />
+    <None Remove="Graphics\rgbIteratorCircle.png" />
     <None Remove="Graphics\save.png" />
     <None Remove="Graphics\square.png" />
     <None Remove="Graphics\triangle.png" />
@@ -42,6 +44,8 @@
     <Resource Include="Graphics\plus.png" />
     <Resource Include="Graphics\polygon.png" />
     <Resource Include="Graphics\rectangle.png" />
+    <Resource Include="Graphics\rgbCircle.png" />
+    <Resource Include="Graphics\rgbIteratorCircle.png" />
     <Resource Include="Graphics\save.png" />
     <Resource Include="Graphics\square.png" />
     <Resource Include="Graphics\triangle.png" />
