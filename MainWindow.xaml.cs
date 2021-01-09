@@ -36,6 +36,9 @@ namespace NPaint
         private Originator originator;
         private readonly String canvasPath = @"..\..\..\Canvases\";
         private readonly String canvasListFilePath = @"..\..\..\Canvases\CanvasList.txt";
+
+        private RGBWindow rgbWindow = null;
+
         //public Point firstStartPointWhileMoving; -> do przemyślenia
 
         public MainWindow()
@@ -478,6 +481,11 @@ namespace NPaint
         {
             BorderIteratorSelected = false;
 
+            if(!FillIteratorSelected)
+            {
+                ColorIterator.Background = Brushes.White;
+            }
+
             Button button = sender as Button;
 
             BorderColorButton.Background = button.Background;
@@ -496,6 +504,11 @@ namespace NPaint
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
             FillIteratorSelected = false;
+
+            if (!BorderIteratorSelected)
+            {
+                ColorIterator.Background = Brushes.White;
+            }
 
             Button button = sender as Button;
 
@@ -605,16 +618,20 @@ namespace NPaint
 
         private void RGB_Click(object sender, RoutedEventArgs e)
         {
-            RGBWindow rgbWindow = new RGBWindow();
-            rgbWindow.Owner = (MainWindow)Application.Current.MainWindow;
+            if(rgbWindow == null)
+            {
+                rgbWindow = new RGBWindow();
+                rgbWindow.Owner = (MainWindow)Application.Current.MainWindow;
+            }
             rgbWindow.Show();
-
         }
 
         private void ColorIterator_Click(object sender, RoutedEventArgs e)
         {
             FillIteratorSelected = false;
             BorderIteratorSelected = true;
+
+            ColorIterator.Background = Brushes.Gray;
 
             if(!Iterator.isDone())
             {
@@ -633,6 +650,8 @@ namespace NPaint
         {
             BorderIteratorSelected = false;
             FillIteratorSelected = true;
+
+            ColorIterator.Background = Brushes.Gray;
 
             if (!Iterator.isDone())
             {
