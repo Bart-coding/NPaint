@@ -6,7 +6,7 @@ namespace NPaint.Strategy
 {
     class DrawingStrategyCenter : DrawingStrategy
     {
-        public void draw(Geometry geometry, Point startPoint, Point point)
+        public EllipseGeometry ChangeGeometry(Geometry geometry, Point startPoint, Point point)
         {
             EllipseGeometry tmp = geometry as EllipseGeometry;
 
@@ -14,8 +14,13 @@ namespace NPaint.Strategy
 
             double radius = Math.Abs(Math.Sqrt(Math.Pow(startPoint.X - point.X, 2) + Math.Pow(startPoint.Y - point.Y, 2)));
 
-            tmp.RadiusX = radius;
-            tmp.RadiusY = radius;
+            if(tmp.Center.Y - radius > 0)
+            {
+                tmp.RadiusX = radius;
+                tmp.RadiusY = radius;
+            }
+
+            return tmp;
         }
 
         protected Point MidPoint(Point a, Point b)

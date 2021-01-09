@@ -6,16 +6,38 @@ namespace NPaint.Strategy
 {
     class DrawingStrategyClassic : DrawingStrategy
     {
-        public void draw(Geometry geometry, Point startPoint, Point point)
+        public EllipseGeometry ChangeGeometry(Geometry geometry, Point startPoint, Point point)
         {
             EllipseGeometry tmp = geometry as EllipseGeometry;
 
-            tmp.Center = MidPoint(startPoint, point);
+            Point CenterPoint;
 
-            double radius = Math.Min(Math.Abs(startPoint.X - point.X), Math.Abs(startPoint.Y - point.Y));
+            double radius = Math.Min(Math.Abs(startPoint.X - point.X), Math.Abs(startPoint.Y - point.Y)) / 2;
 
             tmp.RadiusX = radius;
             tmp.RadiusY = radius;
+            tmp.Center = MidPoint(startPoint, point);
+
+            if(startPoint.X > point.X)
+            {
+                CenterPoint.X = startPoint.X - radius;
+            }
+            else
+            {
+                CenterPoint.X = startPoint.X + radius;
+            }
+            if(startPoint.Y > point.Y)
+            {
+                CenterPoint.Y = startPoint.Y - radius;
+            }
+            else
+            {
+                CenterPoint.Y = startPoint.Y + radius;
+            }
+
+            tmp.Center = CenterPoint;
+
+            return tmp;
         }
 
         protected Point MidPoint(Point a, Point b)

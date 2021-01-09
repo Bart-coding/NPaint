@@ -1,4 +1,9 @@
-﻿using System;
+﻿using NPaint.Figures;
+using NPaint.Iterator___singleton;
+using NPaint.Memento;
+using NPaint.Observer;
+using NPaint.State;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -10,11 +15,6 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using NPaint.Figures;
-using NPaint.Memento;
-using NPaint.Observer;
-using NPaint.State;
-using NPaint.Iterator___singleton;
 
 namespace NPaint
 {

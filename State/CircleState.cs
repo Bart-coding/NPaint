@@ -1,6 +1,8 @@
 ﻿using NPaint.Figures;
 using System;
 using System.Windows;
+using System.Windows.Input;
+using NPaint.Strategy;
 
 namespace NPaint.State
 {
@@ -12,12 +14,21 @@ namespace NPaint.State
             Figure = (NCircle)shapeFactory.getFigure("Circle");
             Figure.SetStartPoint(point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
-            MouseMove(point);
+            Figure.Draw(point);
+
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                ((NCircle)Figure).SetStrategy(new DrawingStrategyCenter());
+            }
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                ((NCircle)Figure).SetStrategy(new DrawingStrategyFitted());
+            }
         }
 
         public override void MouseMove(Point point)
         {
-            Figure.Draw(point);            
+            Figure.Draw(point);
         }
     }
 }
