@@ -433,8 +433,8 @@ namespace NPaint
         {
             if(FigureList.Count != 0)
             {
-                // jezeli ostatnio dodana figura do listy to wielokat
-                if (FigureList.Last().GetType() == typeof(NPolygon))
+                // jezeli ostatnio dodana figura do listy to wielokat, ktory nie jest zamkniety
+                if (FigureList.Last().GetType() == typeof(NPolygon) && !((NPolygon)FigureList.Last()).PathFigure.IsClosed)
                 {
                     ((NPolygon)FigureList.Last()).CloseFigure();    // zamykamy figure
                 }

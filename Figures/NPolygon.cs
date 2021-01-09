@@ -57,6 +57,7 @@ namespace NPaint.Figures
         {
             // do zaznaczenia wielokata potrzebne sa wszystkie wierzcholki
             PointsList.Clear();
+            PointsList.Add(PathFigure.StartPoint);
             foreach (LineSegment line in Lines)
             {
                 PointsList.Add(line.Point);
@@ -75,15 +76,23 @@ namespace NPaint.Figures
 
         public override void IncreaseSize()
         {
-            // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
-            CenterPoint = GetCenterPoint();
-            ShiftApexes(1.01);// skalujemy o jeden pkt
+            // jezeli zderzy sie z Menu to nie zwiekszamy
+            if( !WillHitMenu() )
+            {
+                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+                CenterPoint = GetCenterPoint();
+                ShiftApexes(1.01);// skalujemy o jeden pkt
+            }
         }
         public override void DecreaseSize()
         {
-            // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
-            CenterPoint = GetCenterPoint();
-            ShiftApexes(0.99);// skalujemy o jeden pkt
+            // minimlne wartosci, ponizej ktorych nie mozemy zejsc
+            if (adaptedGeometry.Bounds.Width > 10 && adaptedGeometry.Bounds.Height > 10)
+            {
+                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+                CenterPoint = GetCenterPoint();
+                ShiftApexes(0.99);// skalujemy o jeden pkt
+            }
         }
         private void ShiftApexes(double scale)
         {
@@ -154,7 +163,6 @@ namespace NPaint.Figures
             // dlugosc odcinka miedzy dwoma punktami
             return Math.Abs(Point.Subtract(p2, p1).Length);
         }
-
         private Point GetCenterPoint()
         {
             Point point = new Point();
@@ -164,6 +172,18 @@ namespace NPaint.Figures
             //point.X = MostRight() - MostLeft();
             //point.Y = Bottom() - Top();
             return point;
+        }
+        private bool WillHitMenu()
+        {
+            // tymczasowe - do dopracowania
+            if(adaptedGeometry.Bounds.Y - adaptedPath.StrokeThickness / 2 <= 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override object Clone()
@@ -210,7 +230,7 @@ namespace NPaint.Figures
         }
         public void CloseFigure()
         {
-            Lines.Last().Point = startPoint;
+            Lines.Last().Point = PathFigure.StartPoint;
             PathFigure.IsClosed = true; // domkniecie wielokata
 
             Repaint();
