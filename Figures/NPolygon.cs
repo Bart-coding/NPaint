@@ -11,9 +11,9 @@ namespace NPaint.Figures
     [Serializable]
     class NPolygon : Figure
     {
-        private PathFigure PathFigure;
+        public PathFigure PathFigure;
         private List<LineSegment> Lines;
-        Point CenterPoint;
+        private Point CenterPoint;
         public NPolygon() : base()
         {
             // inicjalizacja zmiennych
@@ -210,7 +210,6 @@ namespace NPaint.Figures
         }
         public void CloseFigure()
         {
-            //Lines.Add(CurrentLine);
             Lines.Last().Point = startPoint;
             PathFigure.IsClosed = true; // domkniecie wielokata
 
