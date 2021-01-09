@@ -13,9 +13,8 @@ namespace NPaint.Figures
     {
         public PathFigure PathFigure;
         private List<LineSegment> Lines;
-=======
         private Point CenterPoint;
->>>>>>> a53220910cac32cf15b8fdca4000caf801764557
+
         public NPolygon() : base()
         {
             // inicjalizacja zmiennych
@@ -114,11 +113,12 @@ namespace NPaint.Figures
         }
         private Point ShiftPointFromCenter(Point point, double scale)
         {
-            
-            double xdistance = CenterPoint.X - point.X;
+            Vector distance = CenterPoint - point;
+            point = CenterPoint - distance * scale;
+            /*double xdistance = CenterPoint.X - point.X;
             double ydistance = CenterPoint.Y - point.Y;
             point.X = CenterPoint.X - xdistance*scale;
-            point.Y = CenterPoint.Y - ydistance*scale;
+            point.Y = CenterPoint.Y - ydistance*scale;*/
 
             // skorzystanie z podobienstwa trojkatow
             // z,x,y - duzy trojkat, gdzie wierzcholki to CenterPoint, point (obecnie przetwarzany wierzcholek)
