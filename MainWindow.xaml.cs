@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
@@ -256,6 +257,7 @@ namespace NPaint
         {
             ResetSelectedFigure();
             ResetObservableFigure();
+            TryClosePolygon();
         }
 
         private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
@@ -430,7 +432,17 @@ namespace NPaint
                 ObservableFigure = null;
             }
         }
-
+        private void TryClosePolygon()
+        {
+            if(FigureList.Count != 0)
+            {
+                // jezeli ostatnio dodana figura do listy to wielokat, ktory nie jest zamkniety
+                if (FigureList.Last().GetType() == typeof(NPolygon) && !((NPolygon)FigureList.Last()).PathFigure.IsClosed)
+                {
+                    ((NPolygon)FigureList.Last()).CloseFigure();    // zamykamy figure
+                }
+            }
+        }
         private void ResetButtonsBackgrounds()
         {
             CircleButton.Background = Brushes.White;
@@ -448,6 +460,7 @@ namespace NPaint
         }
         private void AfterClick(object sender)
         {
+            TryClosePolygon();
             ResetSelectedFigure();
             ResetObservableFigure();
             ResetButtonsBackgrounds();
@@ -625,7 +638,6 @@ namespace NPaint
             }
             rgbWindow.Show();
         }
-
         private void ColorIterator_Click(object sender, RoutedEventArgs e)
         {
             FillIteratorSelected = false;
@@ -645,7 +657,6 @@ namespace NPaint
                 SelectedFigure.ChangeBorderColor(BorderColorButton.Background);
             }
         }
-
         private void ColorIterator_RightClick(object sender, MouseButtonEventArgs e)
         {
             BorderIteratorSelected = false;

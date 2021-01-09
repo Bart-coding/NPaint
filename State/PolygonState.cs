@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using NPaint.Figures;
 
@@ -11,7 +12,7 @@ namespace NPaint.State
         public override void MouseLeftButtonDown(Point point)
         {
             // jezeli zaczynamy rysowac figure
-            if (Figure == null || IsClosed == true)
+            if (Figure == null || IsClosed == true || (Figure as NPolygon).PathFigure.IsClosed == true)
             {
                 Figure = ShapeFactory.getShapeFactory().getFigure("Polygon") as NPolygon;
                 Figure.SetStartPoint(point);

@@ -11,9 +11,10 @@ namespace NPaint.Figures
     [Serializable]
     class NPolygon : Figure
     {
-        private PathFigure PathFigure;
+        public PathFigure PathFigure;
         private List<LineSegment> Lines;
-        Point CenterPoint;
+        private Point CenterPoint;
+
         public NPolygon() : base()
         {
             // inicjalizacja zmiennych
@@ -57,6 +58,7 @@ namespace NPaint.Figures
         {
             // do zaznaczenia wielokata potrzebne sa wszystkie wierzcholki
             PointsList.Clear();
+            PointsList.Add(PathFigure.StartPoint);
             foreach (LineSegment line in Lines)
             {
                 PointsList.Add(line.Point);
@@ -75,15 +77,23 @@ namespace NPaint.Figures
 
         public override void IncreaseSize()
         {
-            // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
-            CenterPoint = GetCenterPoint();
-            ShiftApexes(1.01);// skalujemy o jeden pkt
+            // jezeli zderzy sie z Menu to nie zwiekszamy
+            if( !WillHitMenu() )
+            {
+                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+                CenterPoint = GetCenterPoint();
+                ShiftApexes(1.01);// skalujemy o jeden pkt
+            }
         }
         public override void DecreaseSize()
         {
-            // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
-            CenterPoint = GetCenterPoint();
-            ShiftApexes(0.99);// skalujemy o jeden pkt
+            // minimlne wartosci, ponizej ktorych nie mozemy zejsc
+            if (adaptedGeometry.Bounds.Width > 10 && adaptedGeometry.Bounds.Height > 10)
+            {
+                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+                CenterPoint = GetCenterPoint();
+                ShiftApexes(0.99);// skalujemy o jeden pkt
+            }
         }
         private void ShiftApexes(double scale)
         {
@@ -103,12 +113,20 @@ namespace NPaint.Figures
         }
         private Point ShiftPointFromCenter(Point point, double scale)
         {
+            Vector distance = CenterPoint - point;
+            point = CenterPoint - distance * scale;
+            /*double xdistance = CenterPoint.X - point.X;
+            double ydistance = CenterPoint.Y - point.Y;
+            point.X = CenterPoint.X - xdistance*scale;
+            point.Y = CenterPoint.Y - ydistance*scale;*/
+
             // skorzystanie z podobienstwa trojkatow
             // z,x,y - duzy trojkat, gdzie wierzcholki to CenterPoint, point (obecnie przetwarzany wierzcholek)
             // oraz punkt tworzacy z nimi trojkat prostokatny - zmienna CornerPoint
             // z1,x1,y1 - maly trojkat, gdzie wierzcholki to CenterPoint, return point ( wierzcholek po shifcie)
             // oraz punkt tworzacy z nimi trojkat prostokatny
-            double z = CalculateDistance(point, CenterPoint);
+
+            /*double z = CalculateDistance(point, CenterPoint);
             Point CornerPoint = new Point(CenterPoint.X, point.Y);
             double x = CalculateDistance(point, CornerPoint);
             double z1 = z * scale;
@@ -145,7 +163,7 @@ namespace NPaint.Figures
             {
                 point.X = CenterPoint.X - x1;
                 point.Y = CenterPoint.Y - y1;
-            }
+            }*/
 
             return point;
         }
@@ -154,7 +172,6 @@ namespace NPaint.Figures
             // dlugosc odcinka miedzy dwoma punktami
             return Math.Abs(Point.Subtract(p2, p1).Length);
         }
-
         private Point GetCenterPoint()
         {
             Point point = new Point();
@@ -164,6 +181,18 @@ namespace NPaint.Figures
             //point.X = MostRight() - MostLeft();
             //point.Y = Bottom() - Top();
             return point;
+        }
+        private bool WillHitMenu()
+        {
+            // tymczasowe - do dopracowania
+            if(adaptedGeometry.Bounds.Y - adaptedPath.StrokeThickness / 2 <= 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override object Clone()
@@ -210,8 +239,7 @@ namespace NPaint.Figures
         }
         public void CloseFigure()
         {
-            //Lines.Add(CurrentLine);
-            Lines.Last().Point = startPoint;
+            Lines.Last().Point = PathFigure.StartPoint;
             PathFigure.IsClosed = true; // domkniecie wielokata
 
             Repaint();
