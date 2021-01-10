@@ -141,13 +141,13 @@ namespace NPaint.Figures
             }
         }
 
-        public override void SetFields(Path path)//Test
+        public override void SetFields(Path path)
         {
             adaptedPath = path;
             adaptedGeometry = path.Data;
 
             rect = ((RectangleGeometry)adaptedGeometry).Rect;
-            //
+            
             SetPointCollection();
         }
     }

@@ -243,9 +243,11 @@ namespace NPaint.Figures
             adaptedGeometry = path.Data;
 
             PathFigure = ((PathGeometry)adaptedGeometry).Figures[0];
+            //MessageBox.Show(PathFigure.Segments[0] + "");
             //
-            line1 = PathFigure.Segments[0] as LineSegment;//
-            line2 = PathFigure.Segments[1] as LineSegment;
+            PolyLineSegment polyLineSegment = (PolyLineSegment)PathFigure.Segments[0];
+            line1.Point = polyLineSegment.Points[0];
+            line2.Point = polyLineSegment.Points[1];
             //
             point1 = PathFigure.StartPoint;
             point2 = line1.Point;

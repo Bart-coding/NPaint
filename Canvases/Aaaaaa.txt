@@ -1,0 +1,1 @@
+<Canvas Background="#00FFFFFF" Grid.Row="1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><Path Fill="#00FFFFFF" Stroke="#FF808080" StrokeThickness="1" StrokeDashArray="3"><Path.Data><RectangleGeometry Rect="503,129.76,412,439" /></Path.Data></Path></Canvas>

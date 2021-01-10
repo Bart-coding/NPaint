@@ -244,22 +244,28 @@ namespace NPaint.Figures
 
             Repaint();
         }
-        public override void SetFields(Path path)//Test
+        public override void SetFields(Path path)
         {
             adaptedPath = path;
             adaptedGeometry = path.Data;
 
-
-            Lines.Clear();
-            foreach (LineSegment lineSegment in PathFigure.Segments)
-            {
-                Lines.Add(lineSegment);
-            }
-            //
-            SetPointCollection();
-            //
+            
             PathFigure = ((PathGeometry)adaptedGeometry).Figures[0];
-            //
+            Lines.Clear();
+            PathSegment pathSegment = PathFigure.Segments[0];
+            if (PathFigure.Segments[0].GetType() == typeof(PolyLineSegment))
+                foreach (Point point in ((PolyLineSegment)pathSegment).Points)
+                {
+                    Lines.Add(new LineSegment(point, true)); //stroke defaultowy to true
+                }
+            else //PathFigure.Segments[0] type is LineSegment because figure has only one line
+            {
+                Lines.Add(new LineSegment(((LineSegment)pathSegment).Point, true));
+            }
+
+            
+            SetPointCollection();
+            
             CenterPoint = GetCenterPoint();
         }
 

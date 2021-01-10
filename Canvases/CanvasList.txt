@@ -7,3 +7,10 @@ ddd.txt
 fff.txt
 ggg.txt
 EEe.txt
+Et.txt
+T.txt
+QQQ.txt
+PL.txt
+EEE.txt
+Kropka.txt
+Dot.txt

@@ -1,0 +1,1 @@
+<Canvas Background="#00FFFFFF" Grid.Row="1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><Path Fill="#FFFFFFFF" Stroke="#FF000000" StrokeThickness="5" StrokeDashArray="1" Tag="Polygon"><Path.Data><PathGeometry Figures="M541,323.76L683,565.76L760,501.76L917,430.76L781,313.76L838,276.76L541,323.76z" /></Path.Data></Path></Canvas>
