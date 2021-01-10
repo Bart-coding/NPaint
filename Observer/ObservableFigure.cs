@@ -35,7 +35,7 @@ namespace NPaint.Observer
         public void DetachAll()
         {
             // usuniecie efektu wizualnego
-            Notify_AddSelectionVisualEffect();
+            Notify_DeleteSelectionVisualEffect();
             Observers.Clear(); // wyczyszczenie listy obserwujacych
         }
 
