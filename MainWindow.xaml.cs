@@ -266,7 +266,24 @@ namespace NPaint
             //string path = System.IO.Path.GetFullPath(fileName);
             //string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(fileName, @"..\..\..\..\Canvases\")) + fileName;
             string newPath = this.canvasPath + fileName;
+            if (SelectedFigure!=null)
+                SelectedFigure.adaptedPath.StrokeDashArray = null;
+            if (ObservableFigure != null)
+            {
+                this.canvas.Children.Remove(ObservableFigure.adaptedPath);
+                ObservableFigure.Notify_DeleteSelectionVisualEffect();
+            }
+
             string CanvasXAML = XamlWriter.Save(this.canvas);
+
+            if (SelectedFigure != null)
+                SelectedFigure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
+            if (ObservableFigure != null)
+            {
+                this.canvas.Children.Add(ObservableFigure.adaptedPath);
+                ObservableFigure.Notify_AddSelectionVisualEffect();
+            }
+                
             try
             {
                 using (StreamWriter writer = new StreamWriter(newPath))
@@ -310,6 +327,16 @@ namespace NPaint
         }
         private void RestoreCanvas(int index)
         {
+            if (SelectedFigure != null)
+            {
+                MessageBox.Show("Y");
+                SelectedFigure = null;
+            }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure = null;
+                MessageBox.Show("X");
+                    }
             string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetMemento(index)); //Odczyt z listy Memento
             string CanvasString;
             try //odczyt  z pliku

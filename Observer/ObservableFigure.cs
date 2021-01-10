@@ -35,12 +35,7 @@ namespace NPaint.Observer
         public void DetachAll()
         {
             // usuniecie efektu wizualnego
-            foreach(Figure figure in Observers)
-            {
-                figure.adaptedPath.Effect = null;
-                figure.adaptedPath.StrokeDashArray = null;
-            }
-
+            Notify_AddSelectionVisualEffect();
             Observers.Clear(); // wyczyszczenie listy obserwujacych
         }
 
@@ -113,6 +108,24 @@ namespace NPaint.Observer
             foreach (Figure figure in Observers)
             {
                 figure.DecreaseSize();
+            }
+        }
+
+        public void Notify_AddSelectionVisualEffect()
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 0.5 };
+                figure.adaptedPath.Effect = new DropShadowEffect();
+            }
+            
+        }
+        public void Notify_DeleteSelectionVisualEffect()
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.adaptedPath.StrokeDashArray = null;
+                figure.adaptedPath.Effect = null;
             }
         }
         public override void MoveBy(Point point)
