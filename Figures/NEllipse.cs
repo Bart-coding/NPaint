@@ -163,5 +163,16 @@ namespace NPaint.Figures
             }
 
         }
+
+        public override void SetFields(Path path)//Test
+        {
+            adaptedPath = path;
+            adaptedGeometry = path.Data;
+
+
+            CenterPoint = ((EllipseGeometry)adaptedGeometry).Center;
+            //
+            SetPointCollection();
+        }
     }
 }

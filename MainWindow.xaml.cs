@@ -94,11 +94,11 @@ namespace NPaint
             {
                 if (canvasChild.GetType() == typeof(System.Windows.Shapes.Path))
                 {
-                    System.Windows.Shapes.Path tmp = canvasChild as System.Windows.Shapes.Path;
-                    Figure figure = shapeFactory.getFigure(tmp.Tag as String);
-                    figure.adaptedPath = tmp;
-                    figure.adaptedGeometry = tmp.Data;
-                    //brak startpointa
+                    System.Windows.Shapes.Path path = canvasChild as System.Windows.Shapes.Path;
+                    Figure figure = shapeFactory.getFigure(path.Tag as String);
+                    //figure.adaptedPath = tmp;
+                    //figure.adaptedGeometry = tmp.Data;
+                    figure.SetFields(path);
                     RestoredFigureList.Add(figure);
                 }
             }
@@ -477,6 +477,11 @@ namespace NPaint
             if(SelectedFigure != null)
             {
                 SelectedFigure.IncreaseSize();
+                return;
+            }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.Notify_IncreaseSize();
             }
         }
         private void MinusSizeButton_Click(object sender, RoutedEventArgs e)
@@ -484,6 +489,11 @@ namespace NPaint
             if (SelectedFigure != null)
             {
                 SelectedFigure.DecreaseSize();
+                return;
+            }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.Notify_DecreaseSize();
             }
         }
 
@@ -560,6 +570,25 @@ namespace NPaint
             {
                 canvasName = canvasNameWindow.nameBox.Text;
                 this.SerializeCanvas(canvasName);
+                //this.SerializeFigureList(canvasName);////Testy
+            }
+        }
+
+        private void SerializeFigureList(string canvasName)
+        {
+            FileStream fs = new FileStream(canvasName + ".dat", FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                formatter.Serialize(fs, this.FigureList.ToArray());////
+            }
+            catch (SerializationException e)
+            {
+                MessageBox.Show("Wyjatek: " + e.Message);
+            }
+            finally
+            {
+                fs.Close();
             }
         }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
@@ -596,7 +625,7 @@ namespace NPaint
         {
             if (!File.Exists(this.canvasListFilePath))
             {
-                FileStream fs = File.Create(this.canvasListFilePath);
+                File.Create(this.canvasListFilePath);
 
                 return;
             }

@@ -66,6 +66,7 @@ namespace NPaint.Figures
         public abstract void MoveBy(Point point);
         public abstract void MoveByInsideGroup(Point point);//może czytelniejsze by były dwa double'e//Bartek
         public abstract void Draw(Point point);
+        public abstract void SetFields(Path path); //Test
         protected abstract void Repaint();
 
         public abstract void ChangeBorderThickness(double value);

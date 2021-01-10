@@ -140,5 +140,15 @@ namespace NPaint.Figures
                 adaptedPath.StrokeThickness = value;
             }
         }
+
+        public override void SetFields(Path path)//Test
+        {
+            adaptedPath = path;
+            adaptedGeometry = path.Data;
+
+            rect = ((RectangleGeometry)adaptedGeometry).Rect;
+            //
+            SetPointCollection();
+        }
     }
 }

@@ -133,9 +133,11 @@ namespace NPaint
 
         private void CreatePolygonPrototype()/////
         {
-            NPolygon polygon = new NPolygon();
 
-            prototypedFigures.Add("Polygon", polygon);
+            NPolygon polygon = new NPolygon();
+            string type = "Polygon";
+            polygon.adaptedPath.Tag = type;
+            prototypedFigures.Add(type, polygon);
         }
     }
 }

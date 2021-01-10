@@ -244,5 +244,24 @@ namespace NPaint.Figures
 
             Repaint();
         }
+        public override void SetFields(Path path)//Test
+        {
+            adaptedPath = path;
+            adaptedGeometry = path.Data;
+
+
+            Lines.Clear();
+            foreach (LineSegment lineSegment in PathFigure.Segments)
+            {
+                Lines.Add(lineSegment);
+            }
+            //
+            SetPointCollection();
+            //
+            PathFigure = ((PathGeometry)adaptedGeometry).Figures[0];
+            //
+            CenterPoint = GetCenterPoint();
+        }
+
     }
 }

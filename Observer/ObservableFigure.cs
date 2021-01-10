@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -80,6 +81,38 @@ namespace NPaint.Observer
             foreach (Figure figure in Observers)
             {
                 figure.ChangeBorderThicknessInsideGroup(value, this.GetPointCollection());
+            }
+        }
+        
+        public void Notify_IncreaseSize()
+        {
+            Point[] bounds = new Point[PointsList.Count];
+            PointsList.CopyTo(bounds, 0);
+            foreach (Figure figure in Observers)
+            {
+                double figureThicknessHalf = figure.GetBorderThickness()/2;
+                bounds[0].X += figureThicknessHalf;//
+                bounds[1].X -= figureThicknessHalf;
+                bounds[0].Y += figureThicknessHalf;
+                bounds[1].Y -= figureThicknessHalf;
+
+
+                if (figure.GetPointCollection().Any(point => point.X < bounds[0].X
+                || point.X > bounds[1].X
+                || point.Y < bounds[0].Y
+                || point.Y > bounds[1].Y))
+                    continue;
+
+
+                figure.IncreaseSize();
+            }
+        }
+
+        public void Notify_DecreaseSize()
+        {
+            foreach (Figure figure in Observers)
+            {
+                figure.DecreaseSize();
             }
         }
         public override void MoveBy(Point point)

@@ -10,7 +10,6 @@ namespace NPaint.Figures
     [Serializable]///
     class NTriangle : Figure
     {
-        private double scale = 1.1;
 
         private PathFigure PathFigure;
         private Point point1; //można by było chyba bezpośrednio ustawiać ten StartPoint i Line'y
@@ -236,6 +235,34 @@ namespace NPaint.Figures
             {
                 adaptedPath.StrokeThickness = value;
             }
+        }
+
+        public override void SetFields(Path path)
+        {
+            adaptedPath = path;
+            adaptedGeometry = path.Data;
+
+            PathFigure = ((PathGeometry)adaptedGeometry).Figures[0];
+            //
+            line1 = PathFigure.Segments[0] as LineSegment;//
+            line2 = PathFigure.Segments[1] as LineSegment;
+            //
+            point1 = PathFigure.StartPoint;
+            point2 = line1.Point;
+            point3 = line2.Point;
+            //
+            SetPointCollection();
+            //
+
+
+
+            /*private PathFigure PathFigure;
+        private Point point1; //można by było chyba bezpośrednio ustawiać ten StartPoint i Line'y
+        private LineSegment line1;
+        private Point point2;
+        private LineSegment line2;
+        private Point point3;*/
+
         }
     }
 }
