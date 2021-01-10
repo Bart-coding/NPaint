@@ -41,10 +41,23 @@ namespace NPaint
             {
                 if (int.Parse(R_TextBox.Text) <= 255 && int.Parse(G_TextBox.Text) <= 255 && int.Parse(B_TextBox.Text) <= 255)
                 {
+                    SlideR.Value = int.Parse(R_TextBox.Text);
+                    SlideG.Value = int.Parse(G_TextBox.Text);
+                    SlideB.Value = int.Parse(B_TextBox.Text);
+
                     RGBButton.Background = new SolidColorBrush(Color.FromRgb(Byte.Parse(R_TextBox.Text), Byte.Parse(G_TextBox.Text), Byte.Parse(B_TextBox.Text)));
                     return;
                 }
                 MessageBox.Show("Wpisz wartości dla RGB z przedziału 0-255", "Błędna wartość", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (R_TextBox != null && G_TextBox != null && B_TextBox != null && SlideR != null && SlideG != null && SlideB != null)
+            {
+                R_TextBox.Text = ((int)SlideR.Value).ToString();
+                G_TextBox.Text = ((int)SlideG.Value).ToString();
+                B_TextBox.Text = ((int)SlideB.Value).ToString();
             }
         }
 

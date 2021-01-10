@@ -12,9 +12,9 @@ namespace NPaint.Strategy
 
             tmp.Center = startPoint;
 
-            double radius = Math.Abs(Math.Sqrt(Math.Pow(startPoint.X - point.X, 2) + Math.Pow(startPoint.Y - point.Y, 2)));
+            double radius = Math.Sqrt(Math.Pow(startPoint.X - point.X, 2) + Math.Pow(startPoint.Y - point.Y, 2));
 
-            if(tmp.Center.Y - radius > 0)
+            if(tmp.Center.Y - radius - ((MainWindow)System.Windows.Application.Current.MainWindow).BorderThicknessySlider.Value > 0)
             {
                 tmp.RadiusX = radius;
                 tmp.RadiusY = radius;

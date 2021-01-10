@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Zapisz" Height="auto" Width="200" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     
-    <Grid>
+    <Grid Background="GhostWhite">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
