@@ -28,19 +28,17 @@ namespace NPaint
         public Figure SelectedFigure;
         private ObservableFigure ObservableFigure;
 
-        private RGBIterator Iterator = RGBIterator.getIterator();
+        private readonly RGBIterator Iterator = RGBIterator.getIterator();
 
         public bool BorderIteratorSelected = false;
         public bool FillIteratorSelected = false;
 
-        private Caretaker caretaker;
-        private Originator originator;
-        private readonly String canvasPath = @"..\..\..\Canvases\";
-        private readonly String canvasListFilePath = @"..\..\..\Canvases\CanvasList.txt";
+        private readonly Caretaker caretaker;
+        private readonly Originator originator;
+        private readonly string canvasPath = @"..\..\..\Canvases\";
+        private readonly string canvasListFilePath = @"..\..\..\Canvases\CanvasList.txt";
 
         private RGBWindow rgbWindow = null;
-
-        //public Point firstStartPointWhileMoving; -> do przemyślenia
 
         public MainWindow()
         {
@@ -48,9 +46,11 @@ namespace NPaint
             caretaker = new Caretaker();
             originator = new Originator();
             //FigureList = new List<Figure>();
-            FigureListClassObject = new FigureListClass();///
-            FigureListClassObject.FigureList = new List<Figure>();//
-            FigureList = FigureListClassObject.FigureList;///
+            FigureListClassObject = new FigureListClass
+            {
+                FigureList = new List<Figure>()
+            };
+            FigureList = FigureListClassObject.FigureList;
             //SaveFigureListTest();/////
             //ReadFigureListTest();
             //SaveFigureListXmlTest();
@@ -61,9 +61,6 @@ namespace NPaint
             FillrColorLabel.Width = BorderColorLabel.ActualWidth;
             AddCanvas();
             RestoreCaretaker();
-
-            // na sztywno, zeby sprawdzic czy mozna rysowac figury
-            menuState = new SquareState();
         }
         private void Window_Closing(object sender, CancelEventArgs e)
         {
@@ -227,10 +224,6 @@ namespace NPaint
             // zaleznie od stanu podejmujemy akcje
             if (menuState != null)
             {
-                if(menuState.GetType() != typeof(CursorState))
-                {
-                    ResetSelectedFigure();
-                }
                 Point pt = e.GetPosition(canvas);
 
                 if (pt.Y < 0 + BorderThicknessySlider.Value / 2)
@@ -690,8 +683,10 @@ namespace NPaint
         {
             if(rgbWindow == null)
             {
-                rgbWindow = new RGBWindow();
-                rgbWindow.Owner = (MainWindow)Application.Current.MainWindow;
+                rgbWindow = new RGBWindow
+                {
+                    Owner = (MainWindow)Application.Current.MainWindow
+                };
             }
             rgbWindow.Show();
         }

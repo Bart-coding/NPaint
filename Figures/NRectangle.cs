@@ -17,6 +17,52 @@ namespace NPaint.Figures
             adaptedGeometry = new RectangleGeometry();
             adaptedPath.Data = adaptedGeometry;
         }
+        public override void SetFields(Path path)
+        {
+            adaptedPath = path;
+            adaptedGeometry = path.Data;
+
+            rect = ((RectangleGeometry)adaptedGeometry).Rect;
+
+            SetPointCollection();
+        }
+        public override void ChangeBorderThickness(double value)
+        {
+            // pierwsze wywolanie - prostokat ma polozenie 0,0 
+            if (rect.Width == 0 || rect.Height == 0)
+            {
+                ;   // nothing to do here
+            }
+            else if ((rect.Y - (GetBorderThickness() / 2)) <= 0 && value > adaptedPath.StrokeThickness)
+                value = adaptedPath.StrokeThickness;
+            adaptedPath.StrokeThickness = value;
+        }
+        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
+        {
+            if (PointsList[1].X + value / 2 > pointCollectionOfSelection[1].X
+                || PointsList[0].X - value / 2 < pointCollectionOfSelection[0].X
+                || PointsList[0].Y + value / 2 > pointCollectionOfSelection[1].Y
+                || PointsList[1].Y - value / 2 < pointCollectionOfSelection[0].Y)
+            {
+                return;
+            }
+            else
+            {
+                adaptedPath.StrokeThickness = value;
+            }
+        }
+        public override void Draw(Point startPoint, Point currentPoint)
+        {
+            // obliczenie polozenia prostokata na osi XY
+            rect.X = Math.Min(currentPoint.X, startPoint.X);
+            rect.Y = Math.Min(currentPoint.Y, startPoint.Y);
+
+            // obliczenie wysokosci i szerokosci prostokata
+            rect.Width = Math.Max(currentPoint.X, startPoint.X) - rect.X;
+            rect.Height = Math.Max(currentPoint.Y, startPoint.Y) - rect.Y;
+
+            Repaint();
+        }
         public override void MoveBy(Point point)
         {
             //przesuwanie wewnątrz zaznaczenia
@@ -49,20 +95,6 @@ namespace NPaint.Figures
 
             Repaint();
         }
-
-        public override void Draw(Point point)
-        {
-            // obliczenie polozenia prostokata na osi XY
-            rect.X = Math.Min(point.X, startPoint.X);
-            rect.Y = Math.Min(point.Y, startPoint.Y);
-
-            // obliczenie wysokosci i szerokosci prostokata
-            rect.Width = Math.Max(point.X, startPoint.X) - rect.X;
-            rect.Height = Math.Max(point.Y, startPoint.Y) - rect.Y;
-
-            Repaint();
-        }
-
         public override void IncreaseSize()
         {
             // zabezpieczenie, zebysmy nie weszli na Menu
@@ -90,6 +122,16 @@ namespace NPaint.Figures
             }
         }
 
+        protected override void Repaint()
+        {
+            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
+            ((RectangleGeometry)adaptedGeometry).Rect = rect;
+
+            // przypisanie zmienionej geometrii do Path
+            adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
+        }
         protected override void SetPointCollection()
         {
             // do zaznaczania prostokata wystarcza dwa rogi
@@ -101,54 +143,6 @@ namespace NPaint.Figures
         public Point GetTopLeft()
         {
             return rect.TopLeft;
-        }
-
-        protected override void Repaint()
-        {
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            ((RectangleGeometry)adaptedGeometry).Rect = rect;
-
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
-        }
-
-        public override void ChangeBorderThickness(double value)
-        {
-            // pierwsze wywolanie - prostokat ma polozenie 0,0 
-            if (rect.Width == 0 || rect.Height == 0)
-            {
-                ;   // nothing to do here
-            }
-            else if ((rect.Y - (GetBorderThickness()/2)) <= 0 && value > adaptedPath.StrokeThickness)
-                value = adaptedPath.StrokeThickness;
-            adaptedPath.StrokeThickness = value;
-        }
-
-        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
-        {
-            if (PointsList[1].X + value / 2 > pointCollectionOfSelection[1].X
-                || PointsList[0].X - value / 2 < pointCollectionOfSelection[0].X
-                || PointsList[0].Y + value / 2 > pointCollectionOfSelection[1].Y
-                || PointsList[1].Y- value / 2 < pointCollectionOfSelection[0].Y)
-            {
-                return;
-            }
-            else
-            {
-                adaptedPath.StrokeThickness = value;
-            }
-        }
-
-        public override void SetFields(Path path)
-        {
-            adaptedPath = path;
-            adaptedGeometry = path.Data;
-
-            rect = ((RectangleGeometry)adaptedGeometry).Rect;
-            
-            SetPointCollection();
         }
     }
 }

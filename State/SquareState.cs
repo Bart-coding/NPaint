@@ -1,23 +1,22 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using NPaint.Figures;
 
 namespace NPaint.State
 {
-    class SquareState : RectangleState //:MenuState
+    class SquareState :MenuState
     {
         public override void MouseLeftButtonDown(Point point)
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             Figure = (NSquare)shapeFactory.getFigure("Square");
-            Figure.SetStartPoint(point);
+            StartPoint = point;
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
-            MouseMove(point);
+            Figure.Draw(StartPoint, point);
         }
 
         public override void MouseMove(Point point)
         {
-            Figure.Draw(point);
+            Figure.Draw(StartPoint, point);
         }
     }
 }

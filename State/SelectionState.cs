@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Shapes;
 using NPaint.Figures;
 using NPaint.Observer;
 
@@ -11,7 +9,7 @@ namespace NPaint.State
     {
         private bool ToMove;
         private bool selectedAtLeastOne = false;
-        double widthShift, lengthShift = 0;
+        private double widthShift, lengthShift = 0;
 
         public override void MouseLeftButtonDown(Point point)
         {
@@ -35,7 +33,7 @@ namespace NPaint.State
             }
 
             Figure = new ObservableFigure();
-            Figure.SetStartPoint(point);
+            StartPoint = point;
             ((MainWindow)Application.Current.MainWindow).AddObservable(Figure);
 
             ToMove = false;
@@ -98,7 +96,7 @@ namespace NPaint.State
                 // jezeli rysujemy
                 else
                 {
-                    Figure.Draw(point);
+                    Figure.Draw(StartPoint, point);
                 }
             }
         }

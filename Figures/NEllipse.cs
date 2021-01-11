@@ -17,6 +17,60 @@ namespace NPaint.Figures
             adaptedPath.Data = adaptedGeometry;
         }
 
+        public override void SetFields(Path path)
+        {
+            adaptedPath = path;
+            adaptedGeometry = path.Data;
+
+
+            CenterPoint = ((EllipseGeometry)adaptedGeometry).Center;
+
+            SetPointCollection();
+        }
+        public override void ChangeBorderThickness(double value)
+        {
+            if (((EllipseGeometry)adaptedGeometry).RadiusX == 0 || ((EllipseGeometry)adaptedGeometry).RadiusY == 0)
+            {
+                ;   // nothing to do here
+            }
+            else if (this.GetCenterPoint().Y - this.GetRadiusY() - GetBorderThickness() / 2 <= 0 && value > adaptedPath.StrokeThickness)
+                value = adaptedPath.StrokeThickness;
+
+            adaptedPath.StrokeThickness = value;
+
+        }
+        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
+        {
+            if (GetCenterPoint().X + GetRadiusX() + value / 2 > pointCollectionOfSelection[1].X
+                || GetCenterPoint().X - GetRadiusX() - value / 2 < pointCollectionOfSelection[0].X
+                || GetCenterPoint().Y + GetRadiusY() + value / 2 > pointCollectionOfSelection[1].Y
+                || GetCenterPoint().Y - GetRadiusY() - value / 2 < pointCollectionOfSelection[0].Y)
+            {
+                return;
+            }
+            else
+            {
+                adaptedPath.StrokeThickness = value;
+            }
+
+        }
+        public override void Draw(Point startPoint, Point currentPoint)
+        {
+            // obliczenie polozenia elipsy na osi XY
+            CenterPoint = MidPoint(currentPoint, startPoint);
+
+            // obliczenie wysokosci i szerokosci elipsy
+            double width = Math.Max(currentPoint.X, startPoint.X) - CenterPoint.X;
+            double height = Math.Max(currentPoint.Y, startPoint.Y) - CenterPoint.Y;
+
+            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
+            EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
+            tmp.Center = CenterPoint;
+            tmp.RadiusX = width;
+            tmp.RadiusY = height;
+
+            Repaint();
+        }
         public override void MoveBy(Point point) // Tu znów kwestia nieustawianego startpointu i nie wiadomo kiedy
         {
 
@@ -42,7 +96,6 @@ namespace NPaint.Figures
 
             Repaint();
         }
-
         public override void MoveByInsideGroup(Point point)
         {
             double x = CenterPoint.X - point.X; //-> w obserwatorze
@@ -53,25 +106,6 @@ namespace NPaint.Figures
 
             Repaint();
         }
-
-        public override void Draw(Point point)
-        {
-            // obliczenie polozenia elipsy na osi XY
-            CenterPoint = MidPoint(point, startPoint);
-
-            // obliczenie wysokosci i szerokosci elipsy
-            double width = Math.Max(point.X, startPoint.X) - CenterPoint.X;
-            double height = Math.Max(point.Y, startPoint.Y) - CenterPoint.Y;
-
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
-            tmp.Center = CenterPoint;
-            tmp.RadiusX = width;
-            tmp.RadiusY = height;
-
-            Repaint();
-        }
-
         public override void IncreaseSize()
         {
             EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
@@ -96,19 +130,13 @@ namespace NPaint.Figures
             }
         }
 
-        protected Point MidPoint(Point a, Point b)
+        protected override void Repaint()
         {
-            Point tmp;
-            tmp.X = (a.X + b.X) / 2;
-            tmp.Y = (a.Y + b.Y) / 2;
-            return tmp;
-        }
+            // przypisanie zmienionej geometrii do Path
+            adaptedPath.Data = adaptedGeometry;
 
-        public Point GetCenterPoint()//
-        {
-            return ((EllipseGeometry)this.adaptedGeometry).Center;
+            SetPointCollection();
         }
-
         protected override void SetPointCollection()
         {
             // do zaznaczania elipsy wystarcza dwa rogi
@@ -118,27 +146,18 @@ namespace NPaint.Figures
             PointsList.Add(rect.BottomRight); // prawy dolny
         }
 
-        protected override void Repaint()
+        public Point GetCenterPoint()
         {
-            // przypisanie zmienionej geometrii do Path
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
+            return ((EllipseGeometry)this.adaptedGeometry).Center;
         }
 
-        public override void ChangeBorderThickness(double value)
+        protected Point MidPoint(Point a, Point b)
         {
-            if(((EllipseGeometry)adaptedGeometry).RadiusX == 0 || ((EllipseGeometry)adaptedGeometry).RadiusY == 0)
-            {
-                ;   // nothing to do here
-            }
-            else if (this.GetCenterPoint().Y-this.GetRadiusY() - GetBorderThickness()/2 <= 0 && value > adaptedPath.StrokeThickness) 
-                        value = adaptedPath.StrokeThickness;
-            
-            adaptedPath.StrokeThickness = value;
-
+            Point tmp;
+            tmp.X = (a.X + b.X) / 2;
+            tmp.Y = (a.Y + b.Y) / 2;
+            return tmp;
         }
-
         private double GetRadiusX()
         {
             return ((EllipseGeometry)adaptedGeometry).RadiusX;
@@ -146,33 +165,6 @@ namespace NPaint.Figures
         private double GetRadiusY()
         {
             return ((EllipseGeometry)adaptedGeometry).RadiusY;
-        }
-
-        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
-        {
-            if (GetCenterPoint().X+GetRadiusX()+value/2>pointCollectionOfSelection[1].X
-                || GetCenterPoint().X - GetRadiusX() - value / 2 < pointCollectionOfSelection[0].X
-                || GetCenterPoint().Y + GetRadiusY() + value / 2 > pointCollectionOfSelection[1].Y
-                || GetCenterPoint().Y - GetRadiusY() - value / 2 < pointCollectionOfSelection[0].Y)
-            {
-                return;
-            }
-            else
-            {
-                adaptedPath.StrokeThickness = value;
-            }
-
-        }
-
-        public override void SetFields(Path path)
-        {
-            adaptedPath = path;
-            adaptedGeometry = path.Data;
-
-
-            CenterPoint = ((EllipseGeometry)adaptedGeometry).Center;
-            
-            SetPointCollection();
         }
     }
 }

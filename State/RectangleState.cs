@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows;
 using NPaint.Figures;
 
 namespace NPaint.State
@@ -11,14 +9,14 @@ namespace NPaint.State
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             Figure = (NRectangle)shapeFactory.getFigure("Rectangle");
-            Figure.SetStartPoint(point);
+            StartPoint = point;
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
-            MouseMove(point);
+            Figure.Draw(StartPoint, point);
         }
 
         public override void MouseMove(Point point)
         {
-            Figure.Draw(point);
+            Figure.Draw(StartPoint, point);
         }
     }
 }

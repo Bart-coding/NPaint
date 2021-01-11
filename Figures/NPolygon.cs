@@ -25,7 +25,46 @@ namespace NPaint.Figures
 
             adaptedPath.Data = adaptedGeometry;
         }
+        public override void SetFields(Path path)
+        {
+            adaptedPath = path;
+            adaptedGeometry = path.Data;
 
+            PathFigure = ((PathGeometry)adaptedGeometry).Figures[0];
+            Lines.Clear();
+            PathSegment pathSegment = PathFigure.Segments[0];
+
+            if (PathFigure.Segments[0].GetType() == typeof(PolyLineSegment))
+            {
+                foreach (Point point in ((PolyLineSegment)pathSegment).Points)
+                {
+                    Lines.Add(new LineSegment(point, true)); //stroke defaultowy to true
+                }
+            }
+            else //PathFigure.Segments[0] type is LineSegment because figure has only one line
+            {
+                Lines.Add(new LineSegment(((LineSegment)pathSegment).Point, true));
+            }
+
+            SetPointCollection();
+
+            CenterPoint = GetCenterPoint();
+        }
+        public override void ChangeBorderThickness(double value)
+        {
+            adaptedPath.StrokeThickness = value;
+        }
+        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
+        {
+            adaptedPath.StrokeThickness = value;
+        }
+        public override void Draw(Point startPoint, Point currentPoint)
+        {
+            // ustawienie konca obecnej linii w danym punkcie
+            Lines.Last().Point = currentPoint;
+
+            Repaint();
+        }
         public override void MoveBy(Point point)
         {
             double widthShift = Lines.Last().Point.X - point.X;
@@ -39,7 +78,6 @@ namespace NPaint.Figures
             Lines.Last().Point = point;
             SetStartPoint(point);
         }
-
         public override void MoveByInsideGroup(Point point)
         {
             foreach (LineSegment line in Lines)
@@ -49,15 +87,50 @@ namespace NPaint.Figures
 
             SetStartPoint(Lines.Last().Point);
         }
-
-        public override void Draw(Point point)
+        public override void IncreaseSize()
         {
-            // ustawienie konca obecnej linii w danym punkcie
-            Lines.Last().Point = point;
-
-            Repaint();
+            // jezeli zderzy sie z Menu to nie zwiekszamy
+            if (!WillHitMenu())
+            {
+                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+                CenterPoint = GetCenterPoint();
+                ShiftApexes(1.01);// skalujemy o jeden pkt
+            }
+        }
+        public override void DecreaseSize()
+        {
+            // minimlne wartosci, ponizej ktorych nie mozemy zejsc
+            if (adaptedGeometry.Bounds.Width > 10 && adaptedGeometry.Bounds.Height > 10)
+            {
+                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+                CenterPoint = GetCenterPoint();
+                ShiftApexes(0.99);// skalujemy o jeden pkt
+            }
+        }
+        public override object Clone()
+        {
+            NPolygon clonedFigure = base.Clone() as NPolygon;
+            clonedFigure.PathFigure = PathFigure.Clone();
+            clonedFigure.Lines = new List<LineSegment>();
+            return clonedFigure;
         }
 
+        protected override void Repaint()
+        {
+            PathFigure.Segments.Clear();
+
+            foreach (LineSegment line in Lines)
+            {
+                PathFigure.Segments.Add(line);
+            }
+
+            ((PathGeometry)adaptedGeometry).Figures.Clear(); //czyszczenie ten sam problem
+            ((PathGeometry)adaptedGeometry).Figures.Add(PathFigure);    // przypisanie figury wielokata do geometrii
+
+            adaptedPath.Data = adaptedGeometry;
+
+            SetPointCollection();
+        }
         protected override void SetPointCollection()
         {
             // do zaznaczenia wielokata potrzebne sa wszystkie wierzcholki
@@ -69,39 +142,37 @@ namespace NPaint.Figures
                 PointsList.Add(line.Point);
             }
         }
-        public override void SetStartPoint(Point point)
+
+        public void SetStartPoint(Point point)
         {
-            base.SetStartPoint(point);
-            PathFigure.StartPoint = startPoint;
+            PathFigure.StartPoint = point;
             LineSegment CurrentLine = new LineSegment();
             Lines.Add(CurrentLine);
             CurrentLine.Point = point;
 
             Repaint();
         }
-
-        public override void IncreaseSize()
+        public Point GetStartPoint()
         {
-            // jezeli zderzy sie z Menu to nie zwiekszamy
-            if( !WillHitMenu() )
-            {
-                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
-                CenterPoint = GetCenterPoint();
-                ShiftApexes(1.01);// skalujemy o jeden pkt
-            }
+            return PathFigure.StartPoint;
         }
-
-        public override void DecreaseSize()
+        public void CloseLine(Point point)
         {
-            // minimlne wartosci, ponizej ktorych nie mozemy zejsc
-            if (adaptedGeometry.Bounds.Width > 10 && adaptedGeometry.Bounds.Height > 10)
-            {
-                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
-                CenterPoint = GetCenterPoint();
-                ShiftApexes(0.99);// skalujemy o jeden pkt
-            }
-        }
+            Lines.Last().Point = point;
+            LineSegment CurrentLine = new LineSegment();
+            Lines.Add(CurrentLine);
+            CurrentLine.Point = point;
 
+            Repaint();
+        }
+        public void CloseFigure()
+        {
+            Lines.Last().Point = PathFigure.StartPoint;
+            PathFigure.IsClosed = true; // domkniecie wielokata
+
+            Repaint();
+        }
+        
         private void ShiftApexes(double scale)
         {
             Lines.Clear();
@@ -118,7 +189,6 @@ namespace NPaint.Figures
 
             Repaint();
         }
-
         private Point ShiftPointFromCenter(Point point, double scale)
         {
             Vector distance = CenterPoint - point;
@@ -126,16 +196,16 @@ namespace NPaint.Figures
 
             return point;
         }
-
         private Point GetCenterPoint()
         {
-            Point point = new Point();
-            point.X = adaptedGeometry.Bounds.X + adaptedGeometry.Bounds.Width / 2;
-            point.Y = adaptedGeometry.Bounds.Y + adaptedGeometry.Bounds.Height / 2;
+            Point point = new Point
+            {
+                X = adaptedGeometry.Bounds.X + adaptedGeometry.Bounds.Width / 2,
+                Y = adaptedGeometry.Bounds.Y + adaptedGeometry.Bounds.Height / 2
+            };
 
             return point;
         }
-
         private bool WillHitMenu()
         {
             // tymczasowe - do dopracowania
@@ -148,86 +218,5 @@ namespace NPaint.Figures
                 return false;
             }
         }
-
-        public override object Clone()
-        {
-            NPolygon clonedFigure = base.Clone() as NPolygon;
-            clonedFigure.PathFigure = PathFigure.Clone();
-            clonedFigure.Lines = new List<LineSegment>();
-            return clonedFigure;
-        }
-
-        protected override void Repaint()
-        {
-            PathFigure.Segments.Clear();
-
-            foreach(LineSegment line in Lines)
-            {
-                PathFigure.Segments.Add(line);
-            }
-
-            ((PathGeometry)adaptedGeometry).Figures.Clear(); //czyszczenie ten sam problem
-            ((PathGeometry)adaptedGeometry).Figures.Add(PathFigure);    // przypisanie figury wielokata do geometrii
-
-            adaptedPath.Data = adaptedGeometry;
-
-            SetPointCollection();
-        }
-
-        public override void ChangeBorderThickness(double value)
-        {
-            //if
-            adaptedPath.StrokeThickness = value;
-        }
-        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
-        {
-            // waiting for implementation
-            adaptedPath.StrokeThickness = value;
-        }
-
-        public void CloseLine(Point point)
-        {
-            Lines.Last().Point = point;
-            LineSegment CurrentLine = new LineSegment();
-            Lines.Add(CurrentLine);
-            CurrentLine.Point = point;
-
-            Repaint();
-        }
-
-        public void CloseFigure()
-        {
-            Lines.Last().Point = PathFigure.StartPoint;
-            PathFigure.IsClosed = true; // domkniecie wielokata
-
-            Repaint();
-        }
-
-        public override void SetFields(Path path)
-        {
-            adaptedPath = path;
-            adaptedGeometry = path.Data;
-            
-            PathFigure = ((PathGeometry)adaptedGeometry).Figures[0];
-            Lines.Clear();
-            PathSegment pathSegment = PathFigure.Segments[0];
-
-            if (PathFigure.Segments[0].GetType() == typeof(PolyLineSegment))
-            {
-                foreach (Point point in ((PolyLineSegment)pathSegment).Points)
-                {
-                    Lines.Add(new LineSegment(point, true)); //stroke defaultowy to true
-                }
-            }
-            else //PathFigure.Segments[0] type is LineSegment because figure has only one line
-            {
-                Lines.Add(new LineSegment(((LineSegment)pathSegment).Point, true));
-            }
-            
-            SetPointCollection();
-            
-            CenterPoint = GetCenterPoint();
-        }
-
     }
 }

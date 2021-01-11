@@ -1,18 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using NPaint.Figures;
-using NPaint.Observer;
 
 namespace NPaint.State
 {
     class CursorState : MenuState
     {
-        double widthShift, lengthShift = 0;
-        double TriangleMargin;
+        private double widthShift, lengthShift = 0;
+        private double TriangleMargin;
 
         public override void MouseLeftButtonDown(Point point)
         {

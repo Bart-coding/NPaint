@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using NPaint.Figures;
 
 namespace NPaint.State
@@ -10,14 +9,14 @@ namespace NPaint.State
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             Figure = (NEllipse)shapeFactory.getFigure("Ellipse");
-            Figure.SetStartPoint(point);
+            StartPoint = point;
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
-            MouseMove(point);
+            Figure.Draw(StartPoint, point);
         }
 
         public override void MouseMove(Point point)
         {
-            Figure.Draw(point);
+            Figure.Draw(StartPoint, point);
         }
     }
 }

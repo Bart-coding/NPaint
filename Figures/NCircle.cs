@@ -14,10 +14,9 @@ namespace NPaint.Figures
             strategy = new DrawingStrategyClassic();
         }
 
-        public override void Draw(Point point)
+        public override void Draw(Point startPoint, Point currentPoint)
         {
-            EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
-
+            adaptedGeometry = strategy.ChangeGeometry(adaptedGeometry, startPoint, currentPoint);
             Repaint();
         }
 

@@ -6,11 +6,13 @@ namespace NPaint.State
     abstract class MenuState
     {
         protected Figure Figure;
-        public abstract void MouseMove(Point point);
+        protected Point StartPoint;
+
         public abstract void MouseLeftButtonDown(Point point);
         public virtual void MouseLeftButtonUp(Point point)
         {
             ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
         }
+        public abstract void MouseMove(Point point);
     }
 }

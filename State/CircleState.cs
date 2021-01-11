@@ -11,8 +11,8 @@ namespace NPaint.State
         {
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             Figure = (NCircle)shapeFactory.getFigure("Circle");
-            Figure.SetStartPoint(point);
-            Figure.Draw(point);
+            StartPoint = point;
+            Figure.Draw(StartPoint, point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
 
             if (Keyboard.IsKeyDown(Key.LeftShift))
@@ -27,7 +27,7 @@ namespace NPaint.State
 
         public override void MouseMove(Point point)
         {
-            Figure.Draw(point);
+            Figure.Draw(StartPoint,point);
         }
     }
 }

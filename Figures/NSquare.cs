@@ -9,12 +9,12 @@ namespace NPaint.Figures
     class NSquare : NRectangle
     {
         public NSquare() : base() {}
-        public override void Draw(Point point)
+        public override void Draw(Point startPoint, Point currentPoint)
         {
             double squarelength;
 
             //ustalenie dlugosci boku kwadratu
-            squarelength = Math.Min(Math.Abs(startPoint.X - point.X), Math.Abs(startPoint.Y - point.Y));
+            squarelength = Math.Min(Math.Abs(startPoint.X - currentPoint.X), Math.Abs(startPoint.Y - currentPoint.Y));
 
             rect.Width = squarelength;
             rect.Height = squarelength;
@@ -22,14 +22,14 @@ namespace NPaint.Figures
             //ustalenie pozycji kwadratu
             rect.X = startPoint.X;
 
-            if(startPoint.X > point.X)
+            if(startPoint.X > currentPoint.X)
             {
                 rect.X = startPoint.X - squarelength;
             }
 
             rect.Y = startPoint.Y;
 
-            if (startPoint.Y > point.Y)
+            if (startPoint.Y > currentPoint.Y)
             {
                 rect.Y = startPoint.Y - squarelength;
             }

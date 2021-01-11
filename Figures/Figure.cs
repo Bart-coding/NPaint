@@ -16,7 +16,6 @@ namespace NPaint.Figures
     {
         public Path adaptedPath { get; set; }
         public Geometry adaptedGeometry { get; set; }
-        protected Point startPoint;
         protected PointCollection PointsList;
 
         public Figure()
@@ -24,55 +23,43 @@ namespace NPaint.Figures
             PointsList = new PointCollection();
         }
 
+        public abstract void SetFields(Path path);
         public void ChangeFillColor(Brush brush)
         {
-            
             adaptedPath.Fill = brush;
         }
-
         public void ChangeBorderColor(Brush brush)
         {
             adaptedPath.Stroke = brush;
         }
-        
+        public abstract void ChangeBorderThickness(double value);
+        public abstract void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection);
         public void ChangeTransparency(double value)
         {
-            Brush brush = new SolidColorBrush(((SolidColorBrush)adaptedPath.Fill).Color);
-            brush.Opacity = value;
+            Brush brush = new SolidColorBrush(((SolidColorBrush)adaptedPath.Fill).Color)
+            {
+                Opacity = value
+            };
             adaptedPath.Fill = brush;
         }
+        public abstract void Draw(Point startPoint, Point currentPoint);
+        public abstract void MoveBy(Point point);
+        public abstract void MoveByInsideGroup(Point point);
+        public abstract void IncreaseSize();
+        public abstract void DecreaseSize();
 
-        public virtual void SetStartPoint (Point point)
-        {
-            startPoint = point;
-        }
+        protected abstract void Repaint();
 
-        public Point GetStartPoint()
+        public double GetBorderThickness()
         {
-            return startPoint;
+            return adaptedPath.StrokeThickness;
         }
 
         public PointCollection GetPointCollection()
         {
             return PointsList;
         }
-
-        public double GetBorderThickness()
-        {
-            return adaptedPath.StrokeThickness;
-        }
         protected abstract void SetPointCollection();
-
-        public abstract void IncreaseSize();
-        public abstract void DecreaseSize();
-
-        public abstract void MoveBy(Point point);
-        public abstract void MoveByInsideGroup(Point point);
-        public abstract void Draw(Point point);
-        public abstract void SetFields(Path path);
-        protected abstract void Repaint();
-        public abstract void ChangeBorderThickness(double value);
-        public abstract void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection);
 
         public virtual object Clone()
         {
@@ -80,8 +67,6 @@ namespace NPaint.Figures
 
             clonedFigure.adaptedPath = clonePath();
             clonedFigure.adaptedGeometry = this.adaptedGeometry.Clone();
-            clonedFigure.startPoint.X = this.startPoint.X;
-            clonedFigure.startPoint.Y = this.startPoint.Y;
 
             if (this.PointsList != null)
             {
@@ -93,7 +78,6 @@ namespace NPaint.Figures
             }
             return clonedFigure;
         }
-
         private Path clonePath()
         {
             string pathXaml = XamlWriter.Save(this.adaptedPath);
