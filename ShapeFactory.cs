@@ -24,14 +24,17 @@ namespace NPaint
             this.CreatePolygonPrototype();
         }
 
-        public static ShapeFactory getShapeFactory()
+        public static ShapeFactory getShapeFactory() //nazwy metod
         {
             return shapeFactory;
         }
 
         public Figure getFigure (String figureType)
         {
-            return prototypedFigures[figureType].Clone() as Figure; // https://www.dotnetperls.com/clone lub (Figure) prototypedFigures[figureType].Clone()
+            if (prototypedFigures.ContainsKey(figureType))
+                return prototypedFigures[figureType].Clone() as Figure;
+            else
+                return null; //sprawdzanie czy nie null
         }
         
         private void CreateRectanglePrototype()
