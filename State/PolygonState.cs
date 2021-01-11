@@ -35,11 +35,10 @@ namespace NPaint.State
         public override void MouseLeftButtonUp(Point point)
         {
             // wyznaczamy punkt w ktorym konczy sie obecna linia
-
             Point StartPoint = Figure.GetStartPoint();
+
             // sprawdzamy czy puscilismy myszkę w poblizu StartPointa, jezeli tak to zamykamy figure
-            if (StartPoint.X - margin <= point.X && StartPoint.X + margin >= point.X
-                && StartPoint.Y - margin <= point.Y && StartPoint.Y + margin >= point.Y)
+            if (StartPoint.X - margin <= point.X && StartPoint.X + margin >= point.X && StartPoint.Y - margin <= point.Y && StartPoint.Y + margin >= point.Y)
             {
                 ((NPolygon)Figure).CloseFigure();
                 ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);

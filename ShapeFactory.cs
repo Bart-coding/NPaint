@@ -1,11 +1,9 @@
 ﻿using NPaint.Figures;
 using System;
 using System.Collections.Generic;
-using System.Windows.Media;
-using System.Data;
-using System.Text;
-using System.Windows.Shapes;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace NPaint
 {
@@ -36,7 +34,6 @@ namespace NPaint
         
         private void CreateRectanglePrototype()
         {
-            
             RectangleGeometry rectangleG = new RectangleGeometry();
             Rect rect = new Rect();
             rect.X = 100;
@@ -47,7 +44,7 @@ namespace NPaint
             Path myPath = new Path();
             myPath.Data = rectangleG;
             string type = "Rectangle";
-            myPath.Tag = type;/////
+            myPath.Tag = type;
             NRectangle rectangle = new NRectangle();
             rectangle.adaptedPath = myPath;
 
@@ -56,7 +53,6 @@ namespace NPaint
 
         private void CreateSquarePrototype()
         {
-            
             RectangleGeometry squareG = new RectangleGeometry();
             Rect rect = new Rect();
             rect.X = 100;
@@ -76,8 +72,6 @@ namespace NPaint
 
         private void CreateEllipsePrototype()
         {
-            
-       
             EllipseGeometry ellipseGeometry = new EllipseGeometry();
             ellipseGeometry.Center = new Point(200, 200);
             ellipseGeometry.RadiusX = 40;
@@ -133,7 +127,6 @@ namespace NPaint
 
         private void CreatePolygonPrototype()/////
         {
-
             NPolygon polygon = new NPolygon();
             string type = "Polygon";
             polygon.adaptedPath.Tag = type;

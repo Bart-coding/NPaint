@@ -51,4 +51,8 @@
     <Resource Include="Graphics\triangle.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Canvases\" />
+  </ItemGroup>
+
 </Project>

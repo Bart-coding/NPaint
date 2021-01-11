@@ -1,8 +1,7 @@
 ﻿using NPaint.Figures;
-using System;
+using NPaint.Strategy;
 using System.Windows;
 using System.Windows.Input;
-using NPaint.Strategy;
 
 namespace NPaint.State
 {
@@ -13,8 +12,8 @@ namespace NPaint.State
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             Figure = (NCircle)shapeFactory.getFigure("Circle");
             Figure.SetStartPoint(point);
-            ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
             Figure.Draw(point);
+            ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
 
             if (Keyboard.IsKeyDown(Key.LeftShift))
             {

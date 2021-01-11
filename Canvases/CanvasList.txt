@@ -1,5 +1,0 @@
-Figurki.txt
-Zaznaczenie.txt
-V.txt
-B.txt
-TestZaznaczonka.txt
