@@ -13,6 +13,7 @@ namespace NPaint.State
     {
         double widthShift, lengthShift = 0;
         double TriangleMargin;
+
         public override void MouseLeftButtonDown(Point point)
         {
             // jezeli kliknelismy w ta sama figure co poprzednio
@@ -61,8 +62,10 @@ namespace NPaint.State
                         lengthShift = point.Y - ((NRectangle)Figure).GetTopLeft().Y;
                         widthShift = point.X - ((NRectangle)Figure).GetTopLeft().X;
                     }
+
                     point.Y -= lengthShift; //podanie do metody od razu pktu startowego
                     point.X -= widthShift;
+
                     //Zabezpieczenie przed umieszczeniem figury na Menu
                     if (point.Y < 0 + Figure.GetBorderThickness() / 2) //można wziąc też thickness z figury
                     {
@@ -75,15 +78,14 @@ namespace NPaint.State
                     dynamic f_tmp = Figure;
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
-                       
                         Point center = f_tmp.GetCenterPoint();
                         lengthShift = point.Y - center.Y; //stała odległość myszki od środka figury
                         widthShift = point.X - center.X;
-
-                        
                     }
+
                     point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
                     point.X -= widthShift;
+
                     //Zabezpieczenie przed umieszczeniem figury na Menu
                     if (point.Y < f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2) //można wziąc też thickness z figury
                     {
@@ -95,23 +97,23 @@ namespace NPaint.State
                 else if (Figure.GetType() == typeof(NTriangle))
                 {
                     NTriangle tmp_Triangle = Figure as NTriangle;
+
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
                         Point positionOfTriangle = ((NTriangle)Figure).GetTopCorner();
-
-                        // triangleTopDistanceFromStartPoint = System.Math.Abs(position.Y - tmp_Triangle.GetPointCollection()[2].Y);
 
                         lengthShift = point.Y - positionOfTriangle.Y;
                         widthShift = point.X - positionOfTriangle.X;
                         TriangleMargin = ((NTriangle)Figure).CalculateMargin();
                     }
+
                     point.Y -= lengthShift;
                     point.X -= widthShift;
+
                     if (point.Y < 0 + TriangleMargin)
                     {
                         point.Y = TriangleMargin;
                     }
-
                 }
                 // gdy przesywamy dowolny wielokat
                 else if (Figure.GetType() == typeof(NPolygon))
@@ -122,10 +124,14 @@ namespace NPaint.State
                         lengthShift = point.Y - startPointOfPolygon.Y;
                         widthShift = point.X - startPointOfPolygon.X;
                     }
+
                     point.Y -= lengthShift;
                     point.X -= widthShift;
+
                     if (Figure.GetPointCollection().Any(e => e.Y-(Figure.GetPointCollection().Last().Y-point.Y) < 0))
+                    {
                         point.Y++;
+                    }
                 }
 
                 Figure.MoveBy(point);

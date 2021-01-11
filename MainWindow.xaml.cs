@@ -99,7 +99,7 @@ namespace NPaint
                 {
                     System.Windows.Shapes.Path path = canvasChild as System.Windows.Shapes.Path;
                     Figure figure = shapeFactory.getFigure(path.Tag as String);
-                    if (figure==null) continue
+                    if (figure == null) continue;
                     //figure.adaptedPath = tmp;
                     //figure.adaptedGeometry = tmp.Data;
                     figure.SetFields(path);

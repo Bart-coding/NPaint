@@ -30,19 +30,23 @@ namespace NPaint.Figures
         {
             double widthShift = Lines.Last().Point.X - point.X;
             double lengthShift = Lines.Last().Point.Y - point.Y;
+
             foreach (LineSegment line in Lines.TakeWhile(l=>l!=Lines.Last()))
             {
                 line.Point = new Point(line.Point.X - widthShift, line.Point.Y - lengthShift);
             }
+
             Lines.Last().Point = point;
-            SetStartPoint(point); //Repaint() inside
+            SetStartPoint(point);
         }
+
         public override void MoveByInsideGroup(Point point)
         {
             foreach (LineSegment line in Lines)
             {
                 line.Point = new Point(line.Point.X - point.X, line.Point.Y - point.Y);
             }
+
             SetStartPoint(Lines.Last().Point);
         }
 
@@ -59,6 +63,7 @@ namespace NPaint.Figures
             // do zaznaczenia wielokata potrzebne sa wszystkie wierzcholki
             PointsList.Clear();
             PointsList.Add(PathFigure.StartPoint);
+
             foreach (LineSegment line in Lines)
             {
                 PointsList.Add(line.Point);
@@ -85,6 +90,7 @@ namespace NPaint.Figures
                 ShiftApexes(1.01);// skalujemy o jeden pkt
             }
         }
+
         public override void DecreaseSize()
         {
             // minimlne wartosci, ponizej ktorych nie mozemy zejsc
@@ -95,6 +101,7 @@ namespace NPaint.Figures
                 ShiftApexes(0.99);// skalujemy o jeden pkt
             }
         }
+
         private void ShiftApexes(double scale)
         {
             Lines.Clear();
@@ -111,77 +118,24 @@ namespace NPaint.Figures
 
             Repaint();
         }
+
         private Point ShiftPointFromCenter(Point point, double scale)
         {
             Vector distance = CenterPoint - point;
             point = CenterPoint - distance * scale;
-            /*double xdistance = CenterPoint.X - point.X;
-            double ydistance = CenterPoint.Y - point.Y;
-            point.X = CenterPoint.X - xdistance*scale;
-            point.Y = CenterPoint.Y - ydistance*scale;*/
-
-            // skorzystanie z podobienstwa trojkatow
-            // z,x,y - duzy trojkat, gdzie wierzcholki to CenterPoint, point (obecnie przetwarzany wierzcholek)
-            // oraz punkt tworzacy z nimi trojkat prostokatny - zmienna CornerPoint
-            // z1,x1,y1 - maly trojkat, gdzie wierzcholki to CenterPoint, return point ( wierzcholek po shifcie)
-            // oraz punkt tworzacy z nimi trojkat prostokatny
-
-            /*double z = CalculateDistance(point, CenterPoint);
-            Point CornerPoint = new Point(CenterPoint.X, point.Y);
-            double x = CalculateDistance(point, CornerPoint);
-            double z1 = z * scale;
-
-            // z1/z = x1/x => x1 = z1*x/z
-            double x1 = z1 * x / z;
-
-            // z1 = x1 + y1 => y1 = sqrt(z1^2 - x1^2)
-            double y1 = Math.Sqrt(z1 * z1 - x1 * x1);
-
-            // to mozna uproscic chyba?
-            // polozenie wierzcholka wzgledem CenterPointa
-
-            // lewy dol
-            if (point.X <= CenterPoint.X && point.Y >= CenterPoint.Y)
-            {
-                point.X = CenterPoint.X - x1;
-                point.Y = CenterPoint.Y + y1;
-            }
-            // prawy dol
-            else if (point.X >= CenterPoint.X && point.Y >= CenterPoint.Y)
-            {
-                point.X = CenterPoint.X + x1;
-                point.Y = CenterPoint.Y + y1;
-            }
-            // prawy gora
-            else if (point.X >= CenterPoint.X && point.Y <= CenterPoint.Y)
-            {
-                point.X = CenterPoint.X + x1;
-                point.Y = CenterPoint.Y - y1;
-            }
-            // lewy gora
-            else if (point.X <= CenterPoint.X && point.Y <= CenterPoint.Y)
-            {
-                point.X = CenterPoint.X - x1;
-                point.Y = CenterPoint.Y - y1;
-            }*/
 
             return point;
         }
-        private double CalculateDistance(Point p1, Point p2)
-        {
-            // dlugosc odcinka miedzy dwoma punktami
-            return Math.Abs(Point.Subtract(p2, p1).Length);
-        }
+
         private Point GetCenterPoint()
         {
             Point point = new Point();
             point.X = adaptedGeometry.Bounds.X + adaptedGeometry.Bounds.Width / 2;
             point.Y = adaptedGeometry.Bounds.Y + adaptedGeometry.Bounds.Height / 2;
-            // jezeli MoveBy() popsuje to bedzie trzeba recznia znajdowac te punkty
-            //point.X = MostRight() - MostLeft();
-            //point.Y = Bottom() - Top();
+
             return point;
         }
+
         private bool WillHitMenu()
         {
             // tymczasowe - do dopracowania
@@ -202,9 +156,11 @@ namespace NPaint.Figures
             clonedFigure.Lines = new List<LineSegment>();
             return clonedFigure;
         }
+
         protected override void Repaint()
         {
-            PathFigure.Segments.Clear(); //czyszczenie niezbedne nwm dlaczego insert powinien zalatwic sprawe
+            PathFigure.Segments.Clear();
+
             foreach(LineSegment line in Lines)
             {
                 PathFigure.Segments.Add(line);
@@ -226,6 +182,7 @@ namespace NPaint.Figures
         public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
         {
             // waiting for implementation
+            adaptedPath.StrokeThickness = value;
         }
 
         public void CloseLine(Point point)
@@ -237,6 +194,7 @@ namespace NPaint.Figures
 
             Repaint();
         }
+
         public void CloseFigure()
         {
             Lines.Last().Point = PathFigure.StartPoint;
@@ -244,25 +202,27 @@ namespace NPaint.Figures
 
             Repaint();
         }
+
         public override void SetFields(Path path)
         {
             adaptedPath = path;
             adaptedGeometry = path.Data;
-
             
             PathFigure = ((PathGeometry)adaptedGeometry).Figures[0];
             Lines.Clear();
             PathSegment pathSegment = PathFigure.Segments[0];
+
             if (PathFigure.Segments[0].GetType() == typeof(PolyLineSegment))
+            {
                 foreach (Point point in ((PolyLineSegment)pathSegment).Points)
                 {
                     Lines.Add(new LineSegment(point, true)); //stroke defaultowy to true
                 }
+            }
             else //PathFigure.Segments[0] type is LineSegment because figure has only one line
             {
                 Lines.Add(new LineSegment(((LineSegment)pathSegment).Point, true));
             }
-
             
             SetPointCollection();
             

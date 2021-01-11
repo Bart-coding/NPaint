@@ -1,10 +1,7 @@
-﻿using System;
+﻿using NPaint.Figures;
+using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
-using System.Threading;
 using System.Xml.Serialization;
-using NPaint.Figures;
 
 namespace NPaint
 {

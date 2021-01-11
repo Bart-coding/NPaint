@@ -1,18 +1,17 @@
-﻿using System;
+﻿using NPaint.Figures;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
-using NPaint.Figures;
 
 namespace NPaint.Observer
 {
     class ObservableFigure : NRectangle, Observable
     {
         private List<Figure> Observers;
+
         public ObservableFigure()
         {
             adaptedPath = new Path();
@@ -24,6 +23,7 @@ namespace NPaint.Observer
             rect = new Rect();
             Observers = new List<Figure>();
         }
+
         public void Attach(Figure figure)
         {
             Observers.Add(figure); // dodanie do listy obserwujacych
@@ -32,6 +32,7 @@ namespace NPaint.Observer
             figure.adaptedPath.StrokeDashArray = new DoubleCollection() { 0.5 };
             figure.adaptedPath.Effect = new DropShadowEffect();
         }
+
         public void DetachAll()
         {
             // usuniecie efektu wizualnego
@@ -83,6 +84,7 @@ namespace NPaint.Observer
         {
             Point[] bounds = new Point[PointsList.Count];
             PointsList.CopyTo(bounds, 0);
+
             foreach (Figure figure in Observers)
             {
                 double figureThicknessHalf = figure.GetBorderThickness()/2;
@@ -92,12 +94,10 @@ namespace NPaint.Observer
                 bounds[1].Y -= figureThicknessHalf;
 
 
-                if (figure.GetPointCollection().Any(point => point.X < bounds[0].X
-                || point.X > bounds[1].X
-                || point.Y < bounds[0].Y
-                || point.Y > bounds[1].Y))
+                if (figure.GetPointCollection().Any(point => point.X < bounds[0].X || point.X > bounds[1].X || point.Y < bounds[0].Y || point.Y > bounds[1].Y))
+                {
                     continue;
-
+                }
 
                 figure.IncreaseSize();
             }
@@ -120,6 +120,7 @@ namespace NPaint.Observer
             }
             
         }
+
         public void Notify_DeleteSelectionVisualEffect()
         {
             foreach (Figure figure in Observers)
@@ -128,22 +129,26 @@ namespace NPaint.Observer
                 figure.adaptedPath.Effect = null;
             }
         }
+
         public override void MoveBy(Point point)
         {
             double widthShift = this.GetTopLeft().X - point.X;
             double lengthShift = this.GetTopLeft().Y - point.Y;
             Point shiftTmpPoint = new Point(widthShift, lengthShift);
 
-            base.MoveBy(point); //póki co
+            base.MoveBy(point);
 
             Notify(shiftTmpPoint);
         }
+
         public bool Contains(Figure figure)
         {
             PointCollection points = figure.GetPointCollection();
-            // poki wszystkie figury nie maja ustalonej PointCollection
+
             if (points.Count == 0)
+            {
                 return false;
+            }
             foreach (Point point in points)
             {
                 // jezeli zaznaczenie nie zawiera danego punktu figury to zwracamy falsz

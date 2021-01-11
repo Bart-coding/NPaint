@@ -18,9 +18,6 @@ namespace NPaint.Figures
         {
             EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
 
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            tmp = strategy.ChangeGeometry(tmp, startPoint, point);
-
             Repaint();
         }
 

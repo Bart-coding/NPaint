@@ -6,7 +6,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.Serialization;
-using Path = System.Windows.Shapes.Path;////
+using Path = System.Windows.Shapes.Path;
 
 namespace NPaint.Figures
 {
@@ -14,8 +14,8 @@ namespace NPaint.Figures
 
     public abstract class Figure : FigureBase, ICloneable
     {
-        public Path adaptedPath { get; set; } //protected
-        public Geometry adaptedGeometry { get; set; } // tez trza bylo zmienic, mozna metody dostepowe dodac
+        public Path adaptedPath { get; set; }
+        public Geometry adaptedGeometry { get; set; }
         protected Point startPoint;
         protected PointCollection PointsList;
 
@@ -23,11 +23,13 @@ namespace NPaint.Figures
         {
             PointsList = new PointCollection();
         }
+
         public void ChangeFillColor(Brush brush)
         {
             
             adaptedPath.Fill = brush;
         }
+
         public void ChangeBorderColor(Brush brush)
         {
             adaptedPath.Stroke = brush;
@@ -44,7 +46,8 @@ namespace NPaint.Figures
         {
             startPoint = point;
         }
-        public Point GetStartPoint()////////////
+
+        public Point GetStartPoint()
         {
             return startPoint;
         }
@@ -64,25 +67,25 @@ namespace NPaint.Figures
         public abstract void DecreaseSize();
 
         public abstract void MoveBy(Point point);
-        public abstract void MoveByInsideGroup(Point point);//może czytelniejsze by były dwa double'e//Bartek
+        public abstract void MoveByInsideGroup(Point point);
         public abstract void Draw(Point point);
-        public abstract void SetFields(Path path); //Test
+        public abstract void SetFields(Path path);
         protected abstract void Repaint();
-
         public abstract void ChangeBorderThickness(double value);
-
         public abstract void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection);
+
         public virtual object Clone()
         {
-            //throw new NotImplementedException();
             Figure clonedFigure = this.MemberwiseClone() as Figure;
+
             clonedFigure.adaptedPath = clonePath();
-            clonedFigure.adaptedGeometry = this.adaptedGeometry.Clone(); //lub metoda ala clonePath
-            clonedFigure.startPoint.X = this.startPoint.X;//
+            clonedFigure.adaptedGeometry = this.adaptedGeometry.Clone();
+            clonedFigure.startPoint.X = this.startPoint.X;
             clonedFigure.startPoint.Y = this.startPoint.Y;
+
             if (this.PointsList != null)
             {
-                clonedFigure.PointsList = this.PointsList.Clone();//
+                clonedFigure.PointsList = this.PointsList.Clone();
             }
             else
             {
@@ -90,20 +93,15 @@ namespace NPaint.Figures
             }
             return clonedFigure;
         }
+
         private Path clonePath()
         {
-            string pathXaml = XamlWriter.Save(this.adaptedPath); //uproscic mozna opcjonalne saveując to jak canvasa
+            string pathXaml = XamlWriter.Save(this.adaptedPath);
+
             StringReader stringReader = new StringReader(pathXaml);
             XmlReader xmlReader = XmlReader.Create(stringReader);
+
             return (Path) XamlReader.Load(xmlReader);
         }
-        /*private Geometry cloneGeometry()
-        {
-            string geometryXaml = XamlWriter.Save(this.adaptedGeometry);
-            StringReader stringReader = new StringReader(geometryXaml);
-            XmlReader xmlReader = XmlReader.Create(stringReader);
-            return (Geometry)XamlReader.Load(xmlReader);
-        }*/
-
     }
 }
