@@ -13,6 +13,7 @@ namespace NPaint.State
             // jezeli zaczynamy rysowac figure
             if (Figure == null || IsClosed == true || (Figure as NPolygon).PathFigure.IsClosed == true)
             {
+                ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
                 Figure = ShapeFactory.getShapeFactory().getFigure("Polygon") as NPolygon;
                 StartPoint = point;
                 ((NPolygon)Figure).SetStartPoint(point);

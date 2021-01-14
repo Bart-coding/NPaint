@@ -7,6 +7,7 @@ namespace NPaint.State
     {
         public override void MouseLeftButtonDown(Point point)
         {
+            ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
             ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             Figure = (NSquare)shapeFactory.getFigure("Square");
             StartPoint = point;
