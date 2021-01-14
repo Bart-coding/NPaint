@@ -17,6 +17,7 @@ namespace NPaint.Figures
         public override void Draw(Point startPoint, Point currentPoint)
         {
             adaptedGeometry = strategy.ChangeGeometry(adaptedGeometry, startPoint, currentPoint);
+            CenterPoint = ((EllipseGeometry)adaptedGeometry).Center;
             Repaint();
         }
 
