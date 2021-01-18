@@ -40,7 +40,7 @@ namespace NPaint.Observer
             Observers.Clear(); // wyczyszczenie listy obserwujacych
         }
 
-        public void Notify(Point point)
+        public void Notify_MoveBy(Point point)
         {
             foreach(Figure figure in Observers)
             {
@@ -138,7 +138,7 @@ namespace NPaint.Observer
 
             base.MoveBy(point);
 
-            Notify(shiftTmpPoint);
+            Notify_MoveBy(shiftTmpPoint);
         }
 
         public bool Contains(Figure figure)
@@ -163,11 +163,6 @@ namespace NPaint.Observer
             }
             // jezeli przeszlo po wszystkich punktach i nie zwrocilo falszu tzn. ze wszystkie punkty sie zawieraja w zaznaczeniu
             return true;
-        }
-
-        public override void ChangeBorderThickness(double value)
-        {
-            Notify_ChangeBorderThickness(value);
         }
     }
 }

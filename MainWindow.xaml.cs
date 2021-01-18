@@ -579,7 +579,7 @@ namespace NPaint
             }
             if (ObservableFigure != null)
             {
-                ObservableFigure.ChangeBorderThickness(BorderThicknessySlider.Value);
+                ObservableFigure.Notify_ChangeBorderThickness(BorderThicknessySlider.Value);
             }
         }
         private void TransparencySlider_ValueChanged(object sender, RoutedEventArgs e)
