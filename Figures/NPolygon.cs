@@ -110,7 +110,7 @@ namespace NPaint.Figures
         public override object Clone()
         {
             NPolygon clonedFigure = base.Clone() as NPolygon;
-            clonedFigure.PathFigure = PathFigure.Clone();
+            clonedFigure.PathFigure = new PathFigure();
             clonedFigure.Lines = new List<LineSegment>();
             return clonedFigure;
         }

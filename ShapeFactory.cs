@@ -30,7 +30,7 @@ namespace NPaint
         public Figure getFigure (String figureType)
         {
             if (prototypedFigures.ContainsKey(figureType))
-                return prototypedFigures[figureType].Clone() as Figure;
+                return prototypedFigures[figureType];
             else
                 return null; //sprawdzanie czy nie null
         }

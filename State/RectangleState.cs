@@ -5,14 +5,6 @@ namespace NPaint.State
 {
     class RectangleState : FigureState
     {
-        public override void MouseLeftButtonDown(Point point)
-        {
-            ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
-            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
-            Figure = (NRectangle)shapeFactory.getFigure("Rectangle");
-            StartPoint = point;
-            ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
-            Figure.Draw(StartPoint, point);
-        }
+        public RectangleState(Figure prototype) : base(prototype) { }
     }
 }

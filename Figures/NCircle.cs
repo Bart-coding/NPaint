@@ -20,6 +20,12 @@ namespace NPaint.Figures
             CenterPoint = ((EllipseGeometry)adaptedGeometry).Center;
             Repaint();
         }
+        public override object Clone()
+        {
+            NCircle clonedFigure = base.Clone() as NCircle;
+            clonedFigure.strategy = new DrawingStrategyClassic();
+            return clonedFigure;
+        }
 
         public void SetStrategy(DrawingStrategy strategy)
         {

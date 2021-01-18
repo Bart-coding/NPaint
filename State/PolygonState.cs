@@ -5,16 +5,19 @@ namespace NPaint.State
 {
     class PolygonState : FigureState
     {
-        private bool IsClosed = false;
-        private readonly double margin = 5; // odleglosc jaka trzeba kliknac od StartPointa, zeby zakonczyc rysowanie figury
+        public PolygonState(Figure prototype) : base(prototype) { }
+
+        private bool IsClosed = true;
+        private readonly double margin = 10; // odleglosc jaka trzeba kliknac od StartPointa, zeby zakonczyc rysowanie figury
 
         public override void MouseLeftButtonDown(Point point)
         {
             // jezeli zaczynamy rysowac figure
-            if (Figure == null || IsClosed == true || (Figure as NPolygon).PathFigure.IsClosed == true)
+            if (IsClosed == true || (Figure as NPolygon).PathFigure.IsClosed == true)
             {
+                // must implement inherited method
                 ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
-                Figure = ShapeFactory.getShapeFactory().getFigure("Polygon") as NPolygon;
+                Figure = (Figure)Figure.Clone();
                 StartPoint = point;
                 ((NPolygon)Figure).SetStartPoint(point);
                 ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);

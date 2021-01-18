@@ -28,6 +28,8 @@ namespace NPaint
         public Figure SelectedFigure;
         private ObservableFigure ObservableFigure;
 
+        private readonly ShapeFactory shapeFactory = ShapeFactory.getShapeFactory(); // fabryka tworzona na poczatku
+
         private readonly RGBIterator Iterator = RGBIterator.getIterator();
 
         public bool BorderIteratorSelected = false;
@@ -389,6 +391,7 @@ namespace NPaint
         {
             if (SelectedFigure != null)
             {
+                SelectedFigure.adaptedPath.StrokeDashArray = null;
                 canvas.Children.Remove(SelectedFigure.adaptedPath);
                 FigureList.Remove(SelectedFigure);
                 SelectedFigure = null;
@@ -461,6 +464,7 @@ namespace NPaint
                 if (FigureList.Last().GetType() == typeof(NPolygon) && !((NPolygon)FigureList.Last()).PathFigure.IsClosed)
                 {
                     ((NPolygon)FigureList.Last()).CloseFigure();    // zamykamy figure
+                    SetSelectedFigure(FigureList.Last());
                 }
             }
         }
@@ -488,12 +492,21 @@ namespace NPaint
             Button button = sender as Button;
             button.Background = Brushes.Gray;
         }
+        private void FigureMenu_Click(object sender, RoutedEventArgs e)
+        {
+            AfterClick(sender);
+
+            string Tag = (sender as Button).Tag.ToString();
+            Type type = Type.GetType("NPaint.State." + Tag + "State");
+            Figure figure = shapeFactory.getFigure(Tag);
+            menuState = (MenuState)Activator.CreateInstance(type, figure);
+        }
         private void Tool_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
 
-            Type type = Type.GetType("NPaint.State." + (sender as Button).Tag.ToString());
-
+            string Tag = (sender as Button).Tag.ToString();
+            Type type = Type.GetType("NPaint.State." + Tag + "State");
             menuState = (MenuState)Activator.CreateInstance(type);
         }
         private void PlusSizeButton_Click(object sender, RoutedEventArgs e)

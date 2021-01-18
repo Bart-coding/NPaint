@@ -27,18 +27,18 @@
                 </Button>
                 <Separator Width="10"/>
 
-                <Button Name="CircleButton"     Margin="1" Height="56" Width="56" Tag="CircleState" Click="Tool_Click" Background="White" BorderBrush="Black">
+                <Button Name="CircleButton"     Margin="1" Height="56" Width="56" Tag="Circle" Click="FigureMenu_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/circle.png"/>
                 </Button>
-                <Button Name="SquareButton"     Margin="1" Height="56" Width="56" Tag="SquareState" Click="Tool_Click" Background="White" BorderBrush="Black">
+                <Button Name="SquareButton"     Margin="1" Height="56" Width="56" Tag="Square" Click="FigureMenu_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/square.png" Margin="4"/>
                 </Button>
-                <Button Name="TriangleButton"   Margin="1" Height="56" Width="56" Tag="TriangleState" Click="Tool_Click" Background="White" BorderBrush="Black">
+                <Button Name="TriangleButton"   Margin="1" Height="56" Width="56" Tag="Triangle" Click="FigureMenu_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/triangle.png"/>
                 </Button>
                 <Separator Width="10"/>
 
-                <Button Name="CursorButton"     Margin="1" Height="56" Width="56" Tag="CursorState" Click="Tool_Click" Background="White" BorderBrush="Black">
+                <Button Name="CursorButton"     Margin="1" Height="56" Width="56" Tag="Cursor" Click="Tool_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/cursor.png" Margin="10,2,0,2"/>
                 </Button>
                 <Separator Width="10"/>
@@ -77,18 +77,18 @@
                 </Button>
                 <Separator Width="10"/>
 
-                <Button Name="EllipseButton" Margin="1" Height="56" Width="56" Tag="EllipseState" Click="Tool_Click" Background="White" BorderBrush="Black">
+                <Button Name="EllipseButton" Margin="1" Height="56" Width="56" Tag="Ellipse" Click="FigureMenu_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/elipse.png"/>
                 </Button>
-                <Button Name="RectangleButton" Margin="1" Height="56" Width="56" Tag="RectangleState" Click="Tool_Click" Background="White" BorderBrush="Black">
+                <Button Name="RectangleButton" Margin="1" Height="56" Width="56" Tag="Rectangle" Click="FigureMenu_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/rectangle.png"/>
                 </Button>
-                <Button Name="PolygonButton" Margin="1" Height="56" Width="56" Tag="PolygonState" Click="Tool_Click" Background="White" BorderBrush="Black">
+                <Button Name="PolygonButton" Margin="1" Height="56" Width="56" Tag="Polygon" Click="FigureMenu_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/polygon.png"/>
                 </Button>
                 <Separator Width="10"/>
 
-                <Button Name="MarkingButton" Margin="1" Height="56" Width="56" Tag="SelectionState" Click="Tool_Click" Background="White" BorderBrush="Black">
+                <Button Name="MarkingButton" Margin="1" Height="56" Width="56" Tag="Selection" Click="Tool_Click" Background="White" BorderBrush="Black">
                     <Image Source="Graphics/marking.png" Margin="2"/>
                 </Button>
                 <Separator Width="10"/>

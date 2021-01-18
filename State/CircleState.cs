@@ -7,14 +7,16 @@ namespace NPaint.State
 {
     class CircleState : FigureState
     {
+        public CircleState(Figure prototype) : base(prototype) { }
         public override void MouseLeftButtonDown(Point point)
         {
+            // must implement inherited method
             ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
-            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
-            Figure = (NCircle)shapeFactory.getFigure("Circle");
+            Figure = (Figure)Figure.Clone();
             StartPoint = point;
-            Figure.Draw(StartPoint, point);
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
+            Figure.Draw(StartPoint, point);
+
 
             if (Keyboard.IsKeyDown(Key.LeftShift))
             {
