@@ -9,10 +9,7 @@ namespace NPaint.State
         protected Point StartPoint;
 
         public abstract void MouseLeftButtonDown(Point point);
-        public virtual void MouseLeftButtonUp(Point point)
-        {
-            ((MainWindow)Application.Current.MainWindow).SetSelectedFigure(Figure);
-        }
+        public abstract void MouseLeftButtonUp(Point point);
         public abstract void MouseMove(Point point);
     }
 }

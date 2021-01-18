@@ -3,7 +3,7 @@ using NPaint.Figures;
 
 namespace NPaint.State
 {
-    class RectangleState : MenuState
+    class RectangleState : FigureState
     {
         public override void MouseLeftButtonDown(Point point)
         {
@@ -12,11 +12,6 @@ namespace NPaint.State
             Figure = (NRectangle)shapeFactory.getFigure("Rectangle");
             StartPoint = point;
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
-            Figure.Draw(StartPoint, point);
-        }
-
-        public override void MouseMove(Point point)
-        {
             Figure.Draw(StartPoint, point);
         }
     }

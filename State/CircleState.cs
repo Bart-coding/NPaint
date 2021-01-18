@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace NPaint.State
 {
-    class CircleState : MenuState
+    class CircleState : FigureState
     {
         public override void MouseLeftButtonDown(Point point)
         {
@@ -24,11 +24,6 @@ namespace NPaint.State
             {
                 ((NCircle)Figure).SetStrategy(new DrawingStrategyFitted());
             }
-        }
-
-        public override void MouseMove(Point point)
-        {
-            Figure.Draw(StartPoint,point);
         }
     }
 }

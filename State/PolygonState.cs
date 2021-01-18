@@ -3,7 +3,7 @@ using NPaint.Figures;
 
 namespace NPaint.State
 {
-    class PolygonState : MenuState
+    class PolygonState : FigureState
     {
         private bool IsClosed = false;
         private readonly double margin = 5; // odleglosc jaka trzeba kliknac od StartPointa, zeby zakonczyc rysowanie figury
@@ -45,11 +45,6 @@ namespace NPaint.State
             {
                 ((NPolygon)Figure).CloseLine(point);
             }
-        }
-
-        public override void MouseMove(Point point)
-        {
-            Figure.Draw(StartPoint, point);
         }
     }
 }

@@ -3,7 +3,7 @@ using NPaint.Figures;
 
 namespace NPaint.State
 {
-    class TriangleState : MenuState
+    class TriangleState : FigureState
     {
         public override void MouseLeftButtonDown(Point point)
         {
@@ -11,11 +11,6 @@ namespace NPaint.State
             Figure = ShapeFactory.getShapeFactory().getFigure("Triangle") as NTriangle;
             StartPoint = point;
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
-            Figure.Draw(StartPoint, point);
-        }
-
-        public override void MouseMove(Point point)
-        {
             Figure.Draw(StartPoint, point);
         }
     }
