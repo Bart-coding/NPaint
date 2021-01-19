@@ -629,6 +629,7 @@ namespace NPaint
                 SelectedFigure.ChangeBorderColor(BorderColorButton.Background);
             }
         }
+
         private void ColorIterator_RightClick(object sender, MouseButtonEventArgs e)
         {
             BorderIteratorSelected = false;
