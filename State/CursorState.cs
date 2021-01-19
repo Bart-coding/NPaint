@@ -79,7 +79,7 @@ namespace NPaint.State
                     point.Y -= lengthShift;
                     point.X -= widthShift;
                     //Zabezpieczenie przed umieszczeniem figury na Menu
-                    if (point.Y < f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2) //można wziąc też thickness z figury
+                    if (point.Y < f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2)
                     {
                         point.Y = f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2;
                     }

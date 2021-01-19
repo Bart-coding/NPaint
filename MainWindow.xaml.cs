@@ -3,6 +3,7 @@ using NPaint.Iterator_singleton;
 using NPaint.Memento;
 using NPaint.Observer;
 using NPaint.State;
+using NPaint.Prototype;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+
 using System.Xml.Serialization;
 
 namespace NPaint

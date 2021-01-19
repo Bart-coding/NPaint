@@ -80,7 +80,7 @@ namespace NPaint.State
                     if (lengthShift == 0 && widthShift == 0) //kod do utrzymywania myszki w tym samym miejscu w figurze podczas rysowania
                     {
                         lengthShift = point.Y - ((ObservableFigure)Figure).GetTopLeft().Y; //stała odległość myszki od środka figury
-                        widthShift = point.X - ((ObservableFigure)Figure).GetTopLeft().X; //GetStartPoint()
+                        widthShift = point.X - ((ObservableFigure)Figure).GetTopLeft().X;
                     }
 
                     point.Y -= lengthShift; //podanie do metody od razu pktu startowgo

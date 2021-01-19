@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Shapes;
 
-namespace NPaint
+namespace NPaint.Prototype
 {
     class ShapeFactory
     {
