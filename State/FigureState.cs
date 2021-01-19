@@ -3,7 +3,7 @@ using NPaint.Figures;
 
 namespace NPaint.State
 {
-    class FigureState : MenuState
+    abstract class FigureState : MenuState
     {
         protected Figure prototype;
         public FigureState(Figure prototype) 

@@ -1,3 +1,0 @@
-NowyCanvas.txt
-NowyCanvas2.txt
-Kwadraty.txt
