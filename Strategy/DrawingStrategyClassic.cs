@@ -40,7 +40,7 @@ namespace NPaint.Strategy
             return tmp;
         }
 
-        protected Point MidPoint(Point a, Point b)
+        private Point MidPoint(Point a, Point b)
         {
             Point tmp;
             tmp.X = (a.X + b.X) / 2;
