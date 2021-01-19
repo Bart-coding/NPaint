@@ -9,7 +9,6 @@ namespace NPaint.Prototype
     {
         private static readonly ShapeFactory shapeFactory = new ShapeFactory();
         private readonly Dictionary<string, Figure> prototypedFigures = new Dictionary<string, Figure>();
-
         private ShapeFactory()
         {
             this.CreateRectanglePrototype();
@@ -25,7 +24,7 @@ namespace NPaint.Prototype
             return shapeFactory;
         }
 
-        public Figure GetFigure (String figureType)
+        public Figure GetFigure (string figureType)
         {
             if (prototypedFigures.ContainsKey(figureType))
                 return prototypedFigures[figureType];
