@@ -1,17 +1,13 @@
-﻿using NPaint.Observer;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
-using System.Xml.Serialization;
 using Path = System.Windows.Shapes.Path;
 
 namespace NPaint.Figures
 {
-    [Serializable]
-
     public abstract class Figure : FigureBase, ICloneable
     {
         public Path adaptedPath { get; set; }
@@ -65,7 +61,7 @@ namespace NPaint.Figures
         {
             Figure clonedFigure = this.MemberwiseClone() as Figure;
 
-            clonedFigure.adaptedPath = clonePath();
+            clonedFigure.adaptedPath = ClonePath();
             clonedFigure.adaptedGeometry = this.adaptedGeometry.Clone();
 
             if (this.PointsList != null)
@@ -78,7 +74,7 @@ namespace NPaint.Figures
             }
             return clonedFigure;
         }
-        private Path clonePath()
+        private Path ClonePath()
         {
             string pathXaml = XamlWriter.Save(this.adaptedPath);
 

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
-    [Serializable]
     class NSquare : NRectangle
     {
         public NSquare() : base() {}

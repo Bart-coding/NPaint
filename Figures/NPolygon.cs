@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
-    [Serializable]
     class NPolygon : Figure
     {
         public PathFigure PathFigure;

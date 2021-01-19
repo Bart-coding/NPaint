@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using NPaint.Figures;
+﻿using NPaint.Figures;
 
 namespace NPaint.State
 {

@@ -1,13 +1,10 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using NPaint.Observer;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
-    [Serializable]
     class NRectangle : Figure
     {
         protected Rect rect;

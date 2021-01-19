@@ -28,7 +28,7 @@ namespace NPaint
         public Figure SelectedFigure;
         private ObservableFigure ObservableFigure;
 
-        private readonly ShapeFactory shapeFactory = ShapeFactory.getShapeFactory(); // fabryka tworzona na poczatku
+        private readonly ShapeFactory shapeFactory = ShapeFactory.GetShapeFactory(); // fabryka tworzona na poczatku
 
         private readonly RGBIterator Iterator = RGBIterator.getIterator();
 
@@ -88,61 +88,24 @@ namespace NPaint
             //sw.Close();
         }
 
-        private List<Figure> RestoreFigureListTest(UIElementCollection CanvasChildren) //*I METODA ODZYSKANIA FIGUR*//
+        private List<Figure> RestoreFigureList(UIElementCollection CanvasChildren)
         {
             List<Figure> RestoredFigureList = new List<Figure>();
-            ShapeFactory shapeFactory = ShapeFactory.getShapeFactory();
             foreach (UIElement canvasChild in CanvasChildren)
             {
                 if (canvasChild.GetType() == typeof(System.Windows.Shapes.Path))
                 {
                     System.Windows.Shapes.Path path = canvasChild as System.Windows.Shapes.Path;
-                    Figure figure = shapeFactory.getFigure(path.Tag as String);
-                    if (figure == null) continue;
-                    //figure.adaptedPath = tmp;
-                    //figure.adaptedGeometry = tmp.Data;
-                    figure.SetFields(path);
-                    RestoredFigureList.Add(figure);
+                    Figure prototype = (Figure)shapeFactory.GetFigure(path.Tag as String);
+                    if(prototype != null)
+                    {
+                        Figure figure = (Figure)prototype.Clone();
+                        figure.SetFields(path);
+                        RestoredFigureList.Add(figure);
+                    }
                 }
             }
             return RestoredFigureList;
-        }
-        private void SaveFigureListTest()////*II METODA ZAPISU I ODZYSKANIA FIGUR (TA I PONIŻSZA)*//
-        {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(this.canvasPath + "Test.bin", FileMode.Create, FileAccess.Write, FileShare.None);
-            try
-            {
-                formatter.Serialize(stream, this.FigureList);
-            }
-            catch (SerializationException e)
-            {
-                MessageBox.Show("Wyjątek związany z serializacją: " + e.Message);
-                throw;
-            }
-            stream.Close();
-        }
-        private void ReadFigureListTest()//
-        {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(this.canvasPath + "Test.bin", FileMode.Open, FileAccess.Read, FileShare.Read);
-            try
-            {
-                this.FigureList = formatter.Deserialize(stream) as List<Figure>;
-            }
-            catch (SerializationException e)
-            {
-                MessageBox.Show("Wyjątek związany z serializacją: " + e.Message);
-                throw;
-            }
-            stream.Close();
-        }
-        private void SaveFigureListXmlTest()//*III METODA*//
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(FigureListClass));
-            FileStream fs = new FileStream(this.canvasPath + "TestZapisFigur.xml", FileMode.Create);
-            serializer.Serialize(fs, this.FigureListClassObject);
-            fs.Close();/////gdzies indziej moze tez go brakuje
         }
 
         private void AddCanvas()
@@ -254,112 +217,6 @@ namespace NPaint
             ResetSelectedFigure();
             ResetObservableFigure();
             TryClosePolygon();
-        }
-
-        private void SerializeCanvas(string fileName) //możliwe, że bardziej wzorcowo trzymać w ramie całe canvasy, zależy ile by to żarło
-        {
-            fileName += ".txt";
-            //string path = System.IO.Path.GetFullPath(fileName);
-            //string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(fileName, @"..\..\..\..\Canvases\")) + fileName;
-            string newPath = this.canvasPath + fileName;
-            if (SelectedFigure!=null)
-                SelectedFigure.adaptedPath.StrokeDashArray = null;
-            if (ObservableFigure != null)
-            {
-                this.canvas.Children.Remove(ObservableFigure.adaptedPath);
-                ObservableFigure.Notify_DeleteSelectionVisualEffect();
-            }
-
-            string CanvasXAML = XamlWriter.Save(this.canvas);
-
-            if (SelectedFigure != null)
-                SelectedFigure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
-            if (ObservableFigure != null)
-            {
-                this.canvas.Children.Add(ObservableFigure.adaptedPath);
-                ObservableFigure.Notify_AddSelectionVisualEffect();
-            }
-                
-            try
-            {
-                using (StreamWriter writer = new StreamWriter(newPath))
-                {
-                    writer.Write(CanvasXAML);
-                }
-                this.originator.SetMemento(fileName);
-                this.caretaker.AddMemento(this.originator.CreateMemento());    
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Wyjatek: " + e.Message);
-            }
-        }
-        private void RestoreLastCanvas()
-        {
-            string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetLastMemento()); //Odczyt z listy Memento
-            string CanvasString;
-            try //odczyt  z pliku
-            {
-                // Open the text file using a stream reader.
-                using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
-                {
-                    CanvasString = sr.ReadToEnd();
-
-                }
-
-                Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
-
-                MainGrid.Children.Remove(canvas);
-                canvas = null;
-                canvas = oldCanvas;
-                SetCanvas();
-                FigureList = RestoreFigureListTest(canvas.Children);
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.Message);
-            }
-        }
-        private void RestoreCanvas(int index)
-        {
-            if (SelectedFigure != null)
-            {
-                MessageBox.Show("Y");
-                SelectedFigure = null;
-            }
-            if (ObservableFigure != null)
-            {
-                ObservableFigure = null;
-                MessageBox.Show("X");
-                    }
-            string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetMemento(index)); //Odczyt z listy Memento
-            string CanvasString;
-            try //odczyt  z pliku
-            {
-                // Open the text file using a stream reader.
-                using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
-                {
-                    CanvasString = sr.ReadToEnd();
-
-                }
-
-                Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
-
-                MainGrid.Children.Remove(canvas);
-                canvas = null;
-                canvas = oldCanvas;
-                SetCanvas();
-                FigureList = RestoreFigureListTest(canvas.Children);///////////
-            }
-            catch (IOException e)
-            {
-                MessageBox.Show("Nie można odczytać pliku: " + e.Message);
-            }
-        }
-        private void InitializeCaretakerList()
-        {
-            //pobieranie nazw plików z folderu Canvases (ich lista może siedzieć w innym txt)
         }
 
         public void AddObservable(Figure figure)
@@ -492,13 +349,14 @@ namespace NPaint
             Button button = sender as Button;
             button.Background = Brushes.Gray;
         }
+
         private void FigureMenu_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
 
             string Tag = (sender as Button).Tag.ToString();
             Type type = Type.GetType("NPaint.State." + Tag + "State");
-            Figure figure = shapeFactory.getFigure(Tag);
+            Figure figure = shapeFactory.GetFigure(Tag);
             menuState = (MenuState)Activator.CreateInstance(type, figure);
         }
         private void Tool_Click(object sender, RoutedEventArgs e)
@@ -509,6 +367,7 @@ namespace NPaint
             Type type = Type.GetType("NPaint.State." + Tag + "State");
             menuState = (MenuState)Activator.CreateInstance(type);
         }
+
         private void PlusSizeButton_Click(object sender, RoutedEventArgs e)
         {
             if(SelectedFigure != null)
@@ -620,24 +479,6 @@ namespace NPaint
                 //this.SerializeFigureList(canvasName);////Testy
             }
         }
-
-        private void SerializeFigureList(string canvasName)
-        {
-            FileStream fs = new FileStream(canvasName + ".dat", FileMode.Create);
-            BinaryFormatter formatter = new BinaryFormatter();
-            try
-            {
-                formatter.Serialize(fs, this.FigureList.ToArray());////
-            }
-            catch (SerializationException e)
-            {
-                MessageBox.Show("Wyjatek: " + e.Message);
-            }
-            finally
-            {
-                fs.Close();
-            }
-        }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz kontynuować? Utracisz obecny canvas.", "Wczytaj", System.Windows.MessageBoxButton.YesNo);
@@ -668,6 +509,80 @@ namespace NPaint
             }
         }
 
+        private void SerializeCanvas(string fileName)
+        {
+            fileName += ".txt";
+            //string path = System.IO.Path.GetFullPath(fileName);
+            //string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(fileName, @"..\..\..\..\Canvases\")) + fileName;
+            string newPath = this.canvasPath + fileName;
+            if (SelectedFigure != null)
+                SelectedFigure.adaptedPath.StrokeDashArray = null;
+            if (ObservableFigure != null)
+            {
+                this.canvas.Children.Remove(ObservableFigure.adaptedPath);
+                ObservableFigure.Notify_DeleteSelectionVisualEffect();
+            }
+
+            string CanvasXAML = XamlWriter.Save(this.canvas);
+
+            if (SelectedFigure != null)
+                SelectedFigure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
+            if (ObservableFigure != null)
+            {
+                this.canvas.Children.Add(ObservableFigure.adaptedPath);
+                ObservableFigure.Notify_AddSelectionVisualEffect();
+            }
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(newPath))
+                {
+                    writer.Write(CanvasXAML);
+                }
+                this.originator.SetMemento(fileName);
+                this.caretaker.AddMemento(this.originator.CreateMemento());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Wyjatek: " + e.Message);
+            }
+        }
+        private void RestoreCanvas(int index)
+        {
+            if (SelectedFigure != null)
+            {
+                MessageBox.Show("Y");
+                SelectedFigure = null;
+            }
+            if (ObservableFigure != null)
+            {
+                ObservableFigure = null;
+                MessageBox.Show("X");
+            }
+            string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetMemento(index)); //Odczyt z listy Memento
+            string CanvasString;
+            try //odczyt  z pliku
+            {
+                // Open the text file using a stream reader.
+                using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
+                {
+                    CanvasString = sr.ReadToEnd();
+
+                }
+
+                Canvas oldCanvas = XamlReader.Parse(CanvasString) as Canvas;
+
+                MainGrid.Children.Remove(canvas);
+                canvas = null;
+                canvas = oldCanvas;
+                SetCanvas();
+                FigureList = RestoreFigureList(canvas.Children);///////////
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show("Nie można odczytać pliku: " + e.Message);
+            }
+        }
         private void RestoreCaretaker()
         {
             if (!File.Exists(this.canvasListFilePath))

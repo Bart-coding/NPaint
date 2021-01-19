@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.TextFormatting;
 using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
-    [Serializable]
     class NEllipse : Figure
     {
         protected Point CenterPoint;

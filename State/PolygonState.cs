@@ -15,9 +15,8 @@ namespace NPaint.State
             // jezeli zaczynamy rysowac figure
             if (IsClosed == true || (Figure as NPolygon).PathFigure.IsClosed == true)
             {
-                // must implement inherited method
                 ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
-                Figure = (Figure)Figure.Clone();
+                Figure = (Figure)prototype.Clone();
                 StartPoint = point;
                 ((NPolygon)Figure).SetStartPoint(point);
                 ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);

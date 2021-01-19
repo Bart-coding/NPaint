@@ -1,10 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using NPaint.Strategy;
 namespace NPaint.Figures
 {
-    [Serializable]
     class NCircle : NEllipse
     {
         private DrawingStrategy strategy;

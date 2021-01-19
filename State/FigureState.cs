@@ -5,14 +5,15 @@ namespace NPaint.State
 {
     class FigureState : MenuState
     {
+        protected Figure prototype;
         public FigureState(Figure prototype) 
         {
-            Figure = prototype;
+            this.prototype = prototype;
         }
         public override void MouseLeftButtonDown(Point point)
         {
             ((MainWindow)Application.Current.MainWindow).ResetSelectedFigure();
-            Figure = (Figure)Figure.Clone();
+            Figure = (Figure)prototype.Clone();
             StartPoint = point;
             ((MainWindow)Application.Current.MainWindow).AddFigure(Figure);
             Figure.Draw(StartPoint, point);

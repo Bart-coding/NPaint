@@ -58,9 +58,8 @@ namespace NPaint.State
                         lengthShift = point.Y - ((NRectangle)Figure).GetTopLeft().Y;
                         widthShift = point.X - ((NRectangle)Figure).GetTopLeft().X;
                     }
-
-                    
-
+                    point.Y -= lengthShift;
+                    point.X -= widthShift;
                     //Zabezpieczenie przed umieszczeniem figury na Menu
                     if (point.Y < 0 + Figure.GetBorderThickness() / 2) //można wziąc też thickness z figury
                     {
@@ -77,9 +76,8 @@ namespace NPaint.State
                         lengthShift = point.Y - center.Y; //stała odległość myszki od środka figury
                         widthShift = point.X - center.X;
                     }
-
-                    
-
+                    point.Y -= lengthShift;
+                    point.X -= widthShift;
                     //Zabezpieczenie przed umieszczeniem figury na Menu
                     if (point.Y < f_tmp.adaptedGeometry.RadiusY + Figure.GetBorderThickness()/2) //można wziąc też thickness z figury
                     {
@@ -100,9 +98,8 @@ namespace NPaint.State
                         widthShift = point.X - positionOfTriangle.X;
                         TriangleMargin = ((NTriangle)Figure).CalculateMargin();
                     }
-
-                    
-
+                    point.Y -= lengthShift;
+                    point.X -= widthShift;
                     if (point.Y < 0 + TriangleMargin)
                     {
                         point.Y = TriangleMargin;
@@ -117,16 +114,13 @@ namespace NPaint.State
                         lengthShift = point.Y - startPointOfPolygon.Y;
                         widthShift = point.X - startPointOfPolygon.X;
                     }
-
-                   
-
+                    point.Y -= lengthShift;
+                    point.X -= widthShift;
                     if (Figure.GetPointCollection().Any(e => e.Y-(Figure.GetPointCollection().Last().Y-point.Y) < 0))
                     {
                         point.Y++;
                     }
                 }
-                point.Y -= lengthShift;
-                point.X -= widthShift;
                 Figure.MoveBy(point);
             }
         }

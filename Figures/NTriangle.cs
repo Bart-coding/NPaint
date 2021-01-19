@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
-    [Serializable]///
     class NTriangle : Figure
     {
 
         private PathFigure PathFigure;
-        private Point point1; //można by było chyba bezpośrednio ustawiać ten StartPoint i Line'y
+        private Point point1;
         private LineSegment line1;
         private Point point2;
         private LineSegment line2;
