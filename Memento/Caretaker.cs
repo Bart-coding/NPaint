@@ -9,9 +9,9 @@ namespace NPaint.Memento
         private readonly List<CanvasMemento> CanvasNames = new List<CanvasMemento>();
 
 
-        public void AddMemento(CanvasMemento m)
+        public void AddMemento(CanvasMemento memento)
         {
-            CanvasNames.Add(m);
+            CanvasNames.Add(memento);
         }
 
         public CanvasMemento GetMemento(int index)

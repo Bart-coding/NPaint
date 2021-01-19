@@ -4,16 +4,16 @@ namespace NPaint.Memento
 {
     class CanvasMemento
     {
-        private readonly string CanvasName;
+        private readonly string canvasName;
 
-        public CanvasMemento(string CanvasName)
+        public CanvasMemento(string canvasName)
         {
-            this.CanvasName = CanvasName;
+            this.canvasName = canvasName;
         }
 
         public string GetState()
         {
-            return CanvasName;
+            return canvasName;
         }
     }
 }
