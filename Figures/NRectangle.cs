@@ -25,10 +25,7 @@ namespace NPaint.Figures
         public override void ChangeBorderThickness(double value)
         {
             // pierwsze wywolanie - prostokat ma polozenie 0,0 
-            if (rect.Width == 0 || rect.Height == 0)
-            {
-                ;   // nothing to do here
-            }
+            if (rect.Width == 0 || rect.Height == 0){}
             else if ((rect.Y - (GetBorderThickness() / 2)) <= 0 && value > adaptedPath.StrokeThickness)
                 value = adaptedPath.StrokeThickness;
             adaptedPath.StrokeThickness = value;
@@ -71,7 +68,6 @@ namespace NPaint.Figures
         {
             double x = rect.X - shiftVector.X;
             double y = rect.Y - shiftVector.Y;
-
 
             rect.X = x;
             rect.Y = y;
@@ -119,8 +115,8 @@ namespace NPaint.Figures
         {
             // do zaznaczania prostokata wystarcza dwa rogi
             PointsList.Clear();
-            PointsList.Add(rect.TopLeft);     // lewy gorny
-            PointsList.Add(rect.BottomRight);// prawy dolny
+            PointsList.Add(rect.TopLeft);       // lewy gorny
+            PointsList.Add(rect.BottomRight);   // prawy dolny
         }
 
         public Point GetTopLeft()

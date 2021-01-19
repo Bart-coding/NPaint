@@ -17,7 +17,6 @@ namespace NPaint.Figures
 
         public NTriangle(Path adaptedPath) : base(adaptedPath)
         {
-            // inicjalizacja pól
             adaptedGeometry = new PathGeometry();
             adaptedPath.Data = adaptedGeometry;
             PathFigure = new PathFigure();
@@ -33,28 +32,16 @@ namespace NPaint.Figures
             adaptedGeometry = path.Data;
 
             PathFigure = ((PathGeometry)adaptedGeometry).Figures[0];
-            //MessageBox.Show(PathFigure.Segments[0] + "");
-            //
+
             PolyLineSegment polyLineSegment = (PolyLineSegment)PathFigure.Segments[0];
             line1.Point = polyLineSegment.Points[0];
             line2.Point = polyLineSegment.Points[1];
-            //
+
             point1 = PathFigure.StartPoint;
             point2 = line1.Point;
             point3 = line2.Point;
-            //
+
             SetPointCollection();
-            //
-
-
-
-            /*private PathFigure PathFigure;
-        private Point point1; //można by było chyba bezpośrednio ustawiać ten StartPoint i Line'y
-        private LineSegment line1;
-        private Point point2;
-        private LineSegment line2;
-        private Point point3;*/
-
         }
         public override void ChangeBorderThickness(double value)
         {
@@ -65,14 +52,7 @@ namespace NPaint.Figures
         }
         public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
         {
-            /*if (GetTopCorner().Y + adaptedPath.ActualHeight + value / 2 > PointsList[1].Y)
-            {
-                return;
-            }*/
-            //else
-            {
-                adaptedPath.StrokeThickness = value;
-            }
+            adaptedPath.StrokeThickness = value;
         }
         public override void Draw(Point startPoint, Point currentPoint)
         {
@@ -104,10 +84,6 @@ namespace NPaint.Figures
         }
         public override void MoveBy(Point point)
         {
-            
-            //////Canvas.SetTop(this.adaptedPath, y);
-            //////Canvas.SetLeft(this.adaptedPath, x);
-
             double lengthShift = point3.Y - point.Y;
             double widthShift = point3.X - point.X;
              
@@ -117,27 +93,17 @@ namespace NPaint.Figures
             point1.X -= widthShift;
             point2.Y -= lengthShift;
             point2.X -= widthShift;
-
-
-            //PathFigure.StartPoint = new Point(x, y);
-            //Nie wiem czy nie trza ustawić pól figury czy już są ustawione
-            // trzeba, bo geometry zostaje w tym samym miejscu, choc path sie przemieszcza
             
             Repaint();
         }
         public override void MoveByInsideGroup(Vector shiftVector)
         {
-            //////////Vector vector = VisualTreeHelper.GetOffset(this.adaptedPath);
-            ///////////Point positionOfTriangle = new Point(vector.X, vector.Y);
-            ///////Canvas.SetTop(this.adaptedPath, positionOfTriangle.Y - point.Y);
-            //////Canvas.SetLeft(this.adaptedPath, positionOfTriangle.X - point.X);
             point1.Y -= shiftVector.Y;
             point1.X -= shiftVector.X;
             point2.Y -= shiftVector.Y;
             point2.X -= shiftVector.X;
             point3.Y -= shiftVector.Y;
             point3.X -= shiftVector.X;
-
 
             Repaint();
         }
@@ -195,12 +161,12 @@ namespace NPaint.Figures
             line1.Point = point2;
             line2.Point = point3;
 
-            PathFigure.Segments.Clear(); //czyszczenie niezbedne nwm dlaczego insert powinien zalatwic sprawe
+            PathFigure.Segments.Clear();
             PathFigure.Segments.Insert(0, line1);
             PathFigure.Segments.Insert(1, line2);
 
-            ((PathGeometry)adaptedGeometry).Figures.Clear(); //czyszczenie ten sam problem
-            ((PathGeometry)adaptedGeometry).Figures.Insert(0, PathFigure);    // przypisanie figury trojkata do geometrii
+            ((PathGeometry)adaptedGeometry).Figures.Clear();
+            ((PathGeometry)adaptedGeometry).Figures.Insert(0, PathFigure);
 
             adaptedPath.Data = adaptedGeometry;
 
