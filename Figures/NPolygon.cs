@@ -14,7 +14,6 @@ namespace NPaint.Figures
 
         public NPolygon(Path adaptedPath) : base(adaptedPath)
         {
-            // inicjalizacja pól
             adaptedGeometry = new PathGeometry();
             PathFigure = new PathFigure();
             Lines = new List<LineSegment>();
@@ -34,10 +33,10 @@ namespace NPaint.Figures
             {
                 foreach (Point point in ((PolyLineSegment)pathSegment).Points)
                 {
-                    Lines.Add(new LineSegment(point, true)); //stroke defaultowy to true
+                    Lines.Add(new LineSegment(point, true));
                 }
             }
-            else //PathFigure.Segments[0] type is LineSegment because figure has only one line
+            else
             {
                 Lines.Add(new LineSegment(((LineSegment)pathSegment).Point, true));
             }
@@ -63,7 +62,7 @@ namespace NPaint.Figures
         }
         public override void MoveBy(Point point)
         {
-            //wyliczenie przesunięcia -- odległości od punktu początkowego figury (i zarazem pktu końcowego)
+            //wyliczenie przesunięcia -- odleglosci od punktu początkowego figury (i zarazem pktu koncowego)
             double widthShift = Lines.Last().Point.X - point.X; 
             double lengthShift = Lines.Last().Point.Y - point.Y;
 
@@ -122,8 +121,8 @@ namespace NPaint.Figures
                 PathFigure.Segments.Add(line);
             }
 
-            ((PathGeometry)adaptedGeometry).Figures.Clear(); //czyszczenie ten sam problem
-            ((PathGeometry)adaptedGeometry).Figures.Add(PathFigure);    // przypisanie figury wielokata do geometrii
+            ((PathGeometry)adaptedGeometry).Figures.Clear();
+            ((PathGeometry)adaptedGeometry).Figures.Add(PathFigure);
 
             adaptedPath.Data = adaptedGeometry;
 
