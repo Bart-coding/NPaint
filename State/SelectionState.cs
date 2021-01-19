@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Shapes;
 using NPaint.Figures;
 using NPaint.Observer;
 
@@ -32,7 +33,7 @@ namespace NPaint.State
                 selectedAtLeastOne = false;
             }
 
-            Figure = new ObservableFigure();
+            Figure = new ObservableFigure(new Path());
             StartPoint = point;
             ((MainWindow)Application.Current.MainWindow).AddObservable(Figure);
 

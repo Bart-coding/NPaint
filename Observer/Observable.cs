@@ -8,7 +8,7 @@ namespace NPaint.Observer
     {
         public void Attach(Figure figure);
         public void DetachAll();
-        public void Notify_MoveBy(Point point);
+        public void Notify_MoveBy(Vector vector);
         public void Notify_ChangeFillColor(Brush brush);
         public void Notify_ChangeBorderColor(Brush brush);
         public void Notify_ChangeTransparency(double value);

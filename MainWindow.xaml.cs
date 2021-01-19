@@ -1,5 +1,5 @@
 ﻿using NPaint.Figures;
-using NPaint.Iterator___singleton;
+using NPaint.Iterator_singleton;
 using NPaint.Memento;
 using NPaint.Observer;
 using NPaint.State;
@@ -24,13 +24,12 @@ namespace NPaint
         private MenuState menuState;
         public Canvas canvas;
         private List<Figure> FigureList;
-        public FigureListClass FigureListClassObject;
         public Figure SelectedFigure;
         private ObservableFigure ObservableFigure;
 
-        private readonly ShapeFactory shapeFactory = ShapeFactory.GetShapeFactory(); // fabryka tworzona na poczatku
-
+        
         private readonly RGBIterator Iterator = RGBIterator.getIterator();
+        private readonly ShapeFactory shapeFactory = ShapeFactory.GetShapeFactory();
 
         public bool BorderIteratorSelected = false;
         public bool FillIteratorSelected = false;
@@ -45,17 +44,9 @@ namespace NPaint
         public MainWindow()
         {
             InitializeComponent();
+            FigureList = new List<Figure>();
             caretaker = new Caretaker();
             originator = new Originator();
-            //FigureList = new List<Figure>();
-            FigureListClassObject = new FigureListClass
-            {
-                FigureList = new List<Figure>()
-            };
-            FigureList = FigureListClassObject.FigureList;
-            //SaveFigureListTest();/////
-            //ReadFigureListTest();
-            //SaveFigureListXmlTest();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -66,16 +57,15 @@ namespace NPaint
         }
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            //List<String> CanvasNamesList = new List<String>();
+            
             using (StreamWriter sw = new StreamWriter(this.canvasListFilePath, false))
             {
                 for (int i = 0; ; i++)
                 {
-                    Memento.Memento memento = this.caretaker.GetMemento(i);
+                    CanvasMemento memento = this.caretaker.GetMemento(i);
                     if (memento != null)
                     {
-                        String canvasName = this.originator.restoreFromMemento(memento);
-                        //CanvasNamesList.Add(canvasName);
+                        String canvasName = this.originator.RestoreFromMemento(memento);
                         sw.WriteLine(canvasName);
 
                     }
@@ -85,7 +75,6 @@ namespace NPaint
                     }
                 }
             }
-            //sw.Close();
         }
 
         private List<Figure> RestoreFigureList(UIElementCollection CanvasChildren)
@@ -135,21 +124,18 @@ namespace NPaint
 
             if (messageBoxResult == MessageBoxResult.Yes)
             {
-                //this.SerializeCanvas("FirstCanvas");//Zapis do pliku i do listy Memento przed usunieciem
                 this.canvas.Children.Clear();
             }
-            //this.RestoreLastCanvas();
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            //if(Mouse.Captured == canvas)
             {
                 if (Mouse.LeftButton == MouseButtonState.Pressed)
                 {
                     if (this.Cursor != Cursors.SizeAll)
                         this.Cursor = Cursors.SizeAll;
-                    if (ObservableFigure!=null) //Test
+                    if (ObservableFigure!=null)
                     {
                         
                         Point pt = e.GetPosition(canvas);
@@ -183,8 +169,6 @@ namespace NPaint
         }
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // złapanie canvasa, aby umozliwic rysowanie poza ekranem
-            //Mouse.Capture(canvas);
 
             // zaleznie od stanu podejmujemy akcje
             if (menuState != null)
@@ -209,8 +193,7 @@ namespace NPaint
                 }
                 menuState.MouseLeftButtonUp(e.GetPosition(canvas));
             }
-            // zwolnienie myszy z Canvasa
-            //Mouse.Capture(null);
+           
         }
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -476,7 +459,6 @@ namespace NPaint
             {
                 canvasName = canvasNameWindow.nameBox.Text;
                 this.SerializeCanvas(canvasName);
-                //this.SerializeFigureList(canvasName);////Testy
             }
         }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
@@ -489,11 +471,11 @@ namespace NPaint
 
                 for (int i = 0; ; i++)
                 {
-                    Memento.Memento memento = this.caretaker.GetMemento(i);
+                    CanvasMemento memento = this.caretaker.GetMemento(i);
 
                     if (memento != null)
                     {
-                        String canvasName = this.originator.restoreFromMemento(memento);
+                        String canvasName = this.originator.RestoreFromMemento(memento);
                         restoreCanvasWindow.canvasNameListbox.Items.Add(canvasName);
                     }
                     else
@@ -512,9 +494,9 @@ namespace NPaint
         private void SerializeCanvas(string fileName)
         {
             fileName += ".txt";
-            //string path = System.IO.Path.GetFullPath(fileName);
-            //string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(fileName, @"..\..\..\..\Canvases\")) + fileName;
             string newPath = this.canvasPath + fileName;
+
+            //Przed zapisem Canvasa resetujemy chwilowo to co związane z CursorsState i SelectionState
             if (SelectedFigure != null)
                 SelectedFigure.adaptedPath.StrokeDashArray = null;
             if (ObservableFigure != null)
@@ -523,8 +505,9 @@ namespace NPaint
                 ObservableFigure.Notify_DeleteSelectionVisualEffect();
             }
 
-            string CanvasXAML = XamlWriter.Save(this.canvas);
+            string CanvasXAML = XamlWriter.Save(this.canvas); //Zapisujemy Canvas
 
+            //Po zapisie przywracamy to co chwilowo zresetowaliśmy
             if (SelectedFigure != null)
                 SelectedFigure.adaptedPath.StrokeDashArray = new DoubleCollection() { 1 };
             if (ObservableFigure != null)
@@ -539,8 +522,7 @@ namespace NPaint
                 {
                     writer.Write(CanvasXAML);
                 }
-                this.originator.SetMemento(fileName);
-                this.caretaker.AddMemento(this.originator.CreateMemento());
+                this.caretaker.AddMemento(this.originator.CreateMemento(fileName));
             }
             catch (Exception e)
             {
@@ -551,19 +533,16 @@ namespace NPaint
         {
             if (SelectedFigure != null)
             {
-                MessageBox.Show("Y");
                 SelectedFigure = null;
             }
             if (ObservableFigure != null)
             {
                 ObservableFigure = null;
-                MessageBox.Show("X");
             }
-            string oldCanvasFile = this.originator.restoreFromMemento(this.caretaker.GetMemento(index)); //Odczyt z listy Memento
+            string oldCanvasFile = this.originator.RestoreFromMemento(this.caretaker.GetMemento(index)); //Odczyt z listy Memento
             string CanvasString;
-            try //odczyt  z pliku
+            try
             {
-                // Open the text file using a stream reader.
                 using (var sr = new StreamReader(this.canvasPath + oldCanvasFile))
                 {
                     CanvasString = sr.ReadToEnd();
@@ -576,7 +555,7 @@ namespace NPaint
                 canvas = null;
                 canvas = oldCanvas;
                 SetCanvas();
-                FigureList = RestoreFigureList(canvas.Children);///////////
+                FigureList = RestoreFigureList(canvas.Children);
             }
             catch (IOException e)
             {
@@ -600,8 +579,7 @@ namespace NPaint
 
                     while ((line = reader.ReadLine()) != null)
                     {
-                        this.originator.SetMemento(line);
-                        this.caretaker.AddMemento(this.originator.CreateMemento());
+                        this.caretaker.AddMemento(this.originator.CreateMemento(line));
                     }
                 }
             }

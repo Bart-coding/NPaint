@@ -15,10 +15,9 @@ namespace NPaint.Figures
         private LineSegment line2;
         private Point point3;
 
-        public NTriangle() : base()
+        public NTriangle(Path adaptedPath) : base(adaptedPath)
         {
-            // inicjalizacja zmiennych
-            adaptedPath = new Path();
+            // inicjalizacja pól
             adaptedGeometry = new PathGeometry();
             adaptedPath.Data = adaptedGeometry;
             PathFigure = new PathFigure();
@@ -126,18 +125,18 @@ namespace NPaint.Figures
             
             Repaint();
         }
-        public override void MoveByInsideGroup(Point point)
+        public override void MoveByInsideGroup(Vector shiftVector)
         {
             //////////Vector vector = VisualTreeHelper.GetOffset(this.adaptedPath);
             ///////////Point positionOfTriangle = new Point(vector.X, vector.Y);
             ///////Canvas.SetTop(this.adaptedPath, positionOfTriangle.Y - point.Y);
             //////Canvas.SetLeft(this.adaptedPath, positionOfTriangle.X - point.X);
-            point1.Y -= point.Y;
-            point1.X -= point.X;
-            point2.Y -= point.Y;
-            point2.X -= point.X;
-            point3.Y -= point.Y;
-            point3.X -= point.X;
+            point1.Y -= shiftVector.Y;
+            point1.X -= shiftVector.X;
+            point2.Y -= shiftVector.Y;
+            point2.X -= shiftVector.X;
+            point3.Y -= shiftVector.Y;
+            point3.X -= shiftVector.X;
 
 
             Repaint();

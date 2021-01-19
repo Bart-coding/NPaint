@@ -8,9 +8,8 @@ namespace NPaint.Figures
     class NRectangle : Figure
     {
         protected Rect rect;
-        public NRectangle() : base()
+        public NRectangle(Path adaptedPath) : base(adaptedPath)
         {
-            adaptedPath = new Path();
             adaptedGeometry = new RectangleGeometry();
             adaptedPath.Data = adaptedGeometry;
         }
@@ -62,30 +61,17 @@ namespace NPaint.Figures
         }
         public override void MoveBy(Point point)
         {
-            //przesuwanie wewnątrz zaznaczenia
-            /*if (((MainWindow)Application.Current.MainWindow).observer == true && this.GetType()!=typeof(ObservableFigure))
-            {
-                 x = rect.X - point.X; //-> w obserwatorze
-                 y = rect.Y - point.Y;
-            }*/
-            //zwykłe przesuwanie
-            
-            double x = point.X;
-            double y = point.Y;
-            
-
             // przypisanie wyliczonych wartosci do zmiennej
-            rect.X = x;
-            rect.Y = y;
-
-            //this.SetStartPoint(new Point(x, y));//Do przemyślenia
+            rect.X = point.X;
+            rect.Y = point.Y;
 
             Repaint();
         }
-        public override void MoveByInsideGroup(Point point)
+        public override void MoveByInsideGroup(Vector shiftVector)
         {
-            double x = rect.X - point.X; //-> w obserwatorze
-            double y = rect.Y - point.Y;
+            double x = rect.X - shiftVector.X;
+            double y = rect.Y - shiftVector.Y;
+
 
             rect.X = x;
             rect.Y = y;

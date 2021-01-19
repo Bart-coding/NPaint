@@ -14,8 +14,9 @@ namespace NPaint.Figures
         public Geometry adaptedGeometry { get; set; }
         protected PointCollection PointsList;
 
-        public Figure()
+        public Figure(Path adaptedPath)
         {
+            this.adaptedPath = adaptedPath;
             PointsList = new PointCollection();
         }
 
@@ -40,7 +41,7 @@ namespace NPaint.Figures
         }
         public abstract void Draw(Point startPoint, Point currentPoint);
         public abstract void MoveBy(Point point);
-        public abstract void MoveByInsideGroup(Point point);
+        public abstract void MoveByInsideGroup(Vector shiftVector);
         public abstract void IncreaseSize();
         public abstract void DecreaseSize();
 

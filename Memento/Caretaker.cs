@@ -5,27 +5,23 @@ namespace NPaint.Memento
 {
     class Caretaker //przechowuje Mementa i umożliwia ich dodawanie do listy wraz z pobieraniem z niej
     {
-        //ewentualnie listę eksportowaną/importowaną do pliku
-        private List<Memento> CanvasFiles = new List<Memento>();
 
-        public void AddMemento(Memento m)
+        private readonly List<CanvasMemento> CanvasNames = new List<CanvasMemento>();
+
+
+        public void AddMemento(CanvasMemento m)
         {
-
-            CanvasFiles.Add(m);
+            CanvasNames.Add(m);
         }
 
-        public Memento GetMemento(int index)
+        public CanvasMemento GetMemento(int index)
         {
-            if (index >= CanvasFiles.Count)
+            if (index >= CanvasNames.Count)
             {
                 return null;
             }
-            return CanvasFiles[index];
+            return CanvasNames[index];
         }
 
-        public Memento GetLastMemento ()
-        {
-            return CanvasFiles.Last();
-        }
     }
 }

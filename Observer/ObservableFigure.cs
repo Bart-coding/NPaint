@@ -12,9 +12,9 @@ namespace NPaint.Observer
     {
         private List<Figure> Observers;
 
-        public ObservableFigure()
+        public ObservableFigure(Path adaptedPath) : base(adaptedPath)
         {
-            adaptedPath = new Path();
+            this.adaptedPath = adaptedPath;
             adaptedPath.Fill = Brushes.Transparent;
             adaptedPath.StrokeThickness = 1;
             adaptedPath.Stroke = Brushes.Gray;
@@ -40,11 +40,11 @@ namespace NPaint.Observer
             Observers.Clear(); // wyczyszczenie listy obserwujacych
         }
 
-        public void Notify_MoveBy(Point point)
+        public void Notify_MoveBy(Vector vector)
         {
             foreach(Figure figure in Observers)
             {
-                figure.MoveByInsideGroup(point);
+                figure.MoveByInsideGroup(vector);
             }
         }
 
@@ -134,11 +134,11 @@ namespace NPaint.Observer
         {
             double widthShift = this.GetTopLeft().X - point.X;
             double lengthShift = this.GetTopLeft().Y - point.Y;
-            Point shiftTmpPoint = new Point(widthShift, lengthShift);
+            Vector ShiftTmpVector = new Vector(widthShift, lengthShift);
 
             base.MoveBy(point);
 
-            Notify_MoveBy(shiftTmpPoint);
+            Notify_MoveBy(ShiftTmpVector);
         }
 
         public bool Contains(Figure figure)

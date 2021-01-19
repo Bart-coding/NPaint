@@ -2,23 +2,18 @@
 
 namespace NPaint.Memento
 {
-    class Memento // zawiera w sobie zapamiętywany obiekt
+    class CanvasMemento
     {
-        String CanvasName;
+        private readonly string CanvasName;
 
-        public Memento(String CanvasName)
+        public CanvasMemento(string CanvasName)
         {
             this.CanvasName = CanvasName;
         }
 
-        public void SetState(String CanvasName)//być może niepotrzebne
+        public string GetState()
         {
-            this.CanvasName = CanvasName;
-        }
-
-        public String GetState()
-        {
-            return CanvasName; //State
+            return CanvasName;
         }
     }
 }

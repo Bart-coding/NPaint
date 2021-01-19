@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NPaint.Iterator___singleton
+namespace NPaint.Iterator_singleton
 {
     class RGBIterator
     {

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using NPaint.Strategy;
 namespace NPaint.Figures
 {
@@ -7,7 +8,7 @@ namespace NPaint.Figures
     {
         private DrawingStrategy strategy;
 
-        public NCircle() : base()
+        public NCircle(Path adaptedPath) : base(adaptedPath)
         {
             strategy = new DrawingStrategyClassic();
         }

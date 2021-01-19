@@ -14,7 +14,7 @@ namespace NPaint.Figures
         public void ChangeTransparency(double value);
         public void Draw(Point startPoint, Point currentPoint);
         public void MoveBy(Point point);
-        public void MoveByInsideGroup(Point point);
+        public void MoveByInsideGroup(Vector shiftVector);
         public void IncreaseSize();
         public void DecreaseSize();
     }

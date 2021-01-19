@@ -8,9 +8,8 @@ namespace NPaint.Figures
     class NEllipse : Figure
     {
         protected Point CenterPoint;
-        public NEllipse() : base()
+        public NEllipse(Path adaptedPath) : base(adaptedPath)
         {
-            adaptedPath = new Path();
             adaptedGeometry = new EllipseGeometry();
             adaptedPath.Data = adaptedGeometry;
         }
@@ -69,15 +68,9 @@ namespace NPaint.Figures
 
             Repaint();
         }
-        public override void MoveBy(Point point) // Tu znów kwestia nieustawianego startpointu i nie wiadomo kiedy
+        public override void MoveBy(Point point)
         {
 
-            /*if (((MainWindow)Application.Current.MainWindow).observer == true)
-            {
-                x = CenterPoint.X - point.X; //-> w obserwatorze
-                y = CenterPoint.Y - point.Y;
-            }*/
-            
              double x = point.X;
              double y = point.Y;
             
@@ -85,19 +78,12 @@ namespace NPaint.Figures
             CenterPoint.Y = y;
             ((EllipseGeometry)adaptedGeometry).Center = CenterPoint;
 
-            // zakomentowany kod Bartka
-            // przypisanie wyliczonych wartosci do zmiennej (geometrii)
-            //EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
-            //CenterPoint.X = point.X - startPoint.X + tmp.RadiusX;
-            //CenterPoint.Y = point.Y - startPoint.Y + tmp.RadiusY;
-            //tmp.Center = CenterPoint;
-
             Repaint();
         }
-        public override void MoveByInsideGroup(Point point)
+        public override void MoveByInsideGroup(Vector shiftVector)
         {
-            double x = CenterPoint.X - point.X; //-> w obserwatorze
-            double y = CenterPoint.Y - point.Y;
+            double x = CenterPoint.X - shiftVector.X;
+            double y = CenterPoint.Y - shiftVector.Y;
             CenterPoint.X = x;
             CenterPoint.Y = y;
             ((EllipseGeometry)adaptedGeometry).Center = CenterPoint;
@@ -138,7 +124,7 @@ namespace NPaint.Figures
         protected override void SetPointCollection()
         {
             // do zaznaczania elipsy wystarcza dwa rogi
-            Rect rect = ((EllipseGeometry)adaptedGeometry).Bounds;  // protokat w ktory wpisana jest elipsa
+            Rect rect = ((EllipseGeometry)adaptedGeometry).Bounds;// protokat w ktory jest "wpisana" elipsa
             PointsList.Clear();
             PointsList.Add(rect.TopLeft);     // lewy gorny
             PointsList.Add(rect.BottomRight); // prawy dolny

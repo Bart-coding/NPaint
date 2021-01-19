@@ -2,23 +2,16 @@
 
 namespace NPaint.Memento
 {
-    class Originator //tworzy i odtwarza pamiątki; potrafi zmieniac ich stan
+    class Originator //tworzy pamiątki z danym stanem i odtwarza stan wybranej pamiątki
     {
-        private String CanvasName;
-
-        public void SetMemento (String CanvasName ) //Może powinno być SetState; wcześniej było (Memento m)
+        public CanvasMemento CreateMemento(string CanvasName)
         {
-            this.CanvasName = CanvasName;
+            return new CanvasMemento(CanvasName);
         }
 
-        public Memento CreateMemento()
+        public string RestoreFromMemento (CanvasMemento m)
         {
-            return new Memento(CanvasName);
-        }
-
-        public String restoreFromMemento (Memento m)
-        {
-            CanvasName = m.GetState();
+            string CanvasName = m.GetState();
             return CanvasName;
         }
     }

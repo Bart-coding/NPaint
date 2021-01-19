@@ -12,10 +12,9 @@ namespace NPaint.Figures
         private List<LineSegment> Lines;
         private Point CenterPoint;
 
-        public NPolygon() : base()
+        public NPolygon(Path adaptedPath) : base(adaptedPath)
         {
-            // inicjalizacja zmiennych
-            adaptedPath = new Path();
+            // inicjalizacja pól
             adaptedGeometry = new PathGeometry();
             PathFigure = new PathFigure();
             Lines = new List<LineSegment>();
@@ -64,9 +63,11 @@ namespace NPaint.Figures
         }
         public override void MoveBy(Point point)
         {
-            double widthShift = Lines.Last().Point.X - point.X;
+            //wyliczenie przesunięcia -- odległości od punktu początkowego figury (i zarazem pktu końcowego)
+            double widthShift = Lines.Last().Point.X - point.X; 
             double lengthShift = Lines.Last().Point.Y - point.Y;
 
+            //przesuwanie wszystkich punktów figury o to przesunięcie
             foreach (LineSegment line in Lines.TakeWhile(l=>l!=Lines.Last()))
             {
                 line.Point = new Point(line.Point.X - widthShift, line.Point.Y - lengthShift);
@@ -75,11 +76,11 @@ namespace NPaint.Figures
             Lines.Last().Point = point;
             SetStartPoint(point);
         }
-        public override void MoveByInsideGroup(Point point)
+        public override void MoveByInsideGroup(Vector shiftVector)
         {
             foreach (LineSegment line in Lines)
             {
-                line.Point = new Point(line.Point.X - point.X, line.Point.Y - point.Y);
+                line.Point = new Point(line.Point.X - shiftVector.X, line.Point.Y - shiftVector.Y);
             }
 
             SetStartPoint(Lines.Last().Point);
@@ -205,7 +206,6 @@ namespace NPaint.Figures
         }
         private bool WillHitMenu()
         {
-            // tymczasowe - do dopracowania
             if(adaptedGeometry.Bounds.Y - adaptedPath.StrokeThickness / 2 <= 1)
             {
                 return true;

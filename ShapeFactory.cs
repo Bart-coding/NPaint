@@ -38,10 +38,7 @@ namespace NPaint
             Path myPath = new Path();
             string type = "Rectangle";
             myPath.Tag = type;
-
-            NRectangle rectangle = new NRectangle();
-            rectangle.adaptedPath = myPath;
-
+            NRectangle rectangle = new NRectangle(myPath);
             prototypedFigures.Add(type, rectangle);
         }
 
@@ -50,10 +47,7 @@ namespace NPaint
             Path myPath = new Path();
             string type = "Square";
             myPath.Tag = type;
-
-            NSquare square = new NSquare();
-            square.adaptedPath = myPath;
-            
+            NSquare square = new NSquare(myPath);
             prototypedFigures.Add(type, square);
         }
 
@@ -62,10 +56,7 @@ namespace NPaint
             Path myPath = new Path();
             string type = "Ellipse";
             myPath.Tag = type;
-
-            NEllipse ellipse = new NEllipse();
-            ellipse.adaptedPath = myPath;
-            
+            NEllipse ellipse = new NEllipse(myPath);
             prototypedFigures.Add(type, ellipse);
         }
 
@@ -74,10 +65,7 @@ namespace NPaint
             Path myPath = new Path();
             string type = "Circle";
             myPath.Tag = type;
-
-            NCircle circle = new NCircle();
-            circle.adaptedPath = myPath;
-            
+            NCircle circle = new NCircle(myPath);
             prototypedFigures.Add(type, circle);
         }
 
@@ -86,18 +74,16 @@ namespace NPaint
             Path myPath = new Path();
             string type = "Triangle";
             myPath.Tag = type;
-
-            NTriangle triangle = new NTriangle();
-            triangle.adaptedPath = myPath;
-            
+            NTriangle triangle = new NTriangle(myPath);
             prototypedFigures.Add(type, triangle);
         }
 
         private void CreatePolygonPrototype()
         {
-            NPolygon polygon = new NPolygon();
+            Path myPath = new Path();
             string type = "Polygon";
-            polygon.adaptedPath.Tag = type;
+            myPath.Tag = type;
+            NPolygon polygon = new NPolygon(myPath);
             prototypedFigures.Add(type, polygon);
         }
     }

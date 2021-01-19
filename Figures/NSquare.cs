@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace NPaint.Figures
 {
     class NSquare : NRectangle
     {
-        public NSquare() : base() {}
+        public NSquare(Path adaptedPath) : base(adaptedPath) { }
         public override void Draw(Point startPoint, Point currentPoint)
         {
             double squarelength;
