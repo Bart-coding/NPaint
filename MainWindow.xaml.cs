@@ -213,7 +213,7 @@ namespace NPaint
             // dodanie go do canvasa, zeby byl widoczny
             canvas.Children.Add(figure.adaptedPath);
 
-            //FigureList.Add(figure);//Test*********
+            //FigureList.Add(figure);
         }
         public void AddFigure(Figure figure)
         {
