@@ -9,9 +9,9 @@ namespace NPaint.Memento
             return new CanvasMemento(CanvasName);
         }
 
-        public string RestoreFromMemento (CanvasMemento m)
+        public string RestoreFromMemento (CanvasMemento memento)
         {
-            string CanvasName = m.GetState();
+            string CanvasName = memento.GetState();
             return CanvasName;
         }
     }
