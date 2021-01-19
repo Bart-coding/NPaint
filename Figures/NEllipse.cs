@@ -19,22 +19,17 @@ namespace NPaint.Figures
             adaptedPath = path;
             adaptedGeometry = path.Data;
 
-
             CenterPoint = ((EllipseGeometry)adaptedGeometry).Center;
 
             SetPointCollection();
         }
         public override void ChangeBorderThickness(double value)
         {
-            if (((EllipseGeometry)adaptedGeometry).RadiusX == 0 || ((EllipseGeometry)adaptedGeometry).RadiusY == 0)
-            {
-                ;   // nothing to do here
-            }
+            if (((EllipseGeometry)adaptedGeometry).RadiusX == 0 || ((EllipseGeometry)adaptedGeometry).RadiusY == 0){}
             else if (this.GetCenterPoint().Y - this.GetRadiusY() - GetBorderThickness() / 2 <= 0 && value > adaptedPath.StrokeThickness)
                 value = adaptedPath.StrokeThickness;
 
             adaptedPath.StrokeThickness = value;
-
         }
         public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
         {
@@ -49,7 +44,6 @@ namespace NPaint.Figures
             {
                 adaptedPath.StrokeThickness = value;
             }
-
         }
         public override void Draw(Point startPoint, Point currentPoint)
         {
@@ -70,7 +64,6 @@ namespace NPaint.Figures
         }
         public override void MoveBy(Point point)
         {
-
              double x = point.X;
              double y = point.Y;
             
@@ -93,6 +86,7 @@ namespace NPaint.Figures
         public override void IncreaseSize()
         {
             EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
+
             // zabezpieczenie, zebysmy nie weszli na Menu
             if (tmp.Center.Y - tmp.RadiusY - adaptedPath.StrokeThickness/2 > 0)
             {
@@ -104,6 +98,7 @@ namespace NPaint.Figures
         public override void DecreaseSize()
         {
             EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
+
             // zabezpieczenie, zeby rozmiary elipsy nie spadly ponizej 0
             if(tmp.RadiusX >= 1 && tmp.RadiusY >= 1)
             {
@@ -116,9 +111,7 @@ namespace NPaint.Figures
 
         protected override void Repaint()
         {
-            // przypisanie zmienionej geometrii do Path
             adaptedPath.Data = adaptedGeometry;
-
             SetPointCollection();
         }
         protected override void SetPointCollection()

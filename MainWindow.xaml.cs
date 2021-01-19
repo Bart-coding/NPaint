@@ -3,6 +3,7 @@ using NPaint.Iterator_singleton;
 using NPaint.Memento;
 using NPaint.Observer;
 using NPaint.State;
+using NPaint.Prototype;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
