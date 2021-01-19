@@ -484,7 +484,7 @@ namespace NPaint
 
                     if (memento != null)
                     {
-                        String canvasName = this.originator.RestoreFromMemento(memento);
+                        string canvasName = this.originator.RestoreFromMemento(memento);
                         restoreCanvasWindow.canvasNameListbox.Items.Add(canvasName);
                     }
                     else
