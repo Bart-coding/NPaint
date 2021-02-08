@@ -52,7 +52,6 @@ namespace NPaint
             AddCanvas();
             RestoreCaretaker();
         }
-
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             using (StreamWriter sw = new StreamWriter(this.canvasListFilePath, false))
@@ -98,7 +97,6 @@ namespace NPaint
             canvas = new Canvas();
             SetCanvas();
         }
-
         private void SetCanvas()
         {
             MainGrid.Children.Add(canvas);
@@ -115,7 +113,6 @@ namespace NPaint
             canvas.MouseLeftButtonUp += new MouseButtonEventHandler(Canvas_MouseLeftButtonUp);
             canvas.MouseRightButtonDown += new MouseButtonEventHandler(Canvas_MouseRightButtonDown);
         }
-
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz wyczyścić canvas?", "Wyczyść", System.Windows.MessageBoxButton.YesNo);
@@ -144,7 +141,7 @@ namespace NPaint
                     if (SelectedFigure != null)
                     {
                         Point pt = e.GetPosition(canvas);
-                       menuState.MouseMove(pt);
+                        menuState.MouseMove(pt);
                         return;
                     }
                     if (menuState != null)
@@ -158,16 +155,11 @@ namespace NPaint
 
                         Point pt = e.GetPosition(canvas);   // punkt przechwycony ze zdarzenia myszy
 
-                        if (pt.Y < 0 + BorderThicknessySlider.Value / 2)
-                        {
-                            pt.Y = 0 + BorderThicknessySlider.Value / 2;
-                        }
                         menuState.MouseMove(pt);//to draw and resize
                     }
                 }
             }
         }
-
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // zaleznie od stanu podejmujemy akcje
@@ -175,15 +167,11 @@ namespace NPaint
             {
                 Point pt = e.GetPosition(canvas);
 
-                if (pt.Y < 0 + BorderThicknessySlider.Value / 2)
-                {
-                    pt.Y = 0 + BorderThicknessySlider.Value / 2;
-                }
                 // np. stan rysowanie figury 
                 menuState.MouseLeftButtonDown(pt); 
             }
+            Mouse.Capture(canvas);
         }
-
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if(menuState != null)
@@ -194,8 +182,8 @@ namespace NPaint
                 }
                 menuState.MouseLeftButtonUp(e.GetPosition(canvas));
             }
+            Mouse.Capture(null);
         }
-
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             ResetSelectedFigure();
@@ -216,7 +204,6 @@ namespace NPaint
             // dodanie go do canvasa, zeby byl widoczny
             canvas.Children.Add(figure.adaptedPath);
         }
-
         public void AddFigure(Figure figure)
         {
             // zmieniamy jej wlasciwosci na te wybrane
@@ -229,7 +216,6 @@ namespace NPaint
             canvas.Children.Add(figure.adaptedPath);
             FigureList.Add(figure);
         }
-
         private void RemoveFigure(object sender, RoutedEventArgs e)
         {
             if (SelectedFigure != null)
@@ -245,7 +231,6 @@ namespace NPaint
         {
             return FigureList;
         }
-
         public void ResetSelectedFigure()
         {
             // musimy wylaczyc ramke dla obecnie wybranej figury
@@ -255,7 +240,15 @@ namespace NPaint
                 SelectedFigure = null;
             }
         }
-
+        private void ResetObservableFigure()
+        {
+            if (ObservableFigure != null)
+            {
+                ObservableFigure.DetachAll();
+                canvas.Children.Remove(ObservableFigure.adaptedPath);
+                ObservableFigure = null;
+            }
+        }
         public void SetSelectedFigure(Figure figure)
         {
             // musimy wylaczyc ramke dla poprzednio wybranej figury
@@ -288,16 +281,6 @@ namespace NPaint
                         FillColorButton.Background = new SolidColorBrush(Color.FromRgb(Byte.Parse(rgb.R.ToString()), Byte.Parse(rgb.G.ToString()), Byte.Parse(rgb.B.ToString())));
                     }
                 }
-            }
-        }
-
-        private void ResetObservableFigure()
-        {
-            if (ObservableFigure != null)
-            {
-                ObservableFigure.DetachAll();
-                canvas.Children.Remove(ObservableFigure.adaptedPath);
-                ObservableFigure = null;
             }
         }
 
@@ -339,7 +322,6 @@ namespace NPaint
             Button button = sender as Button;
             button.Background = Brushes.Gray;
         }
-
         private void FigureMenu_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
@@ -348,7 +330,6 @@ namespace NPaint
             Figure figure = shapeFactory.GetFigure(Tag);
             menuState = (MenuState)Activator.CreateInstance(type, figure);
         }
-
         private void Tool_Click(object sender, RoutedEventArgs e)
         {
             AfterClick(sender);
@@ -369,7 +350,6 @@ namespace NPaint
                 ObservableFigure.Notify_IncreaseSize();
             }
         }
-
         private void MinusSizeButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedFigure != null)
@@ -407,7 +387,6 @@ namespace NPaint
             }
 
         }
-
         private void ChangeColor_RightClick(object sender, MouseButtonEventArgs e)
         {
             FillIteratorSelected = false;
@@ -444,7 +423,6 @@ namespace NPaint
                 ObservableFigure.Notify_ChangeBorderThickness(BorderThicknessySlider.Value);
             }
         }
-
         private void TransparencySlider_ValueChanged(object sender, RoutedEventArgs e)
         {
             if (SelectedFigure != null)
@@ -469,7 +447,6 @@ namespace NPaint
                 this.SerializeCanvas(canvasName);
             }
         }
-
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz kontynuować? Utracisz obecny canvas.", "Wczytaj", System.Windows.MessageBoxButton.YesNo);
@@ -541,7 +518,6 @@ namespace NPaint
                 MessageBox.Show("Wyjatek: " + e.Message);
             }
         }
-
         private void RestoreCanvas(int index)
         {
             if (SelectedFigure != null)
@@ -577,7 +553,6 @@ namespace NPaint
                 MessageBox.Show("Nie można odczytać pliku: " + e.Message);
             }
         }
-
         private void RestoreCaretaker()
         {
             if (!File.Exists(this.canvasListFilePath))
@@ -611,7 +586,6 @@ namespace NPaint
             }
             rgbWindow.Show();
         }
-
         private void ColorIterator_Click(object sender, RoutedEventArgs e)
         {
             FillIteratorSelected = false;
@@ -630,7 +604,6 @@ namespace NPaint
                 SelectedFigure.ChangeBorderColor(BorderColorButton.Background);
             }
         }
-
         private void ColorIterator_RightClick(object sender, MouseButtonEventArgs e)
         {
             BorderIteratorSelected = false;

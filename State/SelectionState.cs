@@ -86,12 +86,6 @@ namespace NPaint.State
                     point.Y -= lengthShift; //podanie do metody od razu pktu startowgo
                     point.X -= widthShift;
 
-                    //Zabezpieczenie przed umieszczeniem figury na Menu
-                    if (point.Y < 0 + Figure.GetBorderThickness() / 2)
-                    {
-                        point.Y = 0 + Figure.GetBorderThickness() / 2;
-                    }
-
                     Figure.MoveBy(point);
                 }
                 // jezeli rysujemy

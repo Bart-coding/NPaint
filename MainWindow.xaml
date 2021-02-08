@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Name="MenuGrid" Grid.Row="0" Background="GhostWhite">
+        <Grid Name="MenuGrid" Grid.Row="0" Background="GhostWhite" Panel.ZIndex="1000">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>

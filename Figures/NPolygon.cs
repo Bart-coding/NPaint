@@ -45,14 +45,6 @@ namespace NPaint.Figures
 
             CenterPoint = GetCenterPoint();
         }
-        public override void ChangeBorderThickness(double value)
-        {
-            adaptedPath.StrokeThickness = value;
-        }
-        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
-        {
-            adaptedPath.StrokeThickness = value;
-        }
         public override void Draw(Point startPoint, Point currentPoint)
         {
             // ustawienie konca obecnej linii w danym punkcie
@@ -86,13 +78,9 @@ namespace NPaint.Figures
         }
         public override void IncreaseSize()
         {
-            // jezeli zderzy sie z Menu to nie zwiekszamy
-            if (!WillHitMenu())
-            {
-                // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
-                CenterPoint = GetCenterPoint();
-                ShiftApexes(1.01);// skalujemy o jeden pkt
-            }
+            // punkt srodkowy wzgledem ktorego bedziemy transformowac geometrie
+            CenterPoint = GetCenterPoint();
+            ShiftApexes(1.01);// skalujemy o jeden pkt
         }
         public override void DecreaseSize()
         {

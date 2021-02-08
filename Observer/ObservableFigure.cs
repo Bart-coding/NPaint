@@ -76,7 +76,7 @@ namespace NPaint.Observer
         {
             foreach (Figure figure in Observers)
             {
-                figure.ChangeBorderThicknessInsideGroup(value, this.GetPointCollection());
+                figure.ChangeBorderThickness(value);
             }
         }
         

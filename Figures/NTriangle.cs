@@ -43,17 +43,6 @@ namespace NPaint.Figures
 
             SetPointCollection();
         }
-        public override void ChangeBorderThickness(double value)
-        {
-            if (this.GetTopCorner().Y - CalculateMargin() <= 0 && value > adaptedPath.StrokeThickness)
-                value = adaptedPath.StrokeThickness;
-
-            adaptedPath.StrokeThickness = value;
-        }
-        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
-        {
-            adaptedPath.StrokeThickness = value;
-        }
         public override void Draw(Point startPoint, Point currentPoint)
         {
             // obliczenie polozenia lewego dolnego wierzcholka
@@ -68,19 +57,7 @@ namespace NPaint.Figures
             point3.X = MidPointX(currentPoint.X, startPoint.X);
             point3.Y = Math.Min(currentPoint.Y, startPoint.Y);
 
-            // jezeli zaczelismy rysowac czyli wszystkie punkty sa w tym samym miejscu
-            if (point1 == point2 && point2 == point3)
-            {
-                Repaint();
-            }
-            else
-            {
-                // jezeli gorny wierzcholek nie wchodzi na Menu
-                if (point3.Y - CalculateMargin() >= 1)
-                {
-                    Repaint();
-                }
-            }
+            Repaint();
         }
         public override void MoveBy(Point point)
         {
@@ -109,22 +86,18 @@ namespace NPaint.Figures
         }
         public override void IncreaseSize()
         {
-            // zabezpieczenie, zebysmy nie weszli na Menu
-            if ( point3.Y - CalculateMargin() >= 1 || (point1 == point2 && point2 == point3))
-            {
-                // lewy dolny 
-                point1.X--;
-                point1.Y++;
+            // lewy dolny 
+            point1.X--;
+            point1.Y++;
 
-                // prawy dolny
-                point2.X++;
-                point2.Y++;
+            // prawy dolny
+            point2.X++;
+            point2.Y++;
 
-                //srodkowy
-                point3.Y--;
+            //srodkowy
+            point3.Y--;
 
-                Repaint();
-            }
+            Repaint();
         }
         public override void DecreaseSize()
         {
@@ -181,24 +154,6 @@ namespace NPaint.Figures
             PointsList.Add(line2.Point);              // gorny
         }
 
-        public double CalculateMargin()
-        {
-            // skorzystanie z podobienstwa trojkatow
-            // obliczenia wedlug wzoru
-            // cosB = 1 - a^2 / 2*b^2   // zaleznosc miedzy dlugoscia podstawy i ramienia, B kat miedzy ramionami
-            // A = (PI - B)/2           // kat przy podstawie
-
-            double a = CalculateDistance(point1, point2);   // dlugosc podstawy duzego trojkata
-            double b = CalculateDistance(point1, point3);   // dlugosc ramienia duzego trojkata
-            double cosB = 1 - (a * a) / (2 * b * b);            // cosinus kata miedzy ramionami
-            double Beta = Math.Acos(cosB);                  // wyliczony kat miedzy ramionami
-            double Alpha = (Math.PI - Beta) / 2;            // kat przy podstawie
-
-            // wlasnosci trygonometryczne trojkata prostokatnego
-            // c = b/cosA
-            double x = (adaptedPath.StrokeThickness / 2.0) / Math.Cos(Alpha);
-            return x;
-        }
         public Point GetTopCorner()
         {
             return point3;
@@ -207,10 +162,6 @@ namespace NPaint.Figures
         private double MidPointX(double a, double b)
         {
             return (a+b)/2;
-        }
-        private double CalculateDistance(Point p1, Point p2)
-        {
-            return Math.Abs(Point.Subtract(p2, p1).Length);
         }
     }
 }

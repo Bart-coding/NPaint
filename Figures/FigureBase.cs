@@ -10,7 +10,6 @@ namespace NPaint.Figures
         public void ChangeFillColor(Brush brush);
         public void ChangeBorderColor(Brush brush);
         public void ChangeBorderThickness(double value);
-        public void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection);
         public void ChangeTransparency(double value);
         public void Draw(Point startPoint, Point currentPoint);
         public void MoveBy(Point point);

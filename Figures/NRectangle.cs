@@ -22,28 +22,6 @@ namespace NPaint.Figures
 
             SetPointCollection();
         }
-        public override void ChangeBorderThickness(double value)
-        {
-            // pierwsze wywolanie - prostokat ma polozenie 0,0 
-            if (rect.Width == 0 || rect.Height == 0){}
-            else if ((rect.Y - (GetBorderThickness() / 2)) <= 0 && value > adaptedPath.StrokeThickness)
-                value = adaptedPath.StrokeThickness;
-            adaptedPath.StrokeThickness = value;
-        }
-        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
-        {
-            if (PointsList[1].X + value / 2 > pointCollectionOfSelection[1].X
-                || PointsList[0].X - value / 2 < pointCollectionOfSelection[0].X
-                || PointsList[0].Y + value / 2 > pointCollectionOfSelection[1].Y
-                || PointsList[1].Y - value / 2 < pointCollectionOfSelection[0].Y)
-            {
-                return;
-            }
-            else
-            {
-                adaptedPath.StrokeThickness = value;
-            }
-        }
         public override void Draw(Point startPoint, Point currentPoint)
         {
             // obliczenie polozenia prostokata na osi XY
@@ -76,16 +54,12 @@ namespace NPaint.Figures
         }
         public override void IncreaseSize()
         {
-            // zabezpieczenie, zebysmy nie weszli na Menu
-            if (rect.Y - adaptedPath.StrokeThickness / 2 > 1)
-            {
-                rect.X--;
-                rect.Y--;
-                rect.Width += 2;
-                rect.Height += 2;
+            rect.X--;
+            rect.Y--;
+            rect.Width += 2;
+            rect.Height += 2;
 
-                Repaint();
-            }
+            Repaint();
         }
         public override void DecreaseSize()
         {

@@ -23,28 +23,6 @@ namespace NPaint.Figures
 
             SetPointCollection();
         }
-        public override void ChangeBorderThickness(double value)
-        {
-            if (((EllipseGeometry)adaptedGeometry).RadiusX == 0 || ((EllipseGeometry)adaptedGeometry).RadiusY == 0){}
-            else if (this.GetCenterPoint().Y - this.GetRadiusY() - GetBorderThickness() / 2 <= 0 && value > adaptedPath.StrokeThickness)
-                value = adaptedPath.StrokeThickness;
-
-            adaptedPath.StrokeThickness = value;
-        }
-        public override void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection)
-        {
-            if (GetCenterPoint().X + GetRadiusX() + value / 2 > pointCollectionOfSelection[1].X
-                || GetCenterPoint().X - GetRadiusX() - value / 2 < pointCollectionOfSelection[0].X
-                || GetCenterPoint().Y + GetRadiusY() + value / 2 > pointCollectionOfSelection[1].Y
-                || GetCenterPoint().Y - GetRadiusY() - value / 2 < pointCollectionOfSelection[0].Y)
-            {
-                return;
-            }
-            else
-            {
-                adaptedPath.StrokeThickness = value;
-            }
-        }
         public override void Draw(Point startPoint, Point currentPoint)
         {
             // obliczenie polozenia elipsy na osi XY
@@ -86,14 +64,9 @@ namespace NPaint.Figures
         public override void IncreaseSize()
         {
             EllipseGeometry tmp = adaptedGeometry as EllipseGeometry;
-
-            // zabezpieczenie, zebysmy nie weszli na Menu
-            if (tmp.Center.Y - tmp.RadiusY - adaptedPath.StrokeThickness/2 > 0)
-            {
-                tmp.RadiusX++;
-                tmp.RadiusY++;
-                Repaint();
-            }
+            tmp.RadiusX++;
+            tmp.RadiusY++;
+            Repaint();
         }
         public override void DecreaseSize()
         {
@@ -134,14 +107,6 @@ namespace NPaint.Figures
             tmp.X = (a.X + b.X) / 2;
             tmp.Y = (a.Y + b.Y) / 2;
             return tmp;
-        }
-        private double GetRadiusX()
-        {
-            return ((EllipseGeometry)adaptedGeometry).RadiusX;
-        }
-        private double GetRadiusY()
-        {
-            return ((EllipseGeometry)adaptedGeometry).RadiusY;
         }
     }
 }

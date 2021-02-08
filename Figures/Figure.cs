@@ -29,8 +29,10 @@ namespace NPaint.Figures
         {
             adaptedPath.Stroke = brush;
         }
-        public abstract void ChangeBorderThickness(double value);
-        public abstract void ChangeBorderThicknessInsideGroup(double value, PointCollection pointCollectionOfSelection);
+        public void ChangeBorderThickness(double value)
+        {
+            adaptedPath.StrokeThickness = value;
+        }
         public void ChangeTransparency(double value)
         {
             Brush brush = new SolidColorBrush(((SolidColorBrush)adaptedPath.Fill).Color)
